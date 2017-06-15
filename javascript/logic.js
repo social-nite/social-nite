@@ -44,7 +44,7 @@ $("#search").on("click", function () {
         var longitude = response.results[0].geometry.location.lng;
 
         console.log("attempting to add socialNite record to db");
-        sessionStorage.setItem('socialNite', socialNiteId);
+        localStorage.setItem('socialNite', socialNiteId);
         firebase.database().ref('socialNites/' + socialNiteId).set({
             date: date,
             city: city,
