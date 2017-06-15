@@ -53,4 +53,5 @@ $(".loginBtn--facebook").on("click", function () {
 $("#btn-log-out").on("click", function () {
     console.log("logging user out");
     firebase.auth().signOut();
+    window.location.replace("https://social-nite.github.io/social-nite/login.html");
 });
