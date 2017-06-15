@@ -1,9 +1,8 @@
 function getLocationData(location) {
-    var googleApiKey = "AIzaSyBxgMHK10T-YS90r9OQhsSJm_aeEFAGcZ8";
     var settings = {
         "async": true,
         "crossDomain": true,
-        "url": "https://maps.googleapis.com/maps/api/geocode/json?address=" + location + "&key=" + gooleApiKey,
+        "url": "https://maps.googleapis.com/maps/api/geocode/json?address=" + location + "&key=AIzaSyBxgMHK10T-YS90r9OQhsSJm_aeEFAGcZ8",
         "method": "GET"
     }
 
