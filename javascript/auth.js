@@ -12,6 +12,7 @@ firebase.initializeApp(config);
 
 // Called upon clicking the facebook log-in button 
 $(".loginBtn--facebook").on("click", function () {
+    console.log("facebook login clicked");
     event.preventDefault();
     var provider = new firebase.auth.FacebookAuthProvider();
     firebase.auth().signInWithPopup(provider).then(function (result) {
@@ -20,7 +21,7 @@ $(".loginBtn--facebook").on("click", function () {
         // The signed-in user info.
         var user = result.user;
         // Redirect to landing page. Will update url when actual url is available
-        window.location.replace("https://social-nite.github.io/social-nite/landingPage.html");
+        window.location.replace("https://social-nite.github.io/social-nite/landing.html");
     }).catch(function (error) {
         // Handle Errors here.
         var errorCode = error.code;
