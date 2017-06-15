@@ -11,7 +11,7 @@ firebase.initializeApp(config);
 
 
 // Called upon clicking the facebook log-in button 
-$(".loginBtn-facebook").on("click", function () {
+$(".loginBtn--facebook").on("click", function () {
     event.preventDefault();
     var provider = new firebase.auth.FacebookAuthProvider();
     firebase.auth().signInWithPopup(provider).then(function (result) {
