@@ -9,19 +9,6 @@ var config = {
 };
 firebase.initializeApp(config);
 
-//add user record to firebase db
-function addUser() {
-    console.log("attempting to add user data");
-    firebase.database().ref('users/' + firebase.auth().currentUser.uid).set({
-        name: firebase.auth().currentUser.displayName
-    }).then(function () {
-        console.log("Adding user succeeded");
-    }).catch(function (error) {
-        console.log("Unable to add user: " + error.message);
-        addErrorModal(error.message);
-    });
-}
-
 // Called upon clicking the facebook log-in button 
 $(".loginBtn--facebook").on("click", function () {
     console.log("facebook login clicked");
@@ -32,9 +19,18 @@ $(".loginBtn--facebook").on("click", function () {
         var token = result.credential.accessToken;
         // The signed-in user info.
         var user = result.user;
-        addUser();
+
+        console.log("attempting to add user data");
+        firebase.database().ref('users/' + user.uid).set({
+            name: user.displayName
+        }).then(function () {
+            console.log("Adding user succeeded. Navigating to landing page");
+            window.location.replace("https://social-nite.github.io/social-nite/landing.html");
+        }).catch(function (error) {
+            console.log("Unable to add user: " + error.message);
+            addErrorModal(error.message);
+        });
         // Redirect to landing page. Will update url when actual url is available
-        window.location.replace("https://social-nite.github.io/social-nite/landing.html");
     }).catch(function (error) {
         // Handle Errors here.
         var errorCode = error.code;
