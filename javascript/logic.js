@@ -1,14 +1,17 @@
+//generates a unique id for the socialNite Id
 function guid() {
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
         s4() + '-' + s4() + s4() + s4();
 }
 
+//generates pieces of the unique socialNite Id
 function s4() {
     return Math.floor((1 + Math.random()) * 0x10000)
         .toString(16)
         .substring(1);
 }
 
+//gets the city from the google maps api response
 function getCity(locationData) {
     var city;
     for(var i=0; i<locationData.address_components.length; i++) {
@@ -20,6 +23,7 @@ function getCity(locationData) {
     return city;
 }
 
+//performs ajax request to google maps and pushes relevant data to firebase
 function handleLocationData(location) {
     var settings = {
         "async": true,
@@ -41,9 +45,6 @@ function handleLocationData(location) {
         sessionStorage.setItem('longitude', longitude);
     });
 }
-
-
-
 
 $("#search").on("click", function () {
     event.preventDefault();

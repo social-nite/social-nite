@@ -9,6 +9,18 @@ var config = {
 };
 firebase.initializeApp(config);
 
+//add user record to firebase db
+function addUser(user) {
+    console.log("attempting to add user data");
+    firebase.database().ref('users/' + firebase.auth().currentUser.uid).set({
+        name: firebase.auth().currentUser.displayName
+    }).then(function () {
+        console.log("Adding user succeeded");
+    }).catch(function (error) {
+        console.log("Unable to add user: " + error.message);
+        addErrorModal(error.message);
+    });
+}
 
 // Called upon clicking the facebook log-in button 
 $(".loginBtn--facebook").on("click", function () {
@@ -38,5 +50,6 @@ $(".loginBtn--facebook").on("click", function () {
 });
 
 $("#btn-log-out").on("click", function () {
-    auth.signOut();
+    console.log("logging user out");
+    firebase.auth().signOut();
 });
