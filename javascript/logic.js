@@ -14,17 +14,22 @@ function s4() {
 //gets the city from the google maps api response
 function getCity(locationData) {
     var city;
-    for(var i=0; i<locationData.address_components.length; i++) {
+    for (var i = 0; i < locationData.address_components.length; i++) {
         if (locationData.address_components[i].types.includes("locality")) {
             city = locationData.address_components[i].long_name;
-            return city; 
+            return city;
         }
     }
     return city;
 }
 
-//performs ajax request to google maps and pushes relevant data to firebase
-function handleLocationData(location) {
+
+$("#search").on("click", function () {
+    event.preventDefault();
+    var date = $("#date").val().trim();
+    var location = $("#location").val().trim();
+    var socialNiteId = guid();
+    console.log(socialNiteId);
     var settings = {
         "async": true,
         "crossDomain": true,
@@ -37,22 +42,30 @@ function handleLocationData(location) {
         var city = getCity(results);
         var latitude = response.results[0].geometry.location.lat;
         var longitude = response.results[0].geometry.location.lng;
-        console.log(city);
-        console.log(latitude);
-        console.log(longitude);
-        sessionStorage.setItem('city', city);
-        sessionStorage.setItem('latitude', latitude);
-        sessionStorage.setItem('longitude', longitude);
-    });
-}
 
-$("#search").on("click", function () {
-    event.preventDefault();
-    var date = $("#date").val().trim();
-    var location = $("#location").val().trim();
-    handleLocationData(location);
-    var socialNiteId = guid();
-    console.log(socialNiteId);
+        console.log("attempting to add socialNite record to db");
+        sessionStorage.setItem('socialNite', socialNiteId);
+        firebase.database().ref('socialNites/' + socialNiteId).set({
+            date: date,
+            city: city,
+            latitude: latitude,
+            longitude: longitude
+        }).then(function () {
+            firebase.database().ref('users/' + user.uid + "/socialNites").set({
+                socialNiteId: true
+            }).catch(function (error) {
+                console.log("Unable to add socialNite to user record: " + error.message);
+                addErrorModal(error.message);
+            })
+            console.log("Adding socialNite succeeded. Navigating to socialNite page");
+            window.location.replace("https://social-nite.github.io/social-nite/app.html");
+        }).catch(function (error) {
+            console.log("Unable to add socialNite: " + error.message);
+            addErrorModal(error.message);
+        });
+    });
+
+
 });
 
 
