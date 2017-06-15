@@ -51,7 +51,7 @@ $("#search").on("click", function () {
             latitude: latitude,
             longitude: longitude
         }).then(function () {
-            firebase.database().ref('users/' + user.uid + "/socialNites").set({
+            firebase.database().ref('users/' + firebase.auth().currentUser.uid + "/socialNites").set({
                 socialNiteId: true
             }).catch(function (error) {
                 console.log("Unable to add socialNite to user record: " + error.message);
