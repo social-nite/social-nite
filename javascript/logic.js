@@ -7,7 +7,7 @@ function getLocationData(location) {
     }
 
     $.ajax(settings).done(function (response) {
-        var city = response.results[0].address_components[0].long_name;
+        var city = response.results[0].address_components[1].long_name;
         var latitude = response.results[0].geometry.location.lat;
         var longitude = response.results[0].geometry.location.lng;
         console.log(city);
@@ -28,4 +28,5 @@ $("#search").on("click", function () {
     var location = $("#location").val().trim();
     getLocationData(location);
 });
+
 

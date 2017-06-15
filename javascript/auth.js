@@ -37,3 +37,6 @@ $(".loginBtn--facebook").on("click", function () {
     });
 });
 
+$("#btn-log-out").on("click", function () {
+    auth.signOut();
+});
