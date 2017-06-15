@@ -24,6 +24,7 @@ function getLocationData(location) {
 
 
 $("#search").on("click", function () {
+    event.preventDefault();
     var date = $("#date").val().trim();
     var location = $("#location").val().trim();
     getLocationData(location);
