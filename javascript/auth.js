@@ -10,7 +10,7 @@ var config = {
 firebase.initializeApp(config);
 
 //add user record to firebase db
-function addUser(user) {
+function addUser() {
     console.log("attempting to add user data");
     firebase.database().ref('users/' + firebase.auth().currentUser.uid).set({
         name: firebase.auth().currentUser.displayName
@@ -32,7 +32,7 @@ $(".loginBtn--facebook").on("click", function () {
         var token = result.credential.accessToken;
         // The signed-in user info.
         var user = result.user;
-        console.log(user);
+        addUser();
         // Redirect to landing page. Will update url when actual url is available
         window.location.replace("https://social-nite.github.io/social-nite/landing.html");
     }).catch(function (error) {
