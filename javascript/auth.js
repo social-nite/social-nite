@@ -11,7 +11,8 @@ firebase.initializeApp(config);
 
 
 // Called upon clicking the facebook log-in button 
-$("#btn-login-facebook").on("click", function () {
+$(".loginBtn--facebook").on("click", function () {
+    event.preventDefault();
     var provider = new firebase.auth.FacebookAuthProvider();
     firebase.auth().signInWithPopup(provider).then(function (result) {
         // This gives you a Facebook Access Token. You can use it to access the Facebook API.
