@@ -32,6 +32,7 @@ $(".loginBtn--facebook").on("click", function () {
         var token = result.credential.accessToken;
         // The signed-in user info.
         var user = result.user;
+        console.log(user);
         // Redirect to landing page. Will update url when actual url is available
         window.location.replace("https://social-nite.github.io/social-nite/landing.html");
     }).catch(function (error) {
