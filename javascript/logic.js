@@ -51,6 +51,12 @@ $("#search").on("click", function () {
             latitude: latitude,
             longitude: longitude
         }).then(function () {
+            firebase.database().ref('users/' + user.uid + "/socialNites").set({
+                socialNiteId: true
+            }).catch(function (error) {
+                console.log("Unable to add socialNite to user record: " + error.message);
+                addErrorModal(error.message);
+            })
             console.log("Adding socialNite succeeded. Navigating to socialNite page");
             window.location.replace("https://social-nite.github.io/social-nite/app.html");
         }).catch(function (error) {
