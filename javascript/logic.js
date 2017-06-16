@@ -49,7 +49,8 @@ $("#search").on("click", function () {
             date: date,
             city: city,
             latitude: latitude,
-            longitude: longitude
+            longitude: longitude,
+            timeCreated: firebase.database.ServerValue.TIMESTAMP
         }).then(function () {
             firebase.database().ref('users/' + firebase.auth().currentUser.uid + "/socialNites/" + socialNiteId).set({
                 active: true

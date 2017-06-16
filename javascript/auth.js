@@ -8,6 +8,7 @@ var config = {
     messagingSenderId: "1077453204255"
 };
 firebase.initializeApp(config);
+const auth = firebase.auth();
 
 const landingPage = "https://social-nite.github.io/social-nite/landing.html";
 const loginPage = "https://social-nite.github.io/social-nite/login.html"
@@ -60,7 +61,7 @@ $(".login").on("click", function () {
     if (validateEmail(email)) {
         var promise = auth.signInWithEmailAndPassword(email, password);
         promise.then(function () {
-            window.location.replace(landingPage);
+           window.location.replace(landingPage);
         }, function (e) {
             console.log("Log in failed");
             console.log(e.message);
@@ -75,7 +76,7 @@ $(".login").on("click", function () {
 //validates input data, adds user to firebase auth
 //and updates firebase db to have user record
 // and redirects to landing page
-$(document).on("click", "button.active", function (event) {
+$(document).on("click", ".overbox>button.active", function (event) {
     console.log("sign up button pressed");
     event.preventDefault();
     var email = $("#regname").val().trim();
@@ -87,14 +88,14 @@ $(document).on("click", "button.active", function (event) {
         //if (validateEmail(email) && validatePassword(password, passwordConfirm) && validateName(firstName) && validateName(lastName)) {
         // var fullName = firstName + " " + lastName;
         console.log("email and password valid");
-        var promise = firebase.auth().createUserWithEmailAndPassword(email, password);
+        var promise = auth.createUserWithEmailAndPassword(email, password);
         promise.then(function () {
-            var user = firebase.auth().currentUser;
+            var user = auth.currentUser;
             user.updateProfile({
                 // displayName: fullName
             }).then(function () {
                 console.log("write user data");
-                var user = firebase.auth().currentUser;
+                var user = auth.currentUser;
                 console.log("uid: " + user.uid);
                 firebase.database().ref('users/' + user.uid).set({
                     name: "test"
@@ -120,7 +121,7 @@ $(".loginBtn--facebook").on("click", function () {
     console.log("facebook login clicked");
     event.preventDefault();
     var provider = new firebase.auth.FacebookAuthProvider();
-    firebase.auth().signInWithPopup(provider).then(function (result) {
+    auth.signInWithPopup(provider).then(function (result) {
         // This gives you a Facebook Access Token. You can use it to access the Facebook API.
         var token = result.credential.accessToken;
         // The signed-in user info.
@@ -144,14 +145,14 @@ $(".loginBtn--facebook").on("click", function () {
 //logs user out and redirects to login page
 $("#btn-log-out").on("click", function () {
     console.log("logging user out");
-    firebase.auth().signOut();
+    auth.signOut();
     window.location.replace(loginPage);
 });
 
-firebase.auth().onAuthStateChanged(function (currentUserObj) {
+auth.onAuthStateChanged(function (currentUserObj) {
     if (currentUserObj) {
         if (window.location.href === loginPage) {
-            window.location.replace(landingPage);
+           window.location.replace(landingPage);
         }
     } else {
         console.log("Not logged in");
