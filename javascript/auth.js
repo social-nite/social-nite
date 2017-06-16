@@ -9,6 +9,9 @@ var config = {
 };
 firebase.initializeApp(config);
 
+const landingPage = "https://social-nite.github.io/social-nite/landing.html";
+const loginPage = 
+
 // asserts that given email matches the standard email format
 function validateEmail(email) {
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -50,10 +53,10 @@ function removeUserData(userId) {
 }
 
 //logs user in with email and password if they created user via email 
-$("#btn-login").on("click", function () {
+$(".login").on("click", function () {
     event.preventDefault();
-    var email = $("#txt-email").val().trim();
-    var password = $("#txt-password").val().trim();
+    var email = $("#name").val().trim();
+    var password = $("#pass").val().trim();
     if (validateEmail(email)) {
         var promise = auth.signInWithEmailAndPassword(email, password);
         promise.then(function () {
@@ -72,20 +75,20 @@ $("#btn-login").on("click", function () {
 //validates input data, adds user to firebase auth
 //and updates firebase db to have user record
 // and redirects to landing page
-$("#btn-new-user").on("click", function (event) {
+$("button.active").on("click", function (event) {
     event.preventDefault();
-    var email = $("#txt-email-new-user").val().trim();
-    var firstName = $("#txt-first-name-new-user").val().trim();
-    var lastName = $("#txt-last-name-new-user").val().trim();
-    var password = $("#txt-password-new-user").val().trim();
-    var passwordConfirm = $("#txt-password-new-user-confirm").val().trim();
+    var email = $("#regname").val().trim();
+    // var firstName = $("#txt-first-name-new-user").val().trim();
+    // var lastName = $("#txt-last-name-new-user").val().trim();
+    var password = $("#regpass").val().trim();
+    var passwordConfirm = $("#reregpass").val().trim();
     if (validateEmail(email) && validatePassword(password, passwordConfirm) && validateName(firstName) && validateName(lastName)) {
-        var fullName = firstName + " " + lastName;
+        // var fullName = firstName + " " + lastName;
         var promise = auth.createUserWithEmailAndPassword(email, password);
         promise.then(function () {
             var user = firebase.auth().currentUser;
             user.updateProfile({
-                displayName: fullName
+                // displayName: fullName
             }).then(function () {
                 console.log("write user data");
                 var user = firebase.auth().currentUser;
@@ -139,4 +142,17 @@ $("#btn-log-out").on("click", function () {
     console.log("logging user out");
     firebase.auth().signOut();
     window.location.replace("https://social-nite.github.io/social-nite/login.html");
+});
+
+firebase.auth().onAuthStateChanged(function (currentUserObj) {
+    if (currentUserObj) {
+        if (window.location.href === "https://social-nite.github.io/social-nite/login.html") {
+            window.location.replace("https://social-nite.github.io/social-nite/landing.html");
+        }
+    } else {
+        console.log("Not logged in");
+        if (window.location.href === "https://social-nite.github.io/social-nite/app.html") {
+            window.location.replace("https://social-nite.github.io/social-nite/login.html");
+        }
+    }
 });
