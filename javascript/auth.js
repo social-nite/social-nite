@@ -156,7 +156,7 @@ auth.onAuthStateChanged(function (currentUserObj) {
         }
     } else {
         console.log("Not logged in");
-        if (window.location.href === "https://social-nite.github.io/social-nite/app.html") {
+        if (window.location.href !== loginPage) {
             window.location.replace(loginPage);
         }
     }
