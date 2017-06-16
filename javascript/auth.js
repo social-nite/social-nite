@@ -10,13 +10,13 @@ var config = {
 firebase.initializeApp(config);
 
 const landingPage = "https://social-nite.github.io/social-nite/landing.html";
-const loginPage = 
+const loginPage =
 
-// asserts that given email matches the standard email format
-function validateEmail(email) {
-    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email);
-}
+    // asserts that given email matches the standard email format
+    function validateEmail(email) {
+        var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+    }
 
 // asserts that given name is only letters and no more than 20 characters in length
 function validateName(name) {
@@ -75,7 +75,8 @@ $(".login").on("click", function () {
 //validates input data, adds user to firebase auth
 //and updates firebase db to have user record
 // and redirects to landing page
-$("button.active").on("click", function (event) {
+$(document).on("click", ".active", function (event) {
+    console.log("sign up button pressed");
     event.preventDefault();
     var email = $("#regname").val().trim();
     // var firstName = $("#txt-first-name-new-user").val().trim();
@@ -84,6 +85,7 @@ $("button.active").on("click", function (event) {
     var passwordConfirm = $("#reregpass").val().trim();
     if (validateEmail(email) && validatePassword(password, passwordConfirm) && validateName(firstName) && validateName(lastName)) {
         // var fullName = firstName + " " + lastName;
+        console.log("email and password valid");
         var promise = auth.createUserWithEmailAndPassword(email, password);
         promise.then(function () {
             var user = firebase.auth().currentUser;
