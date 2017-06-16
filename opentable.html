@@ -10,38 +10,163 @@
 </head>
 
 <body>
-<p>Restaurants</p>
-<div id="restaurants"></div>
+
+<!--<div class="panel-body">
+        <form id="addTrain">
+                    
+          <br><label for="zip">ZIP Code</label><br>
+          <input class="form-control" type="text" id="zip"><br>
+          
+          <br><label for="price">Price</label><br>
+          <input class="form-control" type="text" id="price"><br>
+
+          <button id="submitBtn">Search</button>
+          
+          
+        </form>
+</div>-->
+
+<div class="row">
+  <div id="restaurants" class="col-md-4">Restaurants</div>
+  <div id="price" class="col-md-4">Price</div>
+  <div id="reserve" class="col-md-4">Reserve URL</div>
+</div>
+  
+
+<script src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyDUkT0bSTUaeV64pFeLxZYAfq-E58nKTgs",
+    authDomain: "opentable-4abc7.firebaseapp.com",
+    databaseURL: "https://opentable-4abc7.firebaseio.com",
+    projectId: "opentable-4abc7",
+    storageBucket: "",
+    messagingSenderId: "723465252656"
+  };
+  firebase.initializeApp(config);
+</script>
+
 
 <script type="text/javascript">
-	//var dessertName = $(this).attr("data-name");
+	
+        //store the opentable URL
+  	   	var queryURL = "https://opentable.herokuapp.com/api/restaurants?city=San%20Francisco&page=2&per_page=100";
 
-  	//var queryURL = "https://api.yelp.com/v3/businesses/search?term=delis&latitude=37.786882&longitude=-122.399972";
-		var queryURL = "https://opentable.herokuapp.com/api/restaurants?city=San%20Francisco&page=2&per_page=100";
-
+        //make ajax call
         $.ajax({
       		url: queryURL,
       		method: "GET"
     	  }).done(function(response) {
 
+        //Get a reference to the database service
+        var database = firebase.database();
 
 
-    	  	//Store results
-    	   var listRestaurants = response.restaurants;	
-           var restNames = [];
-           var restPrice = [];
-           var restReserve = [];
+    	  //Store results from api call
+    	  var listRestaurants = response.restaurants;	
+        var restNames = [];
+        var restPrice = [];
+        var restReserve = [];
 
-           for(var i = 0; i < listRestaurants.length; i++) {
+        //save objects in arrays
+        for(var i = 0; i < listRestaurants.length; i++) {
            		restNames = response.restaurants[i].name;
            		restPrice = response.restaurants[i].price;
            		restReserve = response.restaurants[i].reserve_url;
             	console.log(restNames);
             	console.log(restPrice);
             	console.log(restReserve);
-    	  	//$("#restaurants").html(resName);
+
+              //prep for firebase
+              var restaurants = {
+              restNames: restNames,
+              restPrice: restPrice,
+              restReserve: restReserve,
+
+              };
+              // Uploads data to firebase
+              database.ref().push(restaurants);
+
+    	  	//$("#restaurants").append("<div><a href='" + restNames + "'></a>");
+          //$("#price").append("<div>" + restPrice);
+          //$("#reserve").append("<div>" + restReserve);
     	  }
     	});
+
+
+    
+    
+
+        /*$("#submitBtn").on("click", function(event) {
+          event.preventDefault();
+        // Grab inputs from the textboxes
+          var zip = $("#zip").val().trim();
+          console.log("zip: ",zip);
+          var price = $("#price").val().trim();
+          //convert from number to $ symbol
+          if(price === "1") {
+              price = "$";
+              console.log("price$: ",price);
+          }
+          else if(price === "2") {
+              price = "$$";
+              console.log("price$$: ",price);
+          }
+          else if(price === "3") {
+              price = "$$$";
+              console.log("price$$$: ",price);
+          }
+          else if(price === "4") {
+              price = "$$$$";
+              console.log("price$$$$: ",price);
+          }
+        });*/
+        
+        var fbRestName;
+        var fbPrice;
+        var fbReserve;
+        var price;
+        
+        //if data in firebase...
+        database.ref().on("child_added", function(childSnapshot, prevChildKey) {
+        //var cityQuery = firebase.database().ref().child("socialNites/" + socialNitesId + "/city");
+            //cityQuery.once("value", function (snapshot) {
+            fbRestName = childSnapshot.val().restNames;
+            fbPrice = childSnapshot.val().restPrice;
+            fbReserve = childSnapshot.val().restReserve;
+
+          //convert from price number to $ symbol
+            if(fbPrice === 1) {
+              price = "$";
+              console.log("price$: ",price);
+            }
+            else if(fbPrice === 2) {
+              price = "$$";
+              console.log("price$$: ",price);
+            }
+            else if(fbPrice === 3) {
+              price = "$$$";
+              console.log("price$$$: ",price);
+            }
+            else if(fbPrice === 4) {
+              price = "$$$$";
+              console.log("price$$$$: ",price);
+            }
+              
+          // Change the HTML
+          $("#restaurants").append("<div>" + fbRestName);
+          $("#price").append("<div>" + price);
+          $("#reserve").append("<div>" + fbReserve);
+      
+
+     
+    // If any errors are experienced, log them to console.
+    }, function(errorObject) {
+      console.log("The read failed: " + errorObject.code);
+          
+    });
+     
 </script>
 </body>
 </html>
