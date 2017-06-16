@@ -10,13 +10,13 @@ var config = {
 firebase.initializeApp(config);
 
 const landingPage = "https://social-nite.github.io/social-nite/landing.html";
-const loginPage =
+const loginPage = "https://social-nite.github.io/social-nite/login.html"
 
-    // asserts that given email matches the standard email format
-    function validateEmail(email) {
-        var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return re.test(email);
-    }
+// asserts that given email matches the standard email format
+function validateEmail(email) {
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+}
 
 // asserts that given name is only letters and no more than 20 characters in length
 function validateName(name) {
@@ -60,7 +60,7 @@ $(".login").on("click", function () {
     if (validateEmail(email)) {
         var promise = auth.signInWithEmailAndPassword(email, password);
         promise.then(function () {
-            window.location.replace("https://social-nite.github.io/social-nite/landing.html");
+            window.location.replace(landingPage);
         }, function (e) {
             console.log("Log in failed");
             console.log(e.message);
@@ -75,7 +75,7 @@ $(".login").on("click", function () {
 //validates input data, adds user to firebase auth
 //and updates firebase db to have user record
 // and redirects to landing page
-$(document).on("click", ".active", function (event) {
+$(document).on("click", "button.active", function (event) {
     console.log("sign up button pressed");
     event.preventDefault();
     var email = $("#regname").val().trim();
@@ -83,10 +83,11 @@ $(document).on("click", ".active", function (event) {
     // var lastName = $("#txt-last-name-new-user").val().trim();
     var password = $("#regpass").val().trim();
     var passwordConfirm = $("#reregpass").val().trim();
-    if (validateEmail(email) && validatePassword(password, passwordConfirm) && validateName(firstName) && validateName(lastName)) {
+    if (validateEmail(email) && validatePassword(password, passwordConfirm)) {
+        //if (validateEmail(email) && validatePassword(password, passwordConfirm) && validateName(firstName) && validateName(lastName)) {
         // var fullName = firstName + " " + lastName;
         console.log("email and password valid");
-        var promise = auth.createUserWithEmailAndPassword(email, password);
+        var promise = firebase.auth().createUserWithEmailAndPassword(email, password);
         promise.then(function () {
             var user = firebase.auth().currentUser;
             user.updateProfile({
@@ -94,11 +95,12 @@ $(document).on("click", ".active", function (event) {
             }).then(function () {
                 console.log("write user data");
                 var user = firebase.auth().currentUser;
+                console.log("uid: " + user.uid);
                 firebase.database().ref('users/' + user.uid).set({
-                    name: user.displayName
+                    name: "test"
                 }).then(function () {
                     console.log("Adding user succeeded. Navigating to landing page");
-                    window.location.replace("https://social-nite.github.io/social-nite/landing.html");
+                    window.location.replace(landingPage);
                 }, function (error) {
                     console.log("Unable to add user: " + error.message);
                 });
@@ -129,7 +131,7 @@ $(".loginBtn--facebook").on("click", function () {
             name: user.displayName
         }).then(function () {
             console.log("Adding user succeeded. Navigating to landing page");
-            window.location.replace("https://social-nite.github.io/social-nite/landing.html");
+            window.location.replace(landingPage);
         }, function (error) {
             console.log("Unable to add user: " + error.message);
         });
@@ -143,18 +145,18 @@ $(".loginBtn--facebook").on("click", function () {
 $("#btn-log-out").on("click", function () {
     console.log("logging user out");
     firebase.auth().signOut();
-    window.location.replace("https://social-nite.github.io/social-nite/login.html");
+    window.location.replace(loginPage);
 });
 
 firebase.auth().onAuthStateChanged(function (currentUserObj) {
     if (currentUserObj) {
-        if (window.location.href === "https://social-nite.github.io/social-nite/login.html") {
-            window.location.replace("https://social-nite.github.io/social-nite/landing.html");
+        if (window.location.href === loginPage) {
+            window.location.replace(landingPage);
         }
     } else {
         console.log("Not logged in");
         if (window.location.href === "https://social-nite.github.io/social-nite/app.html") {
-            window.location.replace("https://social-nite.github.io/social-nite/login.html");
+            window.location.replace(loginPage);
         }
     }
 });
