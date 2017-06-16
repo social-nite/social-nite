@@ -65,8 +65,17 @@ $("#search").on("click", function () {
             addErrorModal(error.message);
         });
     });
-
-
 });
+
+$("#send-email").on("click", function () {
+    event.preventDefault();
+    var email = $("#email").val().trim();
+    if (validateEmail(email)) {
+        var subject = "You've been invited to join SocialNite";
+        var emailBody = "Hello, " + firebase.auth().currentUser.displayName + " has invited you to join Social Nite!" +
+        " Click here: https://social-nite.github.io/social-nite/login.html";
+        document.location = "mailto:" + email + "?subject=" + subject + "&body=" + emailBody;
+    }
+})
 
 
