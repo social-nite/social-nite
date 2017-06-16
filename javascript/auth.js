@@ -9,7 +9,106 @@ var config = {
 };
 firebase.initializeApp(config);
 
+// asserts that given email matches the standard email format
+function validateEmail(email) {
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+}
+
+// asserts that given name is only letters and no more than 20 characters in length
+function validateName(name) {
+    var re = /^[a-zA-Z]{1,20}$/;
+    return re.test(name);
+}
+
+// asserts that the password and passwordConfirm match 
+// and that the password is an appropriate length
+function validatePassword(password, passwordConfirm) {
+    console.log(password.length);
+    if (password.length >= 6 && password.length <= 20) {
+        if (password === passwordConfirm) {
+            return true;
+        } else {
+            addErrorModal("passwords do ot match");
+            return false;
+        }
+    } else {
+        addErrorModal("passwords mus be between 6 and 20 characters in length");
+        return false;
+    }
+}
+
+//removes user from firebase
+function removeUserData(userId) {
+    firebase.database().ref('users/' + userId).remove()
+        .then(function () {
+            console.log("Removing user succeeded");
+        }).catch(function (error) {
+            console.log("Unable to remove user: " + error.message);
+            addErrorModal(error.message)
+        });
+}
+
+//logs user in with email and password if they created user via email 
+$("#btn-login").on("click", function () {
+    event.preventDefault();
+    var email = $("#txt-email").val().trim();
+    var password = $("#txt-password").val().trim();
+    if (validateEmail(email)) {
+        var promise = auth.signInWithEmailAndPassword(email, password);
+        promise.then(function () {
+            window.location.replace("https://social-nite.github.io/social-nite/landing.html");
+        }, function (e) {
+            console.log("Log in failed");
+            console.log(e.message);
+        });
+        console.log(auth.currentUser);
+    } else {
+        console.log("Invalid email");
+    }
+});
+
+//called when button to submit new user info is clicked
+//validates input data, adds user to firebase auth
+//and updates firebase db to have user record
+// and redirects to landing page
+$("#btn-new-user").on("click", function (event) {
+    event.preventDefault();
+    var email = $("#txt-email-new-user").val().trim();
+    var firstName = $("#txt-first-name-new-user").val().trim();
+    var lastName = $("#txt-last-name-new-user").val().trim();
+    var password = $("#txt-password-new-user").val().trim();
+    var passwordConfirm = $("#txt-password-new-user-confirm").val().trim();
+    if (validateEmail(email) && validatePassword(password, passwordConfirm) && validateName(firstName) && validateName(lastName)) {
+        var fullName = firstName + " " + lastName;
+        var promise = auth.createUserWithEmailAndPassword(email, password);
+        promise.then(function () {
+            var user = firebase.auth().currentUser;
+            user.updateProfile({
+                displayName: fullName
+            }).then(function () {
+                console.log("write user data");
+                var user = firebase.auth().currentUser;
+                firebase.database().ref('users/' + user.uid).set({
+                    name: user.displayName
+                }).then(function () {
+                    console.log("Adding user succeeded. Navigating to landing page");
+                    window.location.replace("https://social-nite.github.io/social-nite/landing.html");
+                }, function (error) {
+                    console.log("Unable to add user: " + error.message);
+                });
+            }, function (error) {
+                console.log("Unable to update users display name: " + error.message);
+            });
+        }, function (error) {
+            console.log("Sign up failed");
+        })
+    }
+});
+
 // Called upon clicking the facebook log-in button 
+// creates new user record in firebase db if it doesn't exist
+// redirects to landing page
 $(".loginBtn--facebook").on("click", function () {
     console.log("facebook login clicked");
     event.preventDefault();
@@ -26,26 +125,16 @@ $(".loginBtn--facebook").on("click", function () {
         }).then(function () {
             console.log("Adding user succeeded. Navigating to landing page");
             window.location.replace("https://social-nite.github.io/social-nite/landing.html");
-        }).catch(function (error) {
+        }, function (error) {
             console.log("Unable to add user: " + error.message);
-            addErrorModal(error.message);
         });
         // Redirect to landing page. Will update url when actual url is available
-    }).catch(function (error) {
-        // Handle Errors here.
-        var errorCode = error.code;
-        console.log(errorCode);
-        var errorMessage = error.message;
-        console.log(errorMessage);
-        // The email of the user's account used.
-        var email = error.email;
-        console.log(email);
-        // The firebase.auth.AuthCredential type that was used.
-        var credential = error.credential;
-        console.log(credential);
+    }, function (error) {
+        console.log("facebook login failed: " + error.message);
     });
 });
 
+//logs user out and redirects to login page
 $("#btn-log-out").on("click", function () {
     console.log("logging user out");
     firebase.auth().signOut();
