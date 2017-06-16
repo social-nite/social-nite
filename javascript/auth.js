@@ -75,7 +75,7 @@ $(".login").on("click", function () {
 //validates input data, adds user to firebase auth
 //and updates firebase db to have user record
 // and redirects to landing page
-$("#btn-new-user").on("click", function (event) {
+$("button.active").on("click", function (event) {
     event.preventDefault();
     var email = $("#regname").val().trim();
     // var firstName = $("#txt-first-name-new-user").val().trim();
