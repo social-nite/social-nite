@@ -97,7 +97,7 @@ $("#search").on("click", function () {
 
 $("#send-email").on("click", function () {
     event.preventDefault();
-    var email = $("#email").val().trim();
+    var email = $("#emailInput").val().trim();
     //will need to add social nite id to the email as well. 
     if (validateEmail(email)) {
         var subject = "You've been invited to join SocialNite";
