@@ -47,7 +47,7 @@ function removeUserData(userId) {
     firebase.database().ref('users/' + userId).remove()
         .then(function () {
             console.log("Removing user succeeded");
-        }).catch(function (error) {
+        }, function (error) {
             console.log("Unable to remove user: " + error.message);
             addErrorModal(error.message)
         });
@@ -150,14 +150,14 @@ $("#btn-log-out").on("click", function () {
 });
 
 auth.onAuthStateChanged(function (currentUserObj) {
-    if (currentUserObj) {
-        if (window.location.href === loginPage) {
-           window.location.replace(landingPage);
-        }
-    } else {
-        console.log("Not logged in");
-        if (window.location.href !== loginPage) {
-            window.location.replace(loginPage);
-        }
-    }
+    // if (currentUserObj) {
+    //     if (window.location.href === loginPage) {
+    //        window.location.replace(landingPage);
+    //     }
+    // } else {
+    //     console.log("Not logged in");
+    //     if (window.location.href !== loginPage) {
+    //         window.location.replace(loginPage);
+    //     }
+    // }
 });

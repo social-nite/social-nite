@@ -23,6 +23,33 @@ function getCity(locationData) {
     return city;
 }
 
+function getSocialNiteId() {
+    var socialNiteId;
+    if (localStorage.getItem("socialNiteId")) {
+        socialNiteId = localStorage.getItem("socialNiteId");
+    } else {
+        var socailNiteIdQuery = firebase.database().ref().child("users/" + firebase.auth().currentUser.uid + "/socialNites");
+        socailNiteIdQuery.once("value", function (snapshot) {
+            var mostRecentSocialNiteTime = 0;
+            snapshot.forEach(function (data) {
+                console.log(data);
+                console.log("The " + data.key + " score is " + data.val());
+                var timeRef = data.child('dateAdded');
+                if(timeRef.val() > mostRecentSocialNiteTime) {
+                    mostRecentSocialNiteTime = timeRef.val();
+                    socialNiteId = data.key;
+                }
+                console.log("dateAdded of current socialnite: " + timeRef.val());
+                console.log("dateAdded of most recent: " + mostRecentSocialNiteTime);
+                console.log("most recent socialNiteId: " + socialNiteId);
+            });
+            localStorage.setItem("socialNiteId", socialNiteId);
+        }, function(){
+            console.log("unable to query the users socialNites");
+        });
+    }
+    return socialNiteId;
+}
 
 $("#search").on("click", function () {
     event.preventDefault();
@@ -44,7 +71,7 @@ $("#search").on("click", function () {
         var longitude = response.results[0].geometry.location.lng;
 
         console.log("attempting to add socialNite record to db");
-        localStorage.setItem('socialNite', socialNiteId);
+        localStorage.setItem('socialNiteId', socialNiteId);
         firebase.database().ref('socialNites/' + socialNiteId).set({
             date: date,
             city: city,
@@ -53,14 +80,15 @@ $("#search").on("click", function () {
             timeCreated: firebase.database.ServerValue.TIMESTAMP
         }).then(function () {
             firebase.database().ref('users/' + firebase.auth().currentUser.uid + "/socialNites/" + socialNiteId).set({
-                active: true
-            }).catch(function (error) {
+                active: true,
+                dateAdded: firebase.database.ServerValue.TIMESTAMP
+            }, function (error) {
                 console.log("Unable to add socialNite to user record: " + error.message);
                 addErrorModal(error.message);
             })
             console.log("Adding socialNite succeeded. Navigating to socialNite page");
-            window.location.replace("https://social-nite.github.io/social-nite/app.html");
-        }).catch(function (error) {
+            window.location.replace("https://social-nite.github.io/social-nite/test.html");
+        }, function (error) {
             console.log("Unable to add socialNite: " + error.message);
             addErrorModal(error.message);
         });
@@ -70,11 +98,14 @@ $("#search").on("click", function () {
 $("#send-email").on("click", function () {
     event.preventDefault();
     var email = $("#email").val().trim();
+    //will need to add social nite id to the email as well. 
     if (validateEmail(email)) {
         var subject = "You've been invited to join SocialNite";
         var emailBody = "Hello, " + firebase.auth().currentUser.displayName + " has invited you to join Social Nite!" +
-        " Click here: https://social-nite.github.io/social-nite/login.html";
+            " Click here: https://social-nite.github.io/social-nite/login.html";
         document.location = "mailto:" + email + "?subject=" + subject + "&body=" + emailBody;
+    } else {
+        console.log("Please provide a valid email");
     }
 })
 
