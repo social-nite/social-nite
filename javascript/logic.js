@@ -114,16 +114,23 @@ $(document).on("click", "#addFood", function (event) {
 
     $('#modalFood').modal('open');
     $('#modalFood').css('display', 'block');
-})
+});
 
 $(document).on("click", "#addEvents", function (event) {
     console.log("opening modal");
 
     $('#modalEvents').modal('open');
     $('#modalEvents').css('display', 'block');
-})
+});
+
+$(document).on("click", "#addFriends", function (event) {
+    console.log("opening modal");
+
+    $('#modalFriends').modal('open');
+    $('#modalFriends').css('display', 'block');
+});
 
 $(document).on("click", ".modal-close", function () {
     console.log("closing modal");
     $(this).parent().parent().css("display", "none");
-})
+});
