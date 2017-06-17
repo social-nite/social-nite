@@ -56,7 +56,7 @@ function removeUserData(userId) {
 //logs user in with email and password if they created user via email 
 $(".login").on("click", function () {
     event.preventDefault();
-    var email = $("#name").val().trim();
+    var email = $("#email").val().trim();
     var password = $("#pass").val().trim();
     if (validateEmail(email)) {
         var promise = auth.signInWithEmailAndPassword(email, password);
@@ -79,20 +79,20 @@ $(".login").on("click", function () {
 $(document).on("click", ".overbox>button.active", function (event) {
     console.log("sign up button pressed");
     event.preventDefault();
-    var email = $("#regname").val().trim();
-    // var firstName = $("#txt-first-name-new-user").val().trim();
-    // var lastName = $("#txt-last-name-new-user").val().trim();
+    var email = $("#regemail").val().trim();
+    var firstName = $("#regfirstname").val().trim();
+    var lastName = $("#reglastname").val().trim();
     var password = $("#regpass").val().trim();
     var passwordConfirm = $("#reregpass").val().trim();
     if (validateEmail(email) && validatePassword(password, passwordConfirm)) {
-        //if (validateEmail(email) && validatePassword(password, passwordConfirm) && validateName(firstName) && validateName(lastName)) {
-        // var fullName = firstName + " " + lastName;
+        if (validateEmail(email) && validatePassword(password, passwordConfirm) && validateName(firstName) && validateName(lastName)) {
+        var fullName = firstName + " " + lastName;
         console.log("email and password valid");
         var promise = auth.createUserWithEmailAndPassword(email, password);
         promise.then(function () {
             var user = auth.currentUser;
             user.updateProfile({
-                // displayName: fullName
+                 displayName: fullName
             }).then(function () {
                 console.log("write user data");
                 var user = auth.currentUser;
