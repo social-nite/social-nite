@@ -11,11 +11,11 @@
 
 <body>
 
-<!--<div class="panel-body">
+<div class="panel-body">
         <form id="addTrain">
                     
-          <br><label for="zip">ZIP Code</label><br>
-          <input class="form-control" type="text" id="zip"><br>
+          <br><label for="zip">City</label><br>
+          <input class="form-control" type="text" id="city"><br>
           
           <br><label for="price">Price</label><br>
           <input class="form-control" type="text" id="price"><br>
@@ -24,12 +24,13 @@
           
           
         </form>
-</div>-->
+</div>
 
 <div class="row">
-  <div id="restaurants" class="col-md-4">Restaurants</div>
-  <div id="price" class="col-md-4">Price</div>
-  <div id="reserve" class="col-md-4">Reserve URL</div>
+  <div id="restaurants" class="col-md-3">Restaurants</div>
+  <div id="city" class="col-md-3">City</div>
+  <div id="price" class="col-md-3">Price</div>
+  <div id="reserve" class="col-md-3">Reserve URL</div>
 </div>
   
 
@@ -50,62 +51,18 @@
 
 <script type="text/javascript">
 	
-        //store the opentable URL
-  	   	var queryURL = "https://opentable.herokuapp.com/api/restaurants?city=San%20Francisco&page=2&per_page=100";
-
-        //make ajax call
-        $.ajax({
-      		url: queryURL,
-      		method: "GET"
-    	  }).done(function(response) {
-
-        //Get a reference to the database service
+  //Get a reference to the database service
         var database = firebase.database();
+        var city;
 
-
-    	  //Store results from api call
-    	  var listRestaurants = response.restaurants;	
-        var restNames = [];
-        var restPrice = [];
-        var restReserve = [];
-
-        //save objects in arrays
-        for(var i = 0; i < listRestaurants.length; i++) {
-           		restNames = response.restaurants[i].name;
-           		restPrice = response.restaurants[i].price;
-           		restReserve = response.restaurants[i].reserve_url;
-            	console.log(restNames);
-            	console.log(restPrice);
-            	console.log(restReserve);
-
-              //prep for firebase
-              var restaurants = {
-              restNames: restNames,
-              restPrice: restPrice,
-              restReserve: restReserve,
-
-              };
-              // Uploads data to firebase
-              database.ref().push(restaurants);
-
-    	  	//$("#restaurants").append("<div><a href='" + restNames + "'></a>");
-          //$("#price").append("<div>" + restPrice);
-          //$("#reserve").append("<div>" + restReserve);
-    	  }
-    	});
-
-
-    
-    
-
-        /*$("#submitBtn").on("click", function(event) {
+        $("#submitBtn").on("click", function(event) {
           event.preventDefault();
         // Grab inputs from the textboxes
-          var zip = $("#zip").val().trim();
-          console.log("zip: ",zip);
-          var price = $("#price").val().trim();
+          city = $("#city").val().trim();
+          console.log("city: ",city);
+          //var price = $("#price").val().trim();
           //convert from number to $ symbol
-          if(price === "1") {
+          /*if(price === "1") {
               price = "$";
               console.log("price$: ",price);
           }
@@ -120,44 +77,102 @@
           else if(price === "4") {
               price = "$$$$";
               console.log("price$$$$: ",price);
-          }
-        });*/
+          }*/
+        
+
+
+        //store the opentable URL
+  	   	var queryURL = "https://opentable.herokuapp.com/api/restaurants?city=" + city + "&page=2&per_page=15";
+        console.log("inside URL: ",);
+
+        //make ajax call
+        $.ajax({
+      		url: queryURL,
+      		method: "GET"
+    	  }).done(function(response) {
+
+        
+
+    	  //Store results from api call
+    	  var listRestaurants = response.restaurants;	
+        var restNames = [];
+        var restPrice = [];
+        var restReserve = [];
+        var restCity = [];
+
+        //save objects in arrays
+        for(var i = 0; i < listRestaurants.length; i++) {
+           		restNames = response.restaurants[i].name;
+           		restPrice = response.restaurants[i].price;
+           		restReserve = response.restaurants[i].reserve_url;
+              restCity = response.restaurants[i].city;
+            	console.log(restNames);
+            	console.log(restPrice);
+            	console.log(restReserve);
+              console.log(restCity);
+
+              //prep for firebase
+              var restaurants = {
+              restNames: restNames,
+              restPrice: restPrice,
+              restReserve: restReserve,
+              restCity: restCity
+              };
+              // Uploads data to firebase
+              database.ref().push(restaurants);
+
+    	  	//$("#restaurants").append("<div><a href='" + restNames + "'></a>");
+          //$("#price").append("<div>" + restPrice);
+          //$("#reserve").append("<div>" + restReserve);
+    	  }
+    	});
+});
+
+    
+    
+
+        
         
         var fbRestName;
         var fbPrice;
         var fbReserve;
         var price;
+        var fbCity;
         
         //if data in firebase...
         database.ref().on("child_added", function(childSnapshot, prevChildKey) {
         //var cityQuery = firebase.database().ref().child("socialNites/" + socialNitesId + "/city");
             //cityQuery.once("value", function (snapshot) {
             fbRestName = childSnapshot.val().restNames;
+            console.log("restName", fbRestName);
             fbPrice = childSnapshot.val().restPrice;
             fbReserve = childSnapshot.val().restReserve;
+            fbCity = childSnapshot.val().restCity;
 
           //convert from price number to $ symbol
             if(fbPrice === 1) {
               price = "$";
-              console.log("price$: ",price);
+              //console.log("price$: ",price);
             }
             else if(fbPrice === 2) {
               price = "$$";
-              console.log("price$$: ",price);
+             //console.log("price$$: ",price);
             }
             else if(fbPrice === 3) {
               price = "$$$";
-              console.log("price$$$: ",price);
+              //console.log("price$$$: ",price);
             }
             else if(fbPrice === 4) {
               price = "$$$$";
-              console.log("price$$$$: ",price);
+              //console.log("price$$$$: ",price);
             }
               
           // Change the HTML
           $("#restaurants").append("<div>" + fbRestName);
+          $("#city").append("<div" + fbCity);
           $("#price").append("<div>" + price);
           $("#reserve").append("<div>" + fbReserve);
+
       
 
      
