@@ -47,7 +47,7 @@ function removeUserData(userId) {
     firebase.database().ref('users/' + userId).remove()
         .then(function () {
             console.log("Removing user succeeded");
-        }).catch(function (error) {
+        }, function (error) {
             console.log("Unable to remove user: " + error.message);
             addErrorModal(error.message)
         });
