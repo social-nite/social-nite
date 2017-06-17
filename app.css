@@ -1,16 +1,19 @@
 .box {
-    position: relative;
+    /*    position: relative;*/
     top: 0;
     opacity: 1;
     float: left;
     padding: 60px 50px 40px 50px;
-    width: 100%;
+    width: 30%;
+    height: 100%;
     background: #fff;
     border-radius: 10px;
     transform: scale(1);
     -webkit-transform: scale(1);
     -ms-transform: scale(1);
     z-index: 5;
+    margin: 15px;
+    flex-flow: column;
 }
 
 .box.back {
@@ -35,14 +38,6 @@
     -webkit-transform: scale(.95);
     -ms-transform: scale(.95);
     z-index: -1;
-}
-
-.overbox .title {
-    color: #fff;
-}
-
-.overbox .title:before {
-    background: #fff;
 }
 
 .title {
@@ -149,14 +144,6 @@
     background: #311b92;
     z-index: 4;
     width: 0;
-}
-
-.overbox .input .spin {
-    background: rgba(255, 255, 255, 1);
-}
-
-.overbox .input:before {
-    background: rgba(255, 255, 255, 0.5);
 }
 
 .input label {
@@ -274,44 +261,15 @@
     padding: 60px 50px 40px 50px;
 }
 
-.overbox .title,
-.overbox .button,
-.overbox .input {
-    z-index: 111;
-    position: relative;
-    color: #fff !important;
-    display: none;
-}
-
-.overbox .title {
-    width: 80%;
-}
-
-.overbox .input {
-    margin-top: 20px;
-}
-
-.overbox .input input,
-.overbox .input label {
-    color: #fff;
-}
-
-.overbox .material-button,
-.overbox .material-button .shape,
-.overbox .alt-2,
-.overbox .alt-2 .shape {
-    display: block;
-}
-
 .material-button,
 .alt-2 {
-    width: 140px;
-    height: 140px;
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
     background: #311b92;
     position: absolute;
     top: 40px;
-    right: -70px;
+    right: -30px;
     cursor: pointer;
     z-index: 100;
     transform: translate(0%, 0%);
@@ -364,7 +322,8 @@
 }
 
 body {
-    background-image: url(https://lh3.googleusercontent.com/-Z70RhagP5DI/VZ17vUOsTaI/AAAAAAAACTo/qe-8RrfrDPo/w1600-h900/rochesternight.png);
+    /*    background-image: url(https://lh3.googleusercontent.com/-Z70RhagP5DI/VZ17vUOsTaI/AAAAAAAACTo/qe-8RrfrDPo/w1600-h900/rochesternight.png);*/
+    background-color: mediumpurple;
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -379,7 +338,7 @@ html {
 
 .materialContainer {
     width: 100%;
-    max-width: 460px;
+    max-width: 1000px;
     position: absolute;
     top: 50%;
     left: 50%;
