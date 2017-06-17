@@ -112,7 +112,7 @@ $(document).on("click", ".overbox>button.active", function (event) {
             console.log("Sign up failed");
         })
     }
-});
+};
 
 // Called upon clicking the facebook log-in button 
 // creates new user record in firebase db if it doesn't exist
