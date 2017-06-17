@@ -11,7 +11,7 @@ firebase.initializeApp(config);
 const auth = firebase.auth();
 
 const landingPage = "https://social-nite.github.io/social-nite/landing.html";
-const loginPage = "https://social-nite.github.io/social-nite/login.html"
+const loginPage = "https://social-nite.github.io/social-nite/index.html"
 
 // asserts that given email matches the standard email format
 function validateEmail(email) {
@@ -149,15 +149,15 @@ $("#btn-log-out").on("click", function () {
     window.location.replace(loginPage);
 });
 
-auth.onAuthStateChanged(function (currentUserObj) {
-    if (currentUserObj) {
-        if (window.location.href === loginPage) {
-           window.location.replace(landingPage);
-        }
-    } else {
-        console.log("Not logged in");
-        if (window.location.href !== loginPage) {
-            window.location.replace(loginPage);
-        }
-    }
-});
+// auth.onAuthStateChanged(function (currentUserObj) {
+//     if (currentUserObj) {
+//         if (window.location.href === loginPage) {
+//            window.location.replace(landingPage);
+//         }
+//     } else {
+//         console.log("Not logged in");
+//         if (window.location.href !== loginPage) {
+//             window.location.replace(loginPage);
+//         }
+//     }
+// });
