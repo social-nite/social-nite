@@ -150,14 +150,14 @@ $("#btn-log-out").on("click", function () {
 });
 
 auth.onAuthStateChanged(function (currentUserObj) {
-    // if (currentUserObj) {
-    //     if (window.location.href === loginPage) {
-    //        window.location.replace(landingPage);
-    //     }
-    // } else {
-    //     console.log("Not logged in");
-    //     if (window.location.href !== loginPage) {
-    //         window.location.replace(loginPage);
-    //     }
-    // }
+    if (currentUserObj) {
+        if (window.location.href === loginPage) {
+           window.location.replace(landingPage);
+        }
+    } else {
+        console.log("Not logged in");
+        if (window.location.href !== loginPage) {
+            window.location.replace(loginPage);
+        }
+    }
 });
