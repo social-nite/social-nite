@@ -87,7 +87,7 @@ $("#search").on("click", function () {
                 addErrorModal(error.message);
             })
             console.log("Adding socialNite succeeded. Navigating to socialNite page");
-            window.location.replace("https://social-nite.github.io/social-nite/test.html");
+            window.location.replace("https://social-nite.github.io/social-nite/app.html");
         }, function (error) {
             console.log("Unable to add socialNite: " + error.message);
             addErrorModal(error.message);

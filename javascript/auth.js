@@ -11,7 +11,7 @@ firebase.initializeApp(config);
 const auth = firebase.auth();
 
 const landingPage = "https://social-nite.github.io/social-nite/landing.html";
-const loginPage = "https://social-nite.github.io/social-nite/login.html"
+const loginPage = "https://social-nite.github.io/social-nite/index.html"
 
 // asserts that given email matches the standard email format
 function validateEmail(email) {
