@@ -35,7 +35,7 @@ function getSocialNiteId() {
                 console.log(data);
                 console.log("The " + data.key + " score is " + data.val());
                 var timeRef = data.child('dateAdded');
-                if(timeRef.val() > mostRecentSocialNiteTime) {
+                if (timeRef.val() > mostRecentSocialNiteTime) {
                     mostRecentSocialNiteTime = timeRef.val();
                     socialNiteId = data.key;
                 }
@@ -44,7 +44,7 @@ function getSocialNiteId() {
                 console.log("most recent socialNiteId: " + socialNiteId);
             });
             localStorage.setItem("socialNiteId", socialNiteId);
-        }, function(){
+        }, function () {
             console.log("unable to query the users socialNites");
         });
     }
@@ -109,4 +109,21 @@ $("#send-email").on("click", function () {
     }
 })
 
+$(document).on("click", "#addFood", function (event) {
+    console.log("opening modal");
 
+    $('#modalFood').modal('open');
+    $('#modalFood').css('display', 'block');
+})
+
+$(document).on("click", "#addEvents", function (event) {
+    console.log("opening modal");
+
+    $('#modalEvents').modal('open');
+    $('#modalEvents').css('display', 'block');
+})
+
+$(document).on("click", ".modal-close", function () {
+    console.log("closing modal");
+    $(this).parent().parent().css("display", "none");
+})

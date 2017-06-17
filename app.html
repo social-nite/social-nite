@@ -23,32 +23,75 @@
 
     <div class="materialContainer">
         <div class="box">
-            <div class="material-button alt-2"><span class="shape"></span></div>
+            <div class="alt-2">
+                <a class="modal-trigger shape" id="addFriends" href="#modalFriends"></a>
+            </div>
             <div class="title">FRIENDS</div>
-
-            <div class="friends-panel"></div>
-
         </div>
 
         <div class="box">
-            <div class="material-button alt-2"><span class="shape"></span></div>
+            <div class="alt-2">
+                <a class="modal-trigger shape" id="addEvents" href="#modalEvents"></a>
+            </div>
             <div class="title">EVENTS</div>
-
-            <div class="events-panel"></div>
-
         </div>
 
         <div class="box">
-            <div class="material-button alt-2"><span class="shape"></span></div>
+            <div class="alt-2">
+                <a class="modal-trigger shape" id="addFood" href="#modalFood"></a>
+            </div>
             <div class="title">FOOD</div>
-
-            <div class="food-panel"></div>
-
         </div>
 
     </div>
+    <div class="food-panel">
+        <!-- Modal Trigger -->
+        <!--<a class="modal-trigger waves-effect waves-light btn" href="#modal1">Modal</a>-->
+
+        <!-- Modal Structure -->
+        <div id="modalFood" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <h4>Add Food Option</h4>
+                <table class="food table table-hover" id="food-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Date</th>
+                        </tr>
+
+                    </thead>
+                    <tbody id="food-table">
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Done</a>
+            </div>
+        </div>
+        <div id="modalEvents" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <h4>Add Event</h4>
+                <table class="events table table-hover" id="events-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Date</th>
+                        </tr>
+
+                    </thead>
+                    <tbody id="events-table">
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Done</a>
+            </div>
+        </div>
+    </div>
 
     <script src="app.js"></script>
+    <script src="javascript/logic.js"></script>
+
 </body>
 
 </html>
