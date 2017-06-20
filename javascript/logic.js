@@ -107,9 +107,7 @@ $("#send-email").on("click", function () {
     //will need to add social nite id to the email as well. 
     if (validateEmail(email)) {
         var subject = "You've been invited to join SocialNite";
-        var emailBody = "Hello, " + firebase.auth().currentUser.displayName + " has invited you to join Social Nite!&#13;&#10;" +
-            " Click here: https://social-nite.github.io/social-nite/login.html&#13;&#10;" +
-            " Enter this id on the page after you login: " + getSocialNiteId();
+        var emailBody = "Hello, " + firebase.auth().currentUser.displayName + " has invited you to join Social Nite! &#13;&#10; Click here: https://social-nite.github.io/social-nite/login.html&#13;&#10; Enter this id on the page after you login: " + getSocialNiteId();
         document.location = "mailto:" + email + "?subject=" + subject + "&body=" + emailBody;
     } else {
         console.log("Please provide a valid email");
