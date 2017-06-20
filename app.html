@@ -8,9 +8,11 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900&subset=latin,latin-ext">
+    <script src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script src="javascript/materialize.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js"></script>
+
 
     <!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">-->
     <!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>-->
@@ -88,13 +90,24 @@
                 <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Done</a>
             </div>
         </div>
+        <div id="modalFriends" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <h4>Add Friends</h4>
+                <label for="location">Input Email</label>
+                <input type="email" id="emailInput">
+                <button id="send-email">Send Email</button>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Done</a>
+            </div>
+        </div>
     </div>
 
     <script src="app.js"></script>
     <script src="javascript/auth.js"></script>
     <script src="javascript/logic.js"></script>
     <script src="opentable.js"></script>
-
-</body>
+    <script src="javascript/ebrite.js"></script>
+ </body>
 
 </html>

@@ -61,7 +61,7 @@ $(".login").on("click", function () {
     if (validateEmail(email)) {
         var promise = auth.signInWithEmailAndPassword(email, password);
         promise.then(function () {
-           window.location.replace(landingPage);
+            window.location.replace(landingPage);
         }, function (e) {
             console.log("Log in failed");
             console.log(e.message);
@@ -86,33 +86,33 @@ $(document).on("click", ".overbox>button.active", function (event) {
     var passwordConfirm = $("#reregpass").val().trim();
     if (validateEmail(email) && validatePassword(password, passwordConfirm)) {
         if (validateEmail(email) && validatePassword(password, passwordConfirm) && validateName(firstName) && validateName(lastName)) {
-        var fullName = firstName + " " + lastName;
-        console.log("email and password valid");
-        var promise = auth.createUserWithEmailAndPassword(email, password);
-        promise.then(function () {
-            var user = auth.currentUser;
-            user.updateProfile({
-                 displayName: fullName
-            }).then(function () {
-                console.log("write user data");
+            var fullName = firstName + " " + lastName;
+            console.log("email and password valid");
+            var promise = auth.createUserWithEmailAndPassword(email, password);
+            promise.then(function () {
                 var user = auth.currentUser;
-                console.log("uid: " + user.uid);
-                firebase.database().ref('users/' + user.uid).set({
-                    name: "test"
+                user.updateProfile({
+                    displayName: fullName
                 }).then(function () {
-                    console.log("Adding user succeeded. Navigating to landing page");
-                    window.location.replace(landingPage);
+                    console.log("write user data");
+                    var user = auth.currentUser;
+                    console.log("uid: " + user.uid);
+                    firebase.database().ref('users/' + user.uid).set({
+                        name: "test"
+                    }).then(function () {
+                        console.log("Adding user succeeded. Navigating to landing page");
+                        window.location.replace(landingPage);
+                    }, function (error) {
+                        console.log("Unable to add user: " + error.message);
+                    });
                 }, function (error) {
-                    console.log("Unable to add user: " + error.message);
+                    console.log("Unable to update users display name: " + error.message);
                 });
             }, function (error) {
-                console.log("Unable to update users display name: " + error.message);
-            });
-        }, function (error) {
-            console.log("Sign up failed");
-        })
-    }
-};
+                console.log("Sign up failed");
+            })
+        }
+    };
 });
 
 // Called upon clicking the facebook log-in button 
@@ -149,16 +149,16 @@ $("#btn-log-out").on("click", function () {
     auth.signOut();
     window.location.replace(loginPage);
 });
+auth.onAuthStateChanged(function (currentUserObj) {
+    if (currentUserObj) {
+        if (window.location.href === loginPage) {
+            window.location.replace(landingPage);
+        }
+    } else {
+        console.log("Not logged in");
+        if (window.location.href !== loginPage) {
+            window.location.replace(loginPage);
+        }
+    }
+});
 
-// auth.onAuthStateChanged(function (currentUserObj) {
-//     if (currentUserObj) {
-//         if (window.location.href === loginPage) {
-//            window.location.replace(landingPage);
-//         }
-//     } else {
-//         console.log("Not logged in");
-//         if (window.location.href !== loginPage) {
-//             window.location.replace(loginPage);
-//         }
-//     }
-// });

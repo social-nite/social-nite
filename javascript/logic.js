@@ -51,6 +51,12 @@ function getSocialNiteId() {
     return socialNiteId;
 }
 
+// asserts that given email matches the standard email format
+function validateEmail(email) {
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+}
+
 $("#search").on("click", function () {
     event.preventDefault();
     var date = $("#date").val().trim();
@@ -97,7 +103,7 @@ $("#search").on("click", function () {
 
 $("#send-email").on("click", function () {
     event.preventDefault();
-    var email = $("#email").val().trim();
+    var email = $("#emailInput").val().trim();
     //will need to add social nite id to the email as well. 
     if (validateEmail(email)) {
         var subject = "You've been invited to join SocialNite";
@@ -114,16 +120,23 @@ $(document).on("click", "#addFood", function (event) {
 
     $('#modalFood').modal('open');
     $('#modalFood').css('display', 'block');
-})
+});
 
 $(document).on("click", "#addEvents", function (event) {
     console.log("opening modal");
 
     $('#modalEvents').modal('open');
     $('#modalEvents').css('display', 'block');
-})
+});
+
+$(document).on("click", "#addFriends", function (event) {
+    console.log("opening modal");
+
+    $('#modalFriends').modal('open');
+    $('#modalFriends').css('display', 'block');
+});
 
 $(document).on("click", ".modal-close", function () {
     console.log("closing modal");
     $(this).parent().parent().css("display", "none");
-})
+});
