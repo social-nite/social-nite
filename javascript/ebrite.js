@@ -7,6 +7,8 @@ var ebriteToken = "T63G5RF7WNPX5VDUSPII";
 // latitude and longitude will be updated on user input later. 
 var latitude = 37.7749295;
 var longitude = -122.4194155;
+
+// Actual date will be provided by user and converted to UTC. 
 var eventUserDate = 
 var UTCeventUserDate = moment(eventUserDate).utc().format();
 var localEvents = [];
