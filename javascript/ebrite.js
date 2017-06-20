@@ -1,20 +1,31 @@
 
 // EVENTBRITE LOGIC, API, AND CODE BELOW: 
 
+
 // ebite API token
 var ebriteToken = "T63G5RF7WNPX5VDUSPII";
 
 // latitude and longitude will be updated on user input later. 
 var latitude = 37.7749295;
 var longitude = -122.4194155;
+
+// Actual date will be provided by user 
+var eventUserDateStart = "2017-06-30";
+// Adding 1 day to the event day provided by user so there can be a single end-time for the events presented. 
+var eventUserDateEnd = moment(eventUserDateStart).add(1,"day").format("YYYY-MM-DD");
+
+//format for the Time for the API:
+  //start_date.range_start: 2017-06-30T01:00:00
+  //start_date.range_end: 2017-06-30T23:00:00
+
 var localEvents = [];
 
-// 
 var eBriteSettings = {
 	"async": true,
 	"crossdDomain": true,
-	// URL is events by location LAT AND LONGITUDE and 10mile radius
-	"url": "https://www.eventbriteapi.com/v3/events/search/?token="+ ebriteToken + "&location.latitude=" + latitude + "&location.longitude=" + longitude + "&location.within=10mi",
+
+	// URL is events by location LAT AND LONGITUDE, on a specific date, and 10mile radius
+	"url": "https://www.eventbriteapi.com/v3/events/search/?token="+ ebriteToken + "&location.latitude=" + latitude + "&location.longitude=" + longitude + "&sort_by=best" + "&location.within=10mi" + "&start_date.range_start=" + eventUserDateStart + "T00:00:00" + "&start_date.range_end=" + eventUserDateEnd + "T00:00:00",
 	"method": "GET",
 	"headers": {}
 }
@@ -42,25 +53,32 @@ function callAjax () {
 		link.attr("href", elink);
 		link.append(ename);
 
-		var row = $("<tr>");
-		var td = $("<td>");
-		var td2 = $("<td>");
+		var eventRow = $("<tr>");
+		var tdEventName = $("<td>");
+		var tdEventTime = $("<td>");
 
-		row.addClass("event-local");
+		eventRow.addClass("event-local");
 		// attribute creates ID for use later to map/load to Firebase user's event tracking.
-		row.attr("data-Id", eventID);
+		eventRow.attr("data-Id", eventID);
 
-		td.append(link);
-		td2.append(prettyTime);
+		tdEventName.append(link);
+		tdEventTime.append(prettyTime);
 
-		row.append(td);
-		row.append(td2);
-		$("#events-table").append(row);
-		console.log("Event rows for display: ", row);
+		eventRow.append(tdEventName);
+		eventRow.append(tdEventTime);
+		$("#events-table").append(eventRow);
+		console.log("Event rows for display: ", eventRow);
 
-	};
+		};
 	return (localEvents);
-});
+	});
 };
 
-callAjax();
+
+// added onclick event for when Modal is clicked for adding events. 
+$("#addEvents").on("click", function (event) {
+	console.log("the button was clicked");
+	callAjax();
+
+});
+
