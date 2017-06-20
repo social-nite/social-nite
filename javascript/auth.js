@@ -112,6 +112,7 @@ $(document).on("click", ".overbox>button.active", function (event) {
             console.log("Sign up failed");
         })
     }
+};
 });
 
 // Called upon clicking the facebook log-in button 
@@ -149,15 +150,15 @@ $("#btn-log-out").on("click", function () {
     window.location.replace(loginPage);
 });
 
-auth.onAuthStateChanged(function (currentUserObj) {
-    if (currentUserObj) {
-        if (window.location.href === loginPage) {
-           window.location.replace(landingPage);
-        }
-    } else {
-        console.log("Not logged in");
-        if (window.location.href !== loginPage) {
-            window.location.replace(loginPage);
-        }
-    }
-});
+// auth.onAuthStateChanged(function (currentUserObj) {
+//     if (currentUserObj) {
+//         if (window.location.href === loginPage) {
+//            window.location.replace(landingPage);
+//         }
+//     } else {
+//         console.log("Not logged in");
+//         if (window.location.href !== loginPage) {
+//             window.location.replace(loginPage);
+//         }
+//     }
+// });
