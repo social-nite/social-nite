@@ -149,7 +149,6 @@ $("#btn-log-out").on("click", function () {
     auth.signOut();
     window.location.replace(loginPage);
 });
-
 auth.onAuthStateChanged(function (currentUserObj) {
     if (currentUserObj) {
         if (window.location.href === loginPage) {
@@ -162,3 +161,4 @@ auth.onAuthStateChanged(function (currentUserObj) {
         }
     }
 });
+
