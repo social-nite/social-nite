@@ -7,14 +7,16 @@ var ebriteToken = "T63G5RF7WNPX5VDUSPII";
 // latitude and longitude will be updated on user input later. 
 var latitude = 37.7749295;
 var longitude = -122.4194155;
+var eventUserDate = 
+var UTCeventUserDate = moment(eventUserDate).utc().format();
 var localEvents = [];
 
 // 
 var eBriteSettings = {
 	"async": true,
 	"crossdDomain": true,
-	// URL is events by location LAT AND LONGITUDE and 10mile radius
-	"url": "https://www.eventbriteapi.com/v3/events/search/?token="+ ebriteToken + "&location.latitude=" + latitude + "&location.longitude=" + longitude + "&location.within=10mi",
+	// URL is events by location LAT AND LONGITUDE, on a specific date, and 10mile radius
+	"url": "https://www.eventbriteapi.com/v3/events/search/?token="+ ebriteToken + "&location.latitude=" + latitude + "&location.longitude=" + longitude + "&sort_by=best" + "&start_date.range_start=" + UTCeventUserDate + "&start_date.range_end=" + UTCeventUserDate + "&location.within=10mi",
 	"method": "GET",
 	"headers": {}
 }
@@ -42,21 +44,21 @@ function callAjax () {
 		link.attr("href", elink);
 		link.append(ename);
 
-		var row = $("<tr>");
-		var td = $("<td>");
-		var td2 = $("<td>");
+		var eventRow = $("<tr>");
+		var tdEventName = $("<td>");
+		var tdEventTime = $("<td>");
 
-		row.addClass("event-local");
+		eventRow.addClass("event-local");
 		// attribute creates ID for use later to map/load to Firebase user's event tracking.
-		row.attr("data-Id", eventID);
+		eventRow.attr("data-Id", eventID);
 
-		td.append(link);
-		td2.append(prettyTime);
+		tdEventName.append(link);
+		tdEventTime.append(prettyTime);
 
-		row.append(td);
-		row.append(td2);
-		$("#events-table").append(row);
-		console.log("Event rows for display: ", row);
+		eventRow.append(tdEventName);
+		eventRow.append(tdEventTime);
+		$("#events-table").append(eventRow);
+		console.log("Event rows for display: ", eventRow);
 
 	};
 	return (localEvents);
