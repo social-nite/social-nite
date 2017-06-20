@@ -26,7 +26,6 @@ var eBriteSettings = {
 
 	// URL is events by location LAT AND LONGITUDE, on a specific date, and 10mile radius
 	"url": "https://www.eventbriteapi.com/v3/events/search/?token="+ ebriteToken + "&location.latitude=" + latitude + "&location.longitude=" + longitude + "&sort_by=best" + "&location.within=10mi" + "&start_date.range_start=" + eventUserDateStart + "T00:00:00" + "&start_date.range_end=" + eventUserDateEnd + "T00:00:00",
-
 	"method": "GET",
 	"headers": {}
 }
