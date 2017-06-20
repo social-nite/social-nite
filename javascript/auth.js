@@ -97,7 +97,7 @@ $(document).on("click", ".overbox>button.active", function (event) {
                 var user = auth.currentUser;
                 console.log("uid: " + user.uid);
                 firebase.database().ref('users/' + user.uid).set({
-                    name: "test"
+                    name: fullName
                 }).then(function () {
                     console.log("Adding user succeeded. Navigating to landing page");
                     window.location.replace(landingPage);
