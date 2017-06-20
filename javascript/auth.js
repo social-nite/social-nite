@@ -76,7 +76,7 @@ $(".login").on("click", function () {
 //validates input data, adds user to firebase auth
 //and updates firebase db to have user record
 // and redirects to landing page
-$(document).on("click", ".overbox>button.active", function (event) {
+$(document).on("click", ".overbox>.button>button.active", function (event) {
     console.log("sign up button pressed");
     event.preventDefault();
     var email = $("#regemail").val().trim();
