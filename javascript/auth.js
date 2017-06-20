@@ -150,9 +150,7 @@ $("#btn-log-out").on("click", function () {
 
 auth.onAuthStateChanged(function (currentUserObj) {
     if (currentUserObj) {
-        if (window.location.href === loginPage) {
-            window.location.replace(landingPage);
-        }
+        console.log(auth.currentUser.displayName + " is logged in");
     } else {
         console.log("Not logged in");
         if (window.location.href !== loginPage) {
