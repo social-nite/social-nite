@@ -23,6 +23,11 @@ function getCity(locationData) {
     return city;
 }
 
+function validateSocialNiteId(socialNite) {
+    var re = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    return re.test(socialNite);
+}
+
 function getSocialNiteId() {
     var socialNiteId;
     if (localStorage.getItem("socialNiteId")) {
@@ -57,6 +62,45 @@ function validateEmail(email) {
     return re.test(email);
 }
 
+function addUserToSocialNite(socialNiteId) {
+    firebase.database().ref('socialNites/' + socialNiteId + '/users/' + firebase.auth().currentUser.uid).set({
+        active: true,
+        dateAdded: firebase.database.ServerValue.TIMESTAMP
+    }, function (error) {
+        console.log("Unable to add socialNite to user record: " + error.message);
+        addErrorModal(error.message);
+    })
+}
+
+function addSocialNiteToUser(socialNiteId) {
+    firebase.database().ref('users/' + firebase.auth().currentUser.uid + "/socialNites/" + socialNiteId).set({
+        active: true,
+        dateAdded: firebase.database.ServerValue.TIMESTAMP
+    }, function (error) {
+        console.log("Unable to add socialNite to user record: " + error.message);
+        addErrorModal(error.message);
+    })
+    console.log("Adding socialNite succeeded.");
+}
+
+$("#addSocialNite").on("click", function () {
+    event.preventDefault();
+    var socialNite = $("#socialNiteId").val().trim();
+    if (validateSocialNiteId(socialNite)) {
+        localStorage.setItem('socialNiteId', socialNite);
+        //adding social nite to user
+        addSocialNiteToUser(socialNite);
+
+        //adding user to social nite
+        addUserToSocialNite(socialNite);
+        
+        console.log("Adding socialNite succeeded. Navigating to socialNite page");
+        window.location.replace("https://social-nite.github.io/social-nite/app.html");
+    } else {
+        console.log("Invalid socialnite id");
+    }
+})
+
 $("#search").on("click", function () {
     event.preventDefault();
     var date = $("#date").val().trim();
@@ -85,19 +129,20 @@ $("#search").on("click", function () {
             longitude: longitude,
             timeCreated: firebase.database.ServerValue.TIMESTAMP
         }).then(function () {
-            firebase.database().ref('users/' + firebase.auth().currentUser.uid + "/socialNites/" + socialNiteId).set({
-                active: true,
-                dateAdded: firebase.database.ServerValue.TIMESTAMP
-            }, function (error) {
-                console.log("Unable to add socialNite to user record: " + error.message);
-                addErrorModal(error.message);
-            })
-            console.log("Adding socialNite succeeded. Navigating to socialNite page");
+            //adding social nite to user
+            addSocialNiteToUser(socialNiteId);
+
+            //adding user to social nite
+            addUserToSocialNite(socialNiteId);
+            console.log("Adding user to socialNite succeeded.");
+
             window.location.replace("https://social-nite.github.io/social-nite/app.html");
         }, function (error) {
             console.log("Unable to add socialNite: " + error.message);
             addErrorModal(error.message);
-        });
+        }
+
+            );
     });
 });
 
