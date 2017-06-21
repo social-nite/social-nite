@@ -23,6 +23,12 @@ function getCity(locationData) {
     return city;
 }
 
+// asserts that given email matches the standard email format
+function validateEmail(email) {
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+}
+
 function validateSocialNiteId(socialNite) {
     var re = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
     return re.test(socialNite);
@@ -56,12 +62,6 @@ function getSocialNiteId() {
     return socialNiteId;
 }
 
-// asserts that given email matches the standard email format
-function validateEmail(email) {
-    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email);
-}
-
 function addUserToSocialNite(socialNiteId) {
     var userUid = firebase.auth().currentUser.uid;
     firebase.database().ref('members/' + socialNiteId).set({
@@ -75,12 +75,61 @@ function addUserToSocialNite(socialNiteId) {
 function addSocialNiteToUser(socialNiteId) {
     firebase.database().ref('users/' + firebase.auth().currentUser.uid + "/socialNites/" + socialNiteId).set({
         active: true,
+        votesRemaining: 5,
         dateAdded: firebase.database.ServerValue.TIMESTAMP
     }, function (error) {
         console.log("Unable to add socialNite to user record: " + error.message);
         addErrorModal(error.message);
     })
     console.log("Adding socialNite succeeded.");
+}
+
+function votesRemaining(socialNiteId) {
+    var votesRemaining = 0;
+    var votesRemainingQuery = firebase.database().ref().child("users/" + firebase.auth().currentUser.uid + "/socialNites/" + socialNiteId + "/votesRemaining");
+    votesRemainingQuery.once("value", function (snapshot) {
+        votesRemaining = snapshot.val();
+    }, function () {
+        console.log("unable to query the number of remaining votes");
+    });
+    console.log("votes remaining for user: " + votesRemaining);
+    return votesRemaining;
+}
+
+function removeVoteFromUser(socialNiteId) {
+    console.log("removing vote from user for socialNiteId: " + socialNiteId);
+    var votesRemainingRef = firebase.database().ref('users').child(firebase.auth().currentUser.uid).child('socialNites').child(socialNiteId).child('votesRemaining');
+    votesRemainingRef.transaction(function (votes) {
+        console.log("Votes remaining: " + (votes || 0) - 1);
+        return (votes || 0) - 1;
+    });
+}
+
+function addVote(socialNiteId, itemVotedOn, isUpvote) {
+    var currentUserObj = firebase.auth().currentUser;
+    //determine if restaurant or event was voted on
+    if (itemVotedOn === 'restaurant') {
+        console.log("restaurant voted on: " + itemVotedOn);
+        var databaseRef = firebase.database().ref('restaurants').child(itemVotedOn).child('votes');
+    } else {
+        console.log("event voted on: " + itemVotedOn);
+        var databaseRef = firebase.database().ref('events').child(itemVotedOn).child('votes');
+    }
+    //if user has votes remaining, upvote or downvote the selection
+    if (votesRemaining(socialNiteId) > 0) {
+        if (isUpvote) {
+            databaseRef.transaction(function (votes) {
+                return (votes || 0) + 1;
+            });
+        } else {
+            databaseRef.transaction(function (votes) {
+                return (votes || 0) - 1;
+            });
+        }
+        removeVoteFromUser(socialNiteId)
+    } else {
+        console.log("No votes remaining");
+    }
 }
 
 $("#addSocialNite").on("click", function () {
