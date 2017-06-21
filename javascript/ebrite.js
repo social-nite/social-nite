@@ -20,9 +20,9 @@ var config = {
 firebase.initializeApp(config);
 
 function getSocialNiteId() {
-    var socialNiteId;
     if (localStorage.getItem("socialNiteId")) {
         socialNiteId = localStorage.getItem("socialNiteId");
+        console.log("current social nite id: ", socialNiteId);
     } else {
         var socialNiteIdQuery = firebase.database().ref().child("users/" + firebase.auth().currentUser.uid + "/socialNites");
         socialNiteIdQuery.once("value", function (snapshot) {
@@ -140,9 +140,8 @@ function callAjax () {
 
 // loads list on document ready so API is not called several times via onClick events
 $(document).ready( function (event) {
-	console.log("the button was clicked");
+	console.log("document loaded for events");
 	callAjax();
-
 });
 
 function addEventToSocialNite(socialNiteId, eventObject) {
