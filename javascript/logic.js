@@ -63,9 +63,9 @@ function validateEmail(email) {
 }
 
 function addUserToSocialNite(socialNiteId) {
-    firebase.database().ref('socialNites/' + socialNiteId + '/users/' + firebase.auth().currentUser.uid).set({
-        active: true,
-        dateAdded: firebase.database.ServerValue.TIMESTAMP
+    var userUid = firebase.auth().currentUser.uid;
+    firebase.database().ref('members/' + socialNiteId).set({
+        [userUid]: true
     }, function (error) {
         console.log("Unable to add socialNite to user record: " + error.message);
         addErrorModal(error.message);
@@ -93,7 +93,7 @@ $("#addSocialNite").on("click", function () {
 
         //adding user to social nite
         addUserToSocialNite(socialNite);
-        
+
         console.log("Adding socialNite succeeded. Navigating to socialNite page");
         window.location.replace("https://social-nite.github.io/social-nite/app.html");
     } else {
