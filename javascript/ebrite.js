@@ -19,33 +19,33 @@ var socialNiteId;
   
 // firebase.initializeApp(config);
 
-function getSocialNiteId() {
-    if (localStorage.getItem("socialNiteId")) {
-        socialNiteId = localStorage.getItem("socialNiteId");
-        console.log("current social nite id: ", socialNiteId);
-    } else {
-        var socialNiteIdQuery = firebase.database().ref().child("users/" + firebase.auth().currentUser.uid + "/socialNites");
-        socialNiteIdQuery.once("value", function (snapshot) {
-            var mostRecentSocialNiteTime = 0;
-            snapshot.forEach(function (data) {
-                console.log(data);
-                console.log("The " + data.key + " score is " + data.val());
-                var timeRef = data.child('dateAdded');
-                if (timeRef.val() > mostRecentSocialNiteTime) {
-                    mostRecentSocialNiteTime = timeRef.val();
-                    socialNiteId = data.key;
-                }
-                console.log("dateAdded of current socialnite: " + timeRef.val());
-                console.log("dateAdded of most recent: " + mostRecentSocialNiteTime);
-                console.log("most recent socialNiteId: " + socialNiteId);
-            });
-            localStorage.setItem("socialNiteId", socialNiteId);
-        }, function () {
-            console.log("unable to query the users socialNites");
-        });
-    }
-    return socialNiteId;
-};
+// function getSocialNiteId() {
+//     if (localStorage.getItem("socialNiteId")) {
+//         socialNiteId = localStorage.getItem("socialNiteId");
+//         console.log("current social nite id: ", socialNiteId);
+//     } else {
+//         var socialNiteIdQuery = firebase.database().ref().child("users/" + firebase.auth().currentUser.uid + "/socialNites");
+//         socialNiteIdQuery.once("value", function (snapshot) {
+//             var mostRecentSocialNiteTime = 0;
+//             snapshot.forEach(function (data) {
+//                 console.log(data);
+//                 console.log("The " + data.key + " score is " + data.val());
+//                 var timeRef = data.child('dateAdded');
+//                 if (timeRef.val() > mostRecentSocialNiteTime) {
+//                     mostRecentSocialNiteTime = timeRef.val();
+//                     socialNiteId = data.key;
+//                 }
+//                 console.log("dateAdded of current socialnite: " + timeRef.val());
+//                 console.log("dateAdded of most recent: " + mostRecentSocialNiteTime);
+//                 console.log("most recent socialNiteId: " + socialNiteId);
+//             });
+//             localStorage.setItem("socialNiteId", socialNiteId);
+//         }, function () {
+//             console.log("unable to query the users socialNites");
+//         });
+//     }
+//     return socialNiteId;
+// };
 getSocialNiteId();
 
 var dateQuery = firebase.database().ref().child("socialNites/" + socialNiteId);
