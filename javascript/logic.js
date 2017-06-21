@@ -132,6 +132,24 @@ function addVote(socialNiteId, itemVotedOn, isUpvote) {
     }
 }
 
+function renderRestaurants(socialNiteId) {
+    var votesRef = firebase.database().ref("restaurants").child(socialNiteId);
+    votesRef.orderByChild('voteCount').on("value", function (snapshot) {
+        snapshot.forEach(function (data) {
+            console.log("The " + data.key + " score is " + data.val().voteCount);
+        });
+    });
+}
+
+function renderEvents(socialNiteId) {
+    var votesRef = firebase.database().ref("events").child(socialNiteId);
+    votesRef.orderByChild('voteCount').on("value", function (snapshot) {
+        snapshot.forEach(function (data) {
+            console.log("The " + data.key + " score is " + data.val().voteCount);
+        });
+    });
+}
+
 $("#addSocialNite").on("click", function () {
     event.preventDefault();
     var socialNite = $("#socialNiteId").val().trim();
@@ -233,3 +251,5 @@ $(document).on("click", ".modal-close", function () {
     console.log("closing modal");
     $(this).parent().parent().css("display", "none");
 });
+
+var socialNiteId = getSocialNiteId();
