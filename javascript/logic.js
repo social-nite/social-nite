@@ -12,9 +12,8 @@ function s4() {
 }
 
 //gets the city from the google maps api response
-var city;
 function getCity(locationData) {
-    
+    var city;
     for (var i = 0; i < locationData.address_components.length; i++) {
         if (locationData.address_components[i].types.includes("locality")) {
             city = locationData.address_components[i].long_name;
