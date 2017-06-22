@@ -187,7 +187,7 @@ function addEventToSocialNite(socialNiteId, eventObject) {
 }
 
 $(document).on("click", ".event-local", function () {
-    var eventId = $(this).data("Id");
+    var eventId = $(this).data("id");
     var eventName = $(this).data("name");
     var eventUrl = $(this).data("url");
     var eventTime = $(this).data("time");
@@ -204,7 +204,7 @@ $(document).on("click", ".event-local", function () {
 })
 
 $(document).on("click", ".restaurant-local", function () {
-    var restaurantId = $(this).data("Id");
+    var restaurantId = $(this).data("id");
     var restaurantName = $(this).data("name");
     var restaurantUrl = $(this).data("url");
     var restaurantPrice = $(this).data("price");
