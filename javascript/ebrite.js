@@ -2,22 +2,22 @@
 var eventUserDateStart;
 var latitude;
 var longitude;
-var socialNiteId;
+var socialNiteId = "224d7905-9be3-d85b-c4d8-eca72063fe58";
 
 // <script src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js"></script>
 
 // Initialize Firebase -------------------------------------------------------------------------------------
 
-// var config = {
-//     apiKey: "AIzaSyD-poHRyLKHSLW8kxGOz83yIR51npZy9L4",
-//     authDomain: "socialnite-9d0ef.firebaseapp.com",
-//     databaseURL: "https://socialnite-9d0ef.firebaseio.com",
-//     projectId: "socialnite-9d0ef",
-//     storageBucket: "socialnite-9d0ef.appspot.com",
-//     messagingSenderId: "1077453204255"
-//   };
+var config = {
+    apiKey: "AIzaSyD-poHRyLKHSLW8kxGOz83yIR51npZy9L4",
+    authDomain: "socialnite-9d0ef.firebaseapp.com",
+    databaseURL: "https://socialnite-9d0ef.firebaseio.com",
+    projectId: "socialnite-9d0ef",
+    storageBucket: "socialnite-9d0ef.appspot.com",
+    messagingSenderId: "1077453204255"
+  };
   
-// firebase.initializeApp(config);
+firebase.initializeApp(config);
 
 // function getSocialNiteId() {
 //     if (localStorage.getItem("socialNiteId")) {
@@ -46,15 +46,17 @@ var socialNiteId;
 //     }
 //     return socialNiteId;
 // };
-getSocialNiteId();
+// getSocialNiteId();
 
 var dateQuery = firebase.database().ref().child("socialNites/" + socialNiteId);
     dateQuery.once("value", function (snapshot) {
+    	console.log("was able to load firebase request for UserID")
         eventUserDateStart = snapshot.date.val();
+        console.log(eventUserDateStart);
         latitude = snapshot.latitude.val();
         longitude = snapshot.longitude.val();
     }, function () {
-        console.log("unable to query the socialNite");
+        console.log("unable to query the socialNite IDs");
     });
 
 
@@ -123,6 +125,9 @@ function callAjax () {
 		eventRow.addClass("event-local");
 		// attribute creates ID for use later to map/load to Firebase user's event tracking.
 		eventRow.attr("data-Id", eventID);
+		eventRow.attr("data-name", ename);
+		eventRow.attr("data-link", elink);
+		eventRow.attr("data-date", prettyTime);
 
 		tdEventName.append(link);
 		tdEventTime.append(prettyTime);
