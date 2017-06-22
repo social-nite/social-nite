@@ -1,3 +1,8 @@
+var date = "";
+var latitude = 0;
+var longitude = 0;
+var city = "";
+
 //generates a unique id for the socialNite Id
 function guid() {
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
@@ -60,6 +65,22 @@ function getSocialNiteId() {
         });
     }
     return socialNiteId;
+}
+
+function getSocialNiteInfo(socialNiteId) {
+    var socialNiteQuery = firebase.database().ref().child("socialNites/" + socialNiteId);
+    socialNiteQuery.once("value", function (snapshot) {
+        date = snapshot.val().date;
+        city = snapshot.val().city;
+        latitude = snapshot.val().latitude;
+        longitude = snapshot.val().longitude;
+    }, function () {
+        console.log("unable to get social nite info");
+    });
+    console.log("date: " + date);
+    console.log("city: " + city);
+    console.log("latitude: " + latitude);
+    console.log("longitude: " + longitude);
 }
 
 function addUserToSocialNite(socialNiteId) {
@@ -195,9 +216,9 @@ $(document).on("click", ".restaurant-local", function () {
     })
 })
 
-$("#addSocialNite").on("click", function () {
+$(document).on("click", "#search-id", function () {
     event.preventDefault();
-    var socialNite = $("#socialNiteId").val().trim();
+    var socialNite = $("#search").val().trim();
     if (validateSocialNiteId(socialNite)) {
         localStorage.setItem('socialNiteId', socialNite);
         //adding social nite to user
@@ -213,12 +234,7 @@ $("#addSocialNite").on("click", function () {
     }
 })
 
-var date = "";
-var latitude = 0;
-var longitude = 0;
-var city = "";
-
-$("#search").on("click", function () {
+$("#submit").on("click", function () {
     event.preventDefault();
     date = $("#date").val().trim();
     var location = $("#location").val().trim();
@@ -230,7 +246,6 @@ $("#search").on("click", function () {
         "url": "https://maps.googleapis.com/maps/api/geocode/json?address=" + location + "&key=AIzaSyBxgMHK10T-YS90r9OQhsSJm_aeEFAGcZ8",
         "method": "GET"
     }
-
 
     $.ajax(settings).done(function (response) {
         var results = response.results[0];
@@ -308,82 +323,81 @@ var socialNiteId = getSocialNiteId();
 // EVENTBRITE LOGIC, API, AND CODE BELOW: 
 // ------------------------------------------------------------------------------------------------------
 
-// ebite API token
-var ebriteToken = "T63G5RF7WNPX5VDUSPII";
-var eventUserDateStart = date;
+function calleBriteAjax() {
+    // ebite API token
+    var ebriteToken = "T63G5RF7WNPX5VDUSPII";
+    var eventUserDateStart = date;
 
-//format for the Time for the API:
-  //start_date.range_start: 2017-06-30T01:00:00
-  //start_date.range_end: 2017-06-30T23:00:00
+    //format for the Time for the API:
+    //start_date.range_start: 2017-06-30T01:00:00
+    //start_date.range_end: 2017-06-30T23:00:00
 
-var localEvents = [];
+    var localEvents = [];
 
-var eBriteSettings = {
-    "async": true,
-    "crossdDomain": true,
+    var eBriteSettings = {
+        "async": true,
+        "crossdDomain": true,
 
-    // URL is events by location LAT AND LONGITUDE, on a specific date, and 10mile radius
-    "url": "https://www.eventbriteapi.com/v3/events/search/?token="+ ebriteToken + "&location.latitude=" + latitude + "&location.longitude=" + longitude + "&sort_by=best" + "&location.within=10mi" + "&start_date.range_start=" + eventUserDateStart + "T00:00:00" + "&start_date.range_end=" + eventUserDateStart + "T23:59:00",
-    "method": "GET",
-    "headers": {}
-}
-
-function calleBriteAjax () {
-    $.ajax(eBriteSettings).done(function (data){
-    console.log(data); 
-    var eventNames = data.events;
-    
-    // loop pushes the top 10 events from eBrite to a local Array as objects. 
-    for (var i = 0; i < 10; i++) {  
-        localEvents.push(data.events[i]);
+        // URL is events by location LAT AND LONGITUDE, on a specific date, and 10mile radius
+        "url": "https://www.eventbriteapi.com/v3/events/search/?token=" + ebriteToken + "&location.latitude=" + latitude + "&location.longitude=" + longitude + "&sort_by=best" + "&location.within=10mi" + "&start_date.range_start=" + eventUserDateStart + "T00:00:00" + "&start_date.range_end=" + eventUserDateStart + "T23:59:00",
+        "method": "GET",
+        "headers": {}
     }
-    
-    // Loop prepares the event-objects for display to HTML
-    for (var i=0; i < localEvents.length; i++) {
+    $.ajax(eBriteSettings).done(function (data) {
+        console.log(data);
+        var eventNames = data.events;
 
-        var time = localEvents[i].start.local
-        var prettyTime = moment(time).format("lll");
-        var eventID = localEvents[i].id;
-        var ename = localEvents[i].name.text;
-        var elink = localEvents[i].url;
+        // loop pushes the top 10 events from eBrite to a local Array as objects. 
+        for (var i = 0; i < 10; i++) {
+            localEvents.push(data.events[i]);
+        }
 
+        // Loop prepares the event-objects for display to HTML
+        for (var i = 0; i < localEvents.length; i++) {
 
-        var link = $("<a>");
-        link.attr("href", elink);
-        link.attr("target", "_blank");
-        link.append(ename);
-
-        var eventRow = $("<tr>");
-        var tdEventName = $("<td>");
-        var tdEventTime = $("<td>");
-
-        var eventButton = $("<button>");
-        eventButton.attr("data-Id", eventID);
-        eventRow.append(eventButton);
-
-        eventRow.addClass("event-local");
-        // attribute creates ID for use later to map/load to Firebase user's event tracking.
-        eventRow.attr("data-Id", eventID);
-        eventRow.attr("data-name", ename);
-        eventRow.attr("data-url", elink);
-        eventRow.attr("data-time", prettyTime);
+            var time = localEvents[i].start.local
+            var prettyTime = moment(time).format("lll");
+            var eventID = localEvents[i].id;
+            var ename = localEvents[i].name.text;
+            var elink = localEvents[i].url;
 
 
-        tdEventName.append(link);
-        tdEventTime.append(prettyTime);
+            var link = $("<a>");
+            link.attr("href", elink);
+            link.attr("target", "_blank");
+            link.append(ename);
 
-        eventRow.append(tdEventName);
-        eventRow.append(tdEventTime);
-        $("#events-table").append(eventRow);
-        console.log("Event rows for display: ", eventRow);
+            var eventRow = $("<tr>");
+            var tdEventName = $("<td>");
+            var tdEventTime = $("<td>");
+
+            var eventButton = $("<button>");
+            eventButton.attr("data-Id", eventID);
+            eventRow.append(eventButton);
+
+            eventRow.addClass("event-local");
+            // attribute creates ID for use later to map/load to Firebase user's event tracking.
+            eventRow.attr("data-Id", eventID);
+            eventRow.attr("data-name", ename);
+            eventRow.attr("data-url", elink);
+            eventRow.attr("data-time", prettyTime);
+
+            tdEventName.append(link);
+            tdEventTime.append(prettyTime);
+
+            eventRow.append(tdEventName);
+            eventRow.append(tdEventTime);
+            $("#events-table").append(eventRow);
+            console.log("Event rows for display: ", eventRow);
 
         };
-    return (localEvents);
+        return (localEvents);
     });
 };
 
 // loads list on document ready so API is not called several times via onClick events
-$(document).ready( function (event) {
+$(document).ready(function (event) {
+    getSocialNiteInfo();
     console.log("document loaded for events");
     calleBriteAjax();
 });
