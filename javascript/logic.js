@@ -161,16 +161,11 @@ function addEventToSocialNite(socialNiteId, eventObject) {
     })
 }
 
-var eventId = "";
-var eventName = "";
-var eventUrl = "";
-var eventTime = "";
-
 $(document).on("click", ".event-local", function () {
-    eventId = $(this).data("Id");
-    eventName = $(this).data("name");
-    eventUrl = $(this).data("url");
-    eventTime = $(this).data("time");
+    var eventId = $(this).data("Id");
+    var eventName = $(this).data("name");
+    var eventUrl = $(this).data("url");
+    var eventTime = $(this).data("time");
 
     firebase.database().ref('events/' + socialNiteId + '/' + eventId).set({
         name: eventName,
