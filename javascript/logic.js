@@ -150,6 +150,51 @@ function renderEvents(socialNiteId) {
     });
 }
 
+function addEventToSocialNite(socialNiteId, eventObject) {
+    var eventId = eventObject.id;
+    var eventName = eventObject.name;
+    firebase.database().ref('events/' + socialNiteId + '/' + eventId).set({
+        name: eventName
+    }, function (error) {
+        console.log("Unable to add event: " + error.message);
+        addErrorModal(error.message);
+    })
+}
+
+$(document).on("click", ".event-local", function () {
+    var eventId = $(this).data("Id");
+    var eventName = $(this).data("name");
+    var eventUrl = $(this).data("url");
+    var eventTime = $(this).data("time");
+
+    firebase.database().ref('events/' + socialNiteId + '/' + eventId).set({
+        name: eventName,
+        url: eventUrl,
+        time: eventTime,
+        voteCount: 0
+    }, function (error) {
+        console.log("Unable to add event: " + error.message);
+        addErrorModal(error.message);
+    })
+})
+
+$(document).on("click", ".restaurant-local", function () {
+    var restaurantId = $(this).data("Id");
+    var restaurantName = $(this).data("name");
+    var restaurantUrl = $(this).data("url");
+    var restaurantPrice = $(this).data("price");
+
+    firebase.database().ref('restaurants/' + socialNiteId + '/' + eventId).set({
+        name: eventName,
+        url: eventUrl,
+        price: restaurantPrice,
+        voteCount: 0
+    }, function (error) {
+        console.log("Unable to add restaurant: " + error.message);
+        addErrorModal(error.message);
+    })
+})
+
 $("#addSocialNite").on("click", function () {
     event.preventDefault();
     var socialNite = $("#socialNiteId").val().trim();
