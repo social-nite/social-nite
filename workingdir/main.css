@@ -1,0 +1,66 @@
+#banner {
+    width: 100%;
+    height: 100vh;
+    min-height: 400px;
+    margin: 0;
+    padding: 100px 0 50px;
+    overflow: hidden;
+    position: relative;
+    z-index: 900;
+    background-color: transparent;
+    background-color: #34495e;
+    /*    background-image: url((https://lh3.googleusercontent.com/-Z70RhagP5DI/VZ17vUOsTaI/AAAAAAAACTo/qe-8RrfrDPo/w1600-h900/rochesternight.png);*/
+    background-size: cover;
+    background-position: 50% 50%;
+}
+
+#banner form {
+    z-index: 910;
+}
+
+#banner .photo-tint {
+    z-index: 902;
+    opacity: 0.1;
+}
+
+#banner-logo-wrap {
+    height: initial;
+    position: relative;
+    max-width: 300px;
+    /*margin-bottom: 25px;*/
+    margin: 0 auto;
+    width: 75%;
+    padding: 0;
+}
+
+#banner .feature-logo {
+    margin: 0 auto;
+    /*max-width: 200px;*/
+    width: 100%;
+    height: initial;
+    display: block;
+    background-color: transparent;
+    opacity: 0.6;
+}
+
+#banner .feature-logo.progress-bar {
+    height: 100%;
+    width: 100%;
+    /*background-color: rgba(0,0,0,0.5);*/
+    max-width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 1;
+    background-image: url(../icons/jobba-final-text-only-white.png);
+    background-size: cover;
+    background-position: 0% 0%;
+}
+
+#search-by-id {
+    display: none;
+}
+
+#change {
+    cursor: pointer;
+}
