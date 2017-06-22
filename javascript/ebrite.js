@@ -87,7 +87,7 @@ var eBriteSettings = {
 	"headers": {}
 }
 
-function callAjax () {
+function calleBriteAjax () {
 	$.ajax(eBriteSettings).done(function (data){
 	console.log(data); 
 	var eventNames = data.events;
@@ -141,7 +141,7 @@ function callAjax () {
 // loads list on document ready so API is not called several times via onClick events
 $(document).ready( function (event) {
 	console.log("document loaded for events");
-	callAjax();
+	calleBriteAjax();
 });
 
 function addEventToSocialNite(socialNiteId, eventObject) {
