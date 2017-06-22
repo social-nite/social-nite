@@ -235,10 +235,11 @@ $("#search").on("click", function () {
 
 var latitude = 0;
 var longitude = 0;
+var city = "";
 
     $.ajax(settings).done(function (response) {
         var results = response.results[0];
-        var city = getCity(results);
+        city = getCity(results);
         latitude = response.results[0].geometry.location.lat;
         longitude = response.results[0].geometry.location.lng;
 
