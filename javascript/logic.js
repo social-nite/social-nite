@@ -450,7 +450,9 @@ function callRestaurantAjax() {
                 // Change the HTML
                 var link = $("<a>");
                 link.attr("href", restReserve);
+                link.attr("target", "_blank");
                 link.append(restName);
+
                 var row = $("<tr>");
                 var td = $("<td>");
                 var td2 = $("<td>");
