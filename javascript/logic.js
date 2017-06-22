@@ -1,3 +1,4 @@
+var socialNiteId;
 var date = "";
 var latitude = 0;
 var longitude = 0;
@@ -318,7 +319,6 @@ $(document).on("click", ".modal-close", function () {
     $(this).parent().parent().css("display", "none");
 });
 
-var socialNiteId = getSocialNiteId();
 
 // EVENTBRITE LOGIC, API, AND CODE BELOW: 
 // ------------------------------------------------------------------------------------------------------
@@ -397,8 +397,11 @@ function calleBriteAjax() {
 
 // loads list on document ready so API is not called several times via onClick events
 $(document).ready(function (event) {
-    getSocialNiteInfo();
-    console.log("document loaded for events");
-    calleBriteAjax();
+    if (window.location.href === "https://social-nite.github.io/social-nite/app.html") {
+        socialNiteId = getSocialNiteId();
+        getSocialNiteInfo();
+        console.log("document loaded for events");
+        calleBriteAjax();
+    }
 });
 
