@@ -378,6 +378,9 @@ function calleBriteAjax() {
             eventRow.addClass("event-local");
             // attribute creates ID for use later to map/load to Firebase user's event tracking.
             eventRow.attr("data-Id", eventID);
+            eventRow.attr("data-name", ename);
+            eventRow.attr("data-url", elink);
+            eventRow.attr("data-time", prettyTime);
 
             tdEventName.append(link);
             tdEventTime.append(prettyTime);
@@ -391,7 +394,6 @@ function calleBriteAjax() {
         return (localEvents);
     });
 };
-
 
 // loads list on document ready so API is not called several times via onClick events
 $(document).ready(function (event) {
