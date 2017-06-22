@@ -12,8 +12,9 @@ function s4() {
 }
 
 //gets the city from the google maps api response
+var city;
 function getCity(locationData) {
-    var city;
+    
     for (var i = 0; i < locationData.address_components.length; i++) {
         if (locationData.address_components[i].types.includes("locality")) {
             city = locationData.address_components[i].long_name;
@@ -214,6 +215,9 @@ $("#addSocialNite").on("click", function () {
 })
 
 var date = "";
+var latitude = 0;
+var longitude = 0;
+var city = "";
 
 $("#search").on("click", function () {
     event.preventDefault();
@@ -228,9 +232,6 @@ $("#search").on("click", function () {
         "method": "GET"
     }
 
-var latitude = 0;
-var longitude = 0;
-var city = "";
 
     $.ajax(settings).done(function (response) {
         var results = response.results[0];
@@ -364,6 +365,10 @@ function calleBriteAjax () {
         eventRow.addClass("event-local");
         // attribute creates ID for use later to map/load to Firebase user's event tracking.
         eventRow.attr("data-Id", eventID);
+        eventRow.attr("data-name", ename);
+        eventRow.attr("data-url", elink);
+        eventRow.attr("data-time", prettyTime);
+
 
         tdEventName.append(link);
         tdEventTime.append(prettyTime);
@@ -377,7 +382,6 @@ function calleBriteAjax () {
     return (localEvents);
     });
 };
-
 
 // loads list on document ready so API is not called several times via onClick events
 $(document).ready( function (event) {
