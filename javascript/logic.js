@@ -71,6 +71,7 @@ function getSocialNiteId() {
 function getSocialNiteInfo(socialNiteId) {
     var socialNiteQuery = firebase.database().ref().child("socialNites/" + socialNiteId);
     socialNiteQuery.once("value", function (snapshot) {
+        console.log(snapshot.val());
         date = snapshot.val().date;
         city = snapshot.val().city;
         latitude = snapshot.val().latitude;
@@ -397,6 +398,7 @@ function calleBriteAjax() {
 $(document).ready(function (event) {
     if (window.location.href === "https://social-nite.github.io/social-nite/app.html") {
         socialNiteId = getSocialNiteId();
+        console.log(socialNiteId);
         getSocialNiteInfo(socialNiteId);
         console.log("document loaded for events");
         calleBriteAjax();
