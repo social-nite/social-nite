@@ -209,9 +209,9 @@ $(document).on("click", ".restaurant-local", function () {
     var restaurantUrl = $(this).data("url");
     var restaurantPrice = $(this).data("price");
 
-    firebase.database().ref('restaurants/' + socialNiteId + '/' + eventId).set({
-        name: eventName,
-        url: eventUrl,
+    firebase.database().ref('restaurants/' + socialNiteId + '/' + restaurantId).set({
+        name: restaurantName,
+        url: restaurantUrl,
         price: restaurantPrice,
         voteCount: 0
     }, function (error) {
