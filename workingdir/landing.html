@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Social-Nite</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Reset CSS -->
+    <link rel="stylesheet" type="text/css" href="../css/reset.css">
+
+    <!-- Google Font Links -->
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900&subset=latin,latin-ext">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Materialize CSS -->
+    <link rel="stylesheet" href="../css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
+
+    <!-- Firebase UI CDN CSS  -->
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.0.0/firebaseui.css" />
+
+    <!-- Page Styling   -->
+    <link rel="stylesheet" type="text/css" href="input-override.css">
+    <link rel="stylesheet" type="text/css" href="../dist/css/datepicker.css">
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <link rel="stylesheet" type="text/css" href="header.css">
+    <link rel="stylesheet" type="text/css" href="bar.css">
+</head>
+
+<body>
+
+    <!-- Header Nav ========================= -->
+
+    <header>
+        <nav id="main-nav" class="transparent header row" role="navigation">
+            <div class="nav-wrapper">
+                <ul id="main-nav-body" class="left hide-on-med-and-down">
+                    <li><a href="#!" class="header-link login sign-in btn" id="facebook" title="Sign in with Facebook">Facebook Login</a></li>
+                    <li><a href="#!" class="header-link login sign-in btn" id="email" title="Sign in with Email"> Email Login</a></li>
+                    <li><a href="#!" class="header-link login sign-out btn" id="signOut" title="Sign Out"> Sign Out</a></li>
+                </ul>
+
+                <!-- Collapsed Navbar for Mobile -->
+
+                <ul id="nav-mobile" class="side-nav">
+                    <li><a href="#!" class="header-link login sign-in btn" id="facebookSide" title="Sign in with Facebook">Facebook Login</a></li>
+                    <li><a href="#!" class="header-link login sign-in btn" id="emailSide" title="Sign in with Email"> Email Login</a></li>
+                    <li><a href="#!" class="header-link login sign-out btn" id="signOutSide" title="Sign Out"> Sign Out</a></li>
+
+                </ul>
+                <a id="header-side-nav-link" href="#!" data-activates="nav-mobile" class="pin-target button-collapse"> <i class="main-nav-menu-icon material-icons">menu</i> </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Banner ================================= -->
+    <main>
+        <div id="banner" class="landing valign-wrapper row">
+            <span id="banner-cover" class="ghost photo-tint"></span>
+            <form class="col s12 xl8 offset-xl2">
+                <div class="row">
+                    <div id="banner-logo-wrap">
+                        <img id="banner-logo" class="logo logo-text feature-logo" src="../images/socialnitelogo_large.png" alt="Social-Nite">
+                        <span class="progress-bar feature-logo"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div id="create-new">
+                        <!-- TODO: Add Calendar Icon / create a js file for the calendar -->
+                        <div class="bar input-field input-text-wrap col s10 offset-s1 m8 offset-m2 l5 offset-l1 xl5 offset-xl1">
+                            <i id="calendar-icon" class="material-icons bar tooltipped" data-position="right" data-delay="50" data-tooltip="Use Current Location">today</i>
+                            <input type="date" placeholder="Date" class="datepicker bar validate">
+                        </div>
+
+                        <!-- Location -->
+                        <!-- TODO: Convert Location to zipcode -->
+                        <div class="bar input-field input-text-wrap col s10 offset-s1 m6 offset-m2 l4 xl4">
+                            <i id="location-icon" class="material-icons bar tooltipped" data-position="right" data-delay="50" data-tooltip="Use Today's Date">my_location</i>
+                            <input id="q-city" placeholder="Location" type="text" class="bar validate">
+                        </div>
+                        <!-- Search Button              -->
+                        <div class="bar input-button input-field col s10 offset-s1 m2 l1 xl1">
+                            <button id="submit" class="bar btn waves-effect waves-light" type="submit" name="action">
+						<i class="material-icons">input</i>
+						</button>
+                        </div>
+                    </div>
+
+                    <div id="search-by-id">
+                        <div class="bar input-field input-text-wrap col s10 offset-s1 m6 offset-m2 l9 offset-l1 xl9 offset-xl1">
+                            <input id="search" placeholder="Search for Nite ID" type="text" class="bar validate">
+                        </div>
+                        <!-- TODO: Make this button the same as the other button?-->
+                        <div class="bar input-button input-field col s10 offset-s1 m2 l1 xl1">
+                            <button id="search-id" class="bar btn waves-effect waves-light" type="submit" name="action">
+						<i class="material-icons">search</i>
+						</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col offset-s5 offset-m7 offset-l8 offset-xl8"></div>
+                    <div class="col offset-s1 s6 m4 l3 xl3"><span id="change" class="white-text">..or find a hangout!</span></div>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer =================================    -->
+    <footer></footer>
+
+
+    <!--
+    <button id="btn-log-out" class="btn">log out</button>
+    <br>
+    <br>
+    <label for="date">Input Date</label>
+    <input type="date" id="date">
+    <label for="location">Input City or Zip</label>
+    <input type="text" id="location">
+    <button id="search">Search</button>
+-->
+
+
+    <!-- JS Links ============================== -->
+
+    <!-- Jquery   -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Materialize-->
+    <script src="javascript/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
+    <!-- Ajax -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.10.1/jquery.mark.es6.min.js"></script>
+
+    <!-- Firebase, Firebase UI -->
+    <script src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js"></script>
+    <script src="https://cdn.firebase.com/libs/firebaseui/2.0.0/firebaseui.js"></script>
+
+    <!-- Google Maps -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4nu_5UhddgajGv7lS96ri7lsyyZ3vbjQ&libraries=places&language=en"></script>
+    <script src="assets/libs/nouislider.js"></script>
+    <script src="assets/libs/wNumb.js"></script>
+
+    <!-- Moment    -->
+    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+
+    <!-- Scripts ===================================   -->
+    <script src="landing.js"></script>
+    <script src="../dist/js/datepicker.standalone.js"></script>
+
+    <!--
+<script src="javascript/auth.js"></script>
+<script src="javascript/logic.js"></script>
+-->
+
+
+
+
+</body>
+
+</html>
