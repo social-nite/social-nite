@@ -235,7 +235,8 @@ $(document).on("click", "#search-id", function () {
     }
 })
 
-$("#submit").on("click", function () {
+// $("#submit").on("click", function () {
+$("#search").on("click", function () {
     event.preventDefault();
     date = $("#date").val().trim();
     var location = $("#location").val().trim();
