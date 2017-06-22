@@ -470,9 +470,10 @@ function callRestaurantAjax() {
 $(document).ready(function (event) {
     if (window.location.href === "https://social-nite.github.io/social-nite/app.html") {
         socialNiteId = getSocialNiteId();
-        getSocialNiteInfo();
+        getSocialNiteInfo(socialNiteId);
         console.log("document loaded for events");
         calleBriteAjax();
+        callRestaurantAjax();
     }
 });
 
