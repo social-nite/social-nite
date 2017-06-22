@@ -161,11 +161,16 @@ function addEventToSocialNite(socialNiteId, eventObject) {
     })
 }
 
+var eventId = "";
+var eventName = "";
+var eventUrl = "";
+var eventTime = "";
+
 $(document).on("click", ".event-local", function () {
-    var eventId = $(this).data("Id");
-    var eventName = $(this).data("name");
-    var eventUrl = $(this).data("url");
-    var eventTime = $(this).data("time");
+    eventId = $(this).data("Id");
+    eventName = $(this).data("name");
+    eventUrl = $(this).data("url");
+    eventTime = $(this).data("time");
 
     firebase.database().ref('events/' + socialNiteId + '/' + eventId).set({
         name: eventName,
@@ -228,11 +233,14 @@ $("#search").on("click", function () {
         "method": "GET"
     }
 
+var latitude = 0;
+var longitude = 0;
+
     $.ajax(settings).done(function (response) {
         var results = response.results[0];
         var city = getCity(results);
-        var latitude = response.results[0].geometry.location.lat;
-        var longitude = response.results[0].geometry.location.lng;
+        latitude = response.results[0].geometry.location.lat;
+        longitude = response.results[0].geometry.location.lng;
 
         console.log("attempting to add socialNite record to db");
         localStorage.setItem('socialNiteId', socialNiteId);
@@ -307,13 +315,6 @@ var socialNiteId = getSocialNiteId();
 // ebite API token
 var ebriteToken = "T63G5RF7WNPX5VDUSPII";
 var eventUserDateStart = date;
-
-// // latitude and longitude will be updated on user input later. 
-// var latitude = 37.7749295;
-// var longitude = -122.4194155;
-
-// Actual date will be provided by user 
-// var eventUserDateStart = "2017-06-30";
 
 //format for the Time for the API:
   //start_date.range_start: 2017-06-30T01:00:00
