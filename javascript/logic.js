@@ -76,6 +76,8 @@ function getSocialNiteInfo(socialNiteId) {
         city = snapshot.val().city;
         latitude = snapshot.val().latitude;
         longitude = snapshot.val().longitude;
+        calleBriteAjax();
+        callRestaurantAjax();
     }, function () {
         console.log("unable to get social nite info");
     });
@@ -401,8 +403,8 @@ $(document).ready(function (event) {
         console.log(socialNiteId);
         getSocialNiteInfo(socialNiteId);
         console.log("document loaded for events");
-        calleBriteAjax();
-        callRestaurantAjax();
+        // calleBriteAjax();
+        // callRestaurantAjax();
     }
 });
 
