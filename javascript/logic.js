@@ -222,21 +222,25 @@ $(document).on("click", ".restaurant-local", function () {
 
 $(document).on("click", "#search-id", function () {
     event.preventDefault();
-    var socialNite = $("#search").val().trim();
-    if (validateSocialNiteId(socialNite)) {
-        localStorage.setItem('socialNiteId', socialNite);
-        //adding social nite to user
-        addSocialNiteToUser(socialNite);
+    if (firebase.auth().currentUser) {
+        var socialNite = $("#search").val().trim();
+        if (validateSocialNiteId(socialNite)) {
+            localStorage.setItem('socialNiteId', socialNite);
+            //adding social nite to user
+            addSocialNiteToUser(socialNite);
 
-        //adding user to social nite
-        addUserToSocialNite(socialNite);
+            //adding user to social nite
+            addUserToSocialNite(socialNite);
 
-        console.log("Adding socialNite succeeded. Navigating to socialNite page");
-        window.location.replace("https://social-nite.github.io/social-nite/app.html");
+            console.log("Adding socialNite succeeded. Navigating to socialNite page");
+            window.location.replace("https://social-nite.github.io/social-nite/app.html");
+        } else {
+            console.log("Invalid socialnite id");
+        }
     } else {
-        console.log("Invalid socialnite id");
+        console.log("Please log in. pop up login modal");
     }
-})
+});
 
 $("#submit").on("click", function () {
     event.preventDefault();
