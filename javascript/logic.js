@@ -228,11 +228,15 @@ $("#search").on("click", function () {
         "method": "GET"
     }
 
+var latitude = 0;
+var longitude = 0;
+var city = "";
+
     $.ajax(settings).done(function (response) {
         var results = response.results[0];
-        var city = getCity(results);
-        var latitude = response.results[0].geometry.location.lat;
-        var longitude = response.results[0].geometry.location.lng;
+        city = getCity(results);
+        latitude = response.results[0].geometry.location.lat;
+        longitude = response.results[0].geometry.location.lng;
 
         console.log("attempting to add socialNite record to db");
         localStorage.setItem('socialNiteId', socialNiteId);
@@ -307,13 +311,6 @@ var socialNiteId = getSocialNiteId();
 // ebite API token
 var ebriteToken = "T63G5RF7WNPX5VDUSPII";
 var eventUserDateStart = date;
-
-// // latitude and longitude will be updated on user input later. 
-// var latitude = 37.7749295;
-// var longitude = -122.4194155;
-
-// Actual date will be provided by user 
-// var eventUserDateStart = "2017-06-30";
 
 //format for the Time for the API:
   //start_date.range_start: 2017-06-30T01:00:00
