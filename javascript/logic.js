@@ -318,7 +318,7 @@ function prependFoodToList(data) {
 
 function addMemberToList(userId) {
     var userRef = firebase.database().ref("users").child(userId);
-    userRef.on("value", function (snapshot) {
+    userRef.once("value", function (snapshot) {
         console.log(snapshot.val().name);
         var userLi = $("<li>");
         userLi.text(snapshot.val().name);
