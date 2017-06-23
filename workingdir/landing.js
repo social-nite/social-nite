@@ -8,7 +8,15 @@
 
 //-----------------------------------------
 
-// Hide/Unhide search by id
+
+
+//=======================================
+//BUD HERE IDEALLY WE CAN SOMEHOW IMPORT WHETHER OR NOT WE'RE LOGGED IN
+
+
+var loggedIn = true;
+
+// =======================================
 
 $(document).ready(function () {
     $("#change").click(function () {
@@ -28,6 +36,19 @@ $(document).ready(function () {
         }
         $(this).data("toggleFlag", f);
     });
+
+    $("#calendar-icon").click(function () {
+        var now = new Date();
+        var day = ("0" + now.getDate()).slice(-2);
+        var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+        var today = now.getFullYear() + "-" + (month) + "-" + (day);
+
+        $("#datePicker").val(today);
+
+    });
+
+    $('.modal').modal();
 
     $('#header-side-nav-link').sideNav({
         menuWidth: 300, // Default is 300

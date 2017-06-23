@@ -53,7 +53,7 @@
     font-weight: 700;
     letter-spacing: 2px;
     /*    color: #ED2553;*/
-    color: #311b92;
+    color: #673ab7;
     position: relative;
 }
 
@@ -64,7 +64,7 @@
     position: absolute;
     top: 0;
     left: -50px;
-    background: #311b92;
+    background: #673ab7;
 }
 
 .input,
@@ -146,7 +146,7 @@
 }
 
 .input .spin {
-    background: #311b92;
+    background: #673ab7;
     z-index: 4;
     width: 0;
 }
@@ -195,7 +195,7 @@
 
 .button button {
     background-color: #fff;
-    color: #311b92;
+    color: #673ab7;
     border: none;
 }
 
@@ -231,8 +231,8 @@
 }
 
 .button.login button:hover {
-    color: #311b92;
-    border-color: #311b92;
+    color: #673ab7;
+    border-color: #673ab7;
 }
 
 .button {
@@ -259,7 +259,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    background: #311b92;
+    background: #673ab7;
     border-radius: 50%;
 }
 
@@ -305,13 +305,13 @@
 
 .material-button,
 .alt-2 {
-    width: 140px;
-    height: 140px;
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
-    background: #311b92;
+    background: #673ab7;
     position: absolute;
     top: 40px;
-    right: -70px;
+    right: 20px;
     cursor: pointer;
     z-index: 100;
     transform: translate(0%, 0%);
@@ -363,6 +363,8 @@
     -ms-transform: translate(50%, -50%) rotate(0deg);
 }
 
+
+/*
 body {
     background-image: url(https://lh3.googleusercontent.com/-Z70RhagP5DI/VZ17vUOsTaI/AAAAAAAACTo/qe-8RrfrDPo/w1600-h900/rochesternight.png);
     background-position: center;
@@ -371,11 +373,15 @@ body {
     min-height: 100vh;
     font-family: 'Roboto', sans-serif;
 }
+*/
 
+
+/*
 body,
 html {
     overflow: hidden;
 }
+*/
 
 .materialContainer {
     width: 100%;

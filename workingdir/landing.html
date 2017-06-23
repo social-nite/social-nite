@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Social-Nite</title>
+    <title>Social Nite</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -21,11 +21,13 @@
     <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.0.0/firebaseui.css" />
 
     <!-- Page Styling   -->
+    <link rel="stylesheet" type="text/css" href="login2.css">
     <link rel="stylesheet" type="text/css" href="input-override.css">
     <link rel="stylesheet" type="text/css" href="../dist/css/datepicker.css">
     <link rel="stylesheet" type="text/css" href="main.css">
     <link rel="stylesheet" type="text/css" href="header.css">
     <link rel="stylesheet" type="text/css" href="bar.css">
+    <link rel="stylesheet" type="text/css" href="modal.css">
 </head>
 
 <body>
@@ -51,6 +53,9 @@
                     <li><a href="#!" class="header-link login sign-in btn-flat" id="facebookSide" title="Sign in with Facebook">Facebook Login</a></li>
                     <li><a href="#!" class="header-link login sign-in btn-flat" id="emailSide" title="Sign in with Email"> Email Login</a></li>
                     <li><a href="#!" class="header-link login sign-out btn-flat" id="signOutSide" title="Sign Out"> Sign Out</a></li>
+                    <li>
+                        <a class="waves-effect waves-light btn" href="#modal1">Modal</a>
+                    </li>
 
                 </ul>
 
@@ -64,6 +69,8 @@
                 <!--                <a id="user-side-nav-link" href="#!" data-activates="nav-mobile" class="pin-target button-collapse"> <i class="main-nav-menu-icon material-icons">menu</i> </a>-->
 
                 <a id="user-name" href="#!" data-activates="user-dropdown" class="white-text btn-flat right"></a>
+
+                <a id="login-link" href="#modal1" class="white-text btn-flat right">Login Now</a>
 
             </div>
         </nav>
@@ -86,7 +93,7 @@
                         <div class="bar input-field input-text-wrap col s10 offset-s1 m8 offset-m2 l5 offset-l1 xl5 offset-xl1">
 
                             <i id="calendar-icon" class="material-icons bar tooltipped" data-position="right" data-delay="50" data-tooltip="Use Today's Date">today</i>
-                            <input id="date" type="date" placeholder="Date" class="datepicker bar validate">
+                            <input id="datePicker" type="date" placeholder="Date" class="datepicker bar validate">
                         </div>
 
                         <!-- Location -->
@@ -135,6 +142,86 @@
 
     <!-- Modals =================================    -->
 
+    <!-- Login Modal    -->
+
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+
+            <div class="materialContainer">
+
+                <div class="logo">
+                    <div class="title">
+                    </div>
+                </div>
+
+                <div class="box">
+
+                    <div class="title">LOGIN</div>
+
+                    <div class="input">
+                        <label for="email">Email</label>
+                        <input type="text" name="email" id="email">
+                        <span class="spin"></span>
+                    </div>
+
+                    <div class="input">
+                        <label for="pass">Password</label>
+                        <input type="password" name="pass" id="pass">
+                        <span class="spin"></span>
+                    </div>
+
+                    <div class="button login">
+                        <button><span>GO</span> <i class="fa fa-check"></i></button>
+                    </div>
+                    <!--                    <button class="loginBtn loginBtn--facebook center"> Login with Facebook </button>-->
+                    <a href="" class="pass-forgot">Forgot your password?</a>
+
+                </div>
+
+                <div class="overbox">
+                    <div class="material-button alt-2"><span class="shape"></span></div>
+
+                    <div class="title">REGISTER</div>
+
+                    <div class="input">
+                        <label for="regfirstname">First Name</label>
+                        <input type="text" name="regfirstname" id="regfirstname">
+                        <span class="spin"></span>
+                    </div>
+
+                    <div class="input">
+                        <label for="reglastname">Last Name</label>
+                        <input type="text" name="reglastname" id="reglastname">
+                        <span class="spin"></span>
+                    </div>
+
+                    <div class="input">
+                        <label for="regemail">Email</label>
+                        <input type="text" name="regemail" id="regemail">
+                        <span class="spin"></span>
+                    </div>
+
+                    <div class="input">
+                        <label for="regpass">Password</label>
+                        <input type="password" name="regpass" id="regpass">
+                        <span class="spin"></span>
+                    </div>
+
+                    <div class="input">
+                        <label for="reregpass">Repeat Password</label>
+                        <input type="password" name="reregpass" id="reregpass">
+                        <span class="spin"></span>
+                    </div>
+
+                    <div class="button">
+                        <button><span>NEXT</span></button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
 
     <!-- JS Links ============================== -->
 
@@ -160,12 +247,13 @@
 
     <!-- Scripts ===================================   -->
     <script src="landing.js"></script>
+    <script src="login2.js"></script>
     <script src="../dist/js/datepicker.standalone.js"></script>
 
-    <!--
-<script src="javascript/auth.js"></script>
-<script src="javascript/logic.js"></script>
--->
+
+    <!--    <script src="../javascript/auth.js"></script>-->
+    <script src="../javascript/logic.js"></script>
+
 
 
 

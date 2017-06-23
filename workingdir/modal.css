@@ -1,0 +1,8 @@
+#modal1 {
+    /*    width: auto !important;*/
+    max-height: 100vh !important;
+    height: 550px;
+    background-color: transparent;
+    box-shadow: none;
+    /*    overflow-y: hidden;*/
+}
