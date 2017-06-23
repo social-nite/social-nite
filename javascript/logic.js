@@ -586,7 +586,7 @@ function calleBriteAjax() {
 
         // Loop prepares the event-objects for display to HTML
         for (var i = 0; i < localEvents.length; i++) {
-            // console.log(localEvents[i].start.local);
+            console.log(localEvents[i]);
             var time = localEvents[i].start.local;
             var prettyTime = moment(time).format("lll");
             var eventID = localEvents[i].id;
@@ -682,8 +682,7 @@ function callRestaurantAjax() {
 
 // loads list on document ready so API is not called several times via onClick events
 $(document).ready(function (event) {
-    // if (window.location.pathname === "/app.html") {
-    if (window.location.pathname === "/social-nite/app.html") {
+    if (window.location.pathname.includes("/app.html")) {
         intializeSocialNite(socialNiteId);
         console.log(socialNiteId);
         console.log("document loaded for events");
