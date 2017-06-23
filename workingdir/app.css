@@ -1,10 +1,10 @@
 .box {
-    /*    position: relative;*/
-    top: 0;
+    position: relative;
+    /*    top: 0;*/
     opacity: 1;
-    float: left;
+    /*    float: left;*/
     padding: 60px 50px 40px 50px;
-    width: 30%;
+    width: 100%;
     height: 100%;
     background: #fff;
     border-radius: 10px;
@@ -12,8 +12,9 @@
     -webkit-transform: scale(1);
     -ms-transform: scale(1);
     z-index: 5;
-    margin: 15px;
+    margin: 30px;
     flex-flow: column;
+    overflow: visible;
 }
 
 .box.back {
@@ -40,9 +41,18 @@
     z-index: -1;
 }
 
+.overbox .title {
+    color: #fff;
+}
+
+.overbox .title:before {
+    background: #fff;
+}
+
 .title {
     width: 100%;
-    float: left;
+    /*    float: left;*/
+    top: 20px;
     line-height: 46px;
     font-size: 34px;
     font-weight: 700;
@@ -58,7 +68,7 @@
     height: 100%;
     position: absolute;
     top: 0;
-    left: -50px;
+    left: -11px;
     background: #311b92;
 }
 
@@ -144,6 +154,14 @@
     background: #311b92;
     z-index: 4;
     width: 0;
+}
+
+.overbox .input .spin {
+    background: rgba(255, 255, 255, 1);
+}
+
+.overbox .input:before {
+    background: rgba(255, 255, 255, 0.5);
 }
 
 .input label {
@@ -236,7 +254,7 @@
 
 .pass-forgot {
     width: 100%;
-    float: left;
+    /*    float: left;*/
     text-align: center;
     color: rgba(0, 0, 0, 0.4);
     font-size: 18px;
@@ -251,14 +269,43 @@
 }
 
 .overbox {
-    width: 100%;
-    height: 100%;
+    /*    width: 100%;*/
+    /*    height: 100%;*/
     position: absolute;
     top: 0;
     left: 0;
     overflow: inherit;
     border-radius: 10px;
     padding: 60px 50px 40px 50px;
+}
+
+.overbox .title,
+.overbox .button,
+.overbox .input {
+    z-index: 111;
+    position: relative;
+    color: #fff !important;
+    display: none;
+}
+
+.overbox .title {
+    width: 80%;
+}
+
+.overbox .input {
+    margin-top: 20px;
+}
+
+.overbox .input input,
+.overbox .input label {
+    color: #fff;
+}
+
+.overbox .material-button,
+.overbox .material-button .shape,
+.overbox .alt-2,
+.overbox .alt-2 .shape {
+    display: block;
 }
 
 .material-button,
@@ -322,8 +369,9 @@
 }
 
 body {
-    /*    background-image: url(https://lh3.googleusercontent.com/-Z70RhagP5DI/VZ17vUOsTaI/AAAAAAAACTo/qe-8RrfrDPo/w1600-h900/rochesternight.png);*/
-    background-color: mediumpurple;
+    background-image: url(https://lh3.googleusercontent.com/-Z70RhagP5DI/VZ17vUOsTaI/AAAAAAAACTo/qe-8RrfrDPo/w1600-h900/rochesternight.png);
+    /*    background-color: mediumpurple;*/
+    background-attachment: fixed;
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -333,18 +381,18 @@ body {
 
 body,
 html {
-    overflow: hidden;
+    overflow: auto;
 }
 
 .materialContainer {
-    width: 100%;
-    max-width: 1000px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    -webkit-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
+    /*    width: 100%;*/
+    /*    max-width: 2000px;*/
+    /*    position: absolute;*/
+    /*    top: 50%;*/
+    /*    left: 20%;*/
+    /*    transform: translate(-50%, -50%);*/
+    /*    -webkit-transform: translate(-50%, -50%);*/
+    /*    -ms-transform: translate(-50%, -50%);*/
 }
 
 *,
@@ -443,4 +491,16 @@ html {
 
 .center {
     text-align: center;
+}
+
+
+/* Additional CSS Elements*/
+
+.center-cols>.col {
+    float: none;
+    /* disable the float */
+    display: inline-block;
+    /* make blocks inline-block */
+    text-align: initial;
+    /* restore text-align to default */
 }
