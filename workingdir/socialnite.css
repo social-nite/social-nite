@@ -1,0 +1,71 @@
+#hangouts-nav-link,
+#friends-nav-link,
+#add-nav-link,
+#settings-nav-link {
+    /*    margin: 0px;*/
+    padding: 0px;
+}
+
+.main-nav-menu-icon {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.nav-wrapper {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.btn-flat {
+    color: #fff;
+}
+
+
+/*
+@media only screen and (max-width: 601px) {
+    nav,
+    nav .nav-wrapper i,
+    nav a.button-collapse,
+    nav a.button-collapse i {
+        height: 64px;
+        line-height: 64px;
+    }
+}
+*/
+
+@media only screen and (min-width: 992px) {
+    nav a.button-collapse {
+        display: block;
+    }
+}
+
+body {
+    background-image: url(https://lh3.googleusercontent.com/-Z70RhagP5DI/VZ17vUOsTaI/AAAAAAAACTo/qe-8RrfrDPo/w1600-h900/rochesternight.png);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    font-family: 'Roboto', sans-serif;
+}
+
+body,
+html {
+    height: 100%;
+}
+
+main.wrap {
+    height: 100%;
+    overflow: hidden;
+    overflow-x: auto;
+}
+
+body {
+    overflow: hidden;
+    overflow-x: auto;
+}
+
+header,
+main,
+footer {
+    padding-left: 300px;
+}

@@ -18,66 +18,163 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
 
     <!-- Firebase UI CDN CSS  -->
-    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.0.0/firebaseui.css" />
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.0.0/firebaseui.css">
+    <link rel="stylesheet" href="header.css">
+    <link rel="stylesheet" href="socialnite.css">
+
 </head>
 
 <body>
-    <!-- Header =================================   -->
-    <header>
+    <!-- Header Nav =================================   -->
+    <header class="navbar-fixed fixed">
+        <nav id="main-nav" class="header row">
+            <div class="nav-wrapper deep-purple">
+                <a href="#" class="brand-logo center">social nite</a>
+                <ul id="main-nav-body" class="left">
+                    <li class="nav-icon">
+                        <a id="hangouts-nav-link" href="#!" data-activates="hangouts-nav" class="pin-target button-collapse btn-flat"> <i class="main-nav-menu-icon material-icons">menu</i>
+                        </a>
+                    </li>
+                    <li class="nav-icon hide-on-large-only">
+                        <a id="friends-nav-link" href="#!" data-activates="friends-nav" class="pin-target button-collapse btn-flat"> <i class="main-nav-menu-icon material-icons">supervisor_account</i></a>
+                    </li>
+                </ul>
+                <ul class="right">
+                    <!-- Dropdown Trigger -->
+                    <li class="nav-icon">
+                        <a id="add-nav-link" class="pin-target button" href="#!" data-activates="dropdown1"><i class="main-nav-menu-icon material-icons">library_add</i></a>
+                    </li>
+                    <li>
+                        <a id="settings-nav-link" class="pin-target dropdown-button btn-flat" href="#!" data-activates="dropdown2"><i class="main-nav-menu-icon material-icons">settings</i></a>
+                    </li>
+                </ul>
+                <!-- Semi-Collapsed Side Nav for Friends -->
 
+                <!-- This is the fixed friends side-nav -->
+                <!--  Idk how to make the nav unfixed for smaller, so im just going to make a second one that only pops out for mobile -->
+
+                <div class="side-nav fixed drophere">
+                    <ul>
+                        <li>
+                            <div class="user-view">
+                                <div class="background">
+                                    <img src="">
+                                </div>
+                                <a class="subheader hangout-name">Hangout</a>
+                                <!--Here's where we would put a user-image, that's for later.                                -->
+                                <a href="#!name"><span class="deep-purple-text user-name">John Doe</span></a>
+                                <a href="#!email"><span class="deep-purple-text user-email">jdandturk@gmail.com</span></a>
+                            </div>
+                        </li>
+                        <li><a href="#!"><i class="material-icons sign-out">input</i>Log Out</a></li>
+                        <li><a href="#!"><i class="material-icons sign-out invite-link">person_pin</i>Get Invite Link</a></li>
+                        <li>
+                            <div class="divider"></div>
+                        </li>
+                        <li><a class="subheader">Friends</a></li>
+                        <div class="friendlist">
+
+                        </div>
+                    </ul>
+                </div>
+
+                <div id="friends-nav" class="side-nav fixed drophere hide-on-large-only">
+                    <ul>
+                        <li>
+                            <div class="user-view">
+                                <div class="background">
+                                    <img src="">
+                                </div>
+                                <a class="subheader hangout-name">Hangout</a>
+                                <!--Here's where we would put a user-image, that's for later.                                -->
+                                <a href="#!name"><span class="deep-purple-text user-name">John Doe</span></a>
+                                <a href="#!email"><span class="deep-purple-text user-email">jdandturk@gmail.com</span></a>
+                            </div>
+                        </li>
+                        <li><a href="#!"><i class="material-icons sign-out">input</i>Log Out</a></li>
+                        <li><a href="#!"><i class="material-icons sign-out invite-link">person_pin</i>Get Invite Link</a></li>
+                        <li>
+                            <div class="divider"></div>
+                        </li>
+                        <li><a class="subheader">Friends</a></li>
+                        <div class="friendlist">
+
+                        </div>
+                    </ul>
+                </div>
+                <!-- Collapsed Side Nav for Groups -->
+                <div id="hangouts-nav" class="side-nav drophere">
+                    <ul>
+                        <li><a id="hangoout-name" class="subheader">Hangouts</a></li>
+                        <div id="hangouts-list">
+
+                        </div>
+                    </ul>
+
+                </div>
+
+            </div>
+
+
+            <!--                <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>-->
+
+
+            <!--            </div>-->
+            <!--        </nav>-->
+        </nav>
     </header>
 
     <!-- App ====================================   -->
-    <main>
+    <main class="wrap">
         <div class="row">
 
+            <!--
             <div class="col s12 m4 section">
                 <div class="card-panel box">
-                    <!--
+                    
                         <div class="card-image">
                             <img src="http://poskod.my/wp-content/uploads/2015/01/festival-stock-image.jpg" width=100% height=auto>
                             <span class="card-title">FRIENDS</span>
                             <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">+</i></a>
                         </div>
--->
+
 
                     <span class="card-title">
                             <h3>FRIENDS</h3>
                         </span>
 
-                    <!--                        <div class="divider"></div>-->
-                    <ul class="collection">
-                        <li class="collection-item avatar">
-                            <img src="images/yuna.jpg" alt="" class="circle">
-                            <span class="card-title">Title</span>
-                            <p>First Line <br> Second Line
-                            </p>
-                            <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
-                        </li>
-
-                    </ul>
 
                 </div>
             </div>
+-->
 
-            <div class="col xs12 s12 m4 section">
-                <div class="card-panel box">
-                    <div class="card-title">
-                        <h3>EVENTS</h3>
-                        <div class="divider"></div>
+
+            <!-- If we are adding multi-card functionality, then we should give each card a unique id in javascript  -->
+
+            <div class="activity-box">
+
+                <div class="col xs12 s12 m4 section">
+                    <!--            <div class="activity">-->
+                    <div class="card-panel box">
+                        <div class="card-title">
+                            <h3>EVENTS</h3>
+                            <div class="divider"></div>
+
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col xs12 s12 m4 section">
-                <div class="card-panel box">
-                    <div class="card-title">
-                        <h3>FOOD</h3>
-                        <div class="divider"></div>
+                <div class="col xs12 s12 m4 section">
+                    <!--            <div class="activity">-->
+                    <div class="card-panel box">
+                        <div class="card-title">
+                            <h3>FOOD</h3>
+                            <div class="divider"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
+            </div>
         </div>
 
 
@@ -102,11 +199,17 @@
     <script src="https://cdn.firebase.com/libs/firebaseui/2.0.0/firebaseui.js"></script>
 
     <!-- Google Maps -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4nu_5UhddgajGv7lS96ri7lsyyZ3vbjQ&libraries=places&language=en"></script>
-    <script src="assets/libs/nouislider.js"></script>
-    <script src="assets/libs/wNumb.js"></script>
+    <!--    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4nu_5UhddgajGv7lS96ri7lsyyZ3vbjQ&libraries=places&language=en"></script>-->
+    <!--    <script src="assets/libs/nouislider.js"></script>-->
+    <!--    <script src="assets/libs/wNumb.js"></script>-->
 
     <!-- Moment    -->
     <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+
+
+    <!-- Scripts ===================================   -->
+    <script src="socialnite.js"></script>
+
 </body>
+
 </html>

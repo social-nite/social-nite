@@ -35,21 +35,33 @@
     <header>
         <nav id="main-nav" class="transparent header row" role="navigation">
             <div class="nav-wrapper">
+                <!--
                 <ul id="main-nav-body" class="left hide-on-med-and-down">
                     <li><a href="#!" class="header-link login sign-in btn" id="facebook" title="Sign in with Facebook">Facebook Login</a></li>
                     <li><a href="#!" class="header-link login sign-in btn" id="email" title="Sign in with Email"> Email Login</a></li>
                     <li><a href="#!" class="header-link login sign-out btn" id="signOut" title="Sign Out"> Sign Out</a></li>
                 </ul>
+-->
 
-                <!-- Collapsed Navbar for Mobile -->
+                <!-- Collapsed Navbar for unlogged in -->
 
                 <ul id="nav-mobile" class="side-nav">
-                    <li><a href="#!" class="header-link login sign-in btn" id="facebookSide" title="Sign in with Facebook">Facebook Login</a></li>
-                    <li><a href="#!" class="header-link login sign-in btn" id="emailSide" title="Sign in with Email"> Email Login</a></li>
-                    <li><a href="#!" class="header-link login sign-out btn" id="signOutSide" title="Sign Out"> Sign Out</a></li>
+                    <li><a href="#!" class="header-link login sign-in btn-flat" id="facebookSide" title="Sign in with Facebook">Facebook Login</a></li>
+                    <li><a href="#!" class="header-link login sign-in btn-flat" id="emailSide" title="Sign in with Email"> Email Login</a></li>
+                    <li><a href="#!" class="header-link login sign-out btn-flat" id="signOutSide" title="Sign Out"> Sign Out</a></li>
 
                 </ul>
+
+                <!-- Collapsed Navbar for Already Logged In                -->
+
+
+                <!-- Hide This button when Logged In -->
                 <a id="header-side-nav-link" href="#!" data-activates="nav-mobile" class="pin-target button-collapse"> <i class="main-nav-menu-icon material-icons">menu</i> </a>
+
+                <!-- Show this button when logged in  -->
+                <!--                <a id="user-side-nav-link" href="#!" data-activates="nav-mobile" class="pin-target button-collapse"> <i class="main-nav-menu-icon material-icons">menu</i> </a>-->
+
+                <a id="user-name" href="#!" data-activates="user-dropdown" class="white-text btn-flat right"></a>
             </div>
         </nav>
     </header>
@@ -69,15 +81,15 @@
                     <div id="create-new">
                         <!-- TODO: Add Calendar Icon / create a js file for the calendar -->
                         <div class="bar input-field input-text-wrap col s10 offset-s1 m8 offset-m2 l5 offset-l1 xl5 offset-xl1">
-                            <i id="calendar-icon" class="material-icons bar tooltipped" data-position="right" data-delay="50" data-tooltip="Use Current Location">today</i>
-                            <input type="date" placeholder="Date" class="datepicker bar validate">
+                            <i id="calendar-icon" class="material-icons bar tooltipped" data-position="right" data-delay="50" data-tooltip="Use Today's Date">today</i>
+                            <input id="date" type="date" placeholder="Date" class="datepicker bar validate">
                         </div>
 
                         <!-- Location -->
                         <!-- TODO: Convert Location to zipcode -->
                         <div class="bar input-field input-text-wrap col s10 offset-s1 m6 offset-m2 l4 xl4">
-                            <i id="location-icon" class="material-icons bar tooltipped" data-position="right" data-delay="50" data-tooltip="Use Today's Date">my_location</i>
-                            <input id="q-city" placeholder="Location" type="text" class="bar validate">
+                            <i id="location-icon" class="material-icons bar tooltipped" data-position="right" data-delay="50" data-tooltip="Use Current Location">my_location</i>
+                            <input id="location" placeholder="Location" type="text" class="bar validate">
                         </div>
                         <!-- Search Button              -->
                         <div class="bar input-button input-field col s10 offset-s1 m2 l1 xl1">
@@ -100,8 +112,9 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col offset-s5 offset-m7 offset-l8 offset-xl8"></div>
-                    <div class="col offset-s1 s6 m4 l3 xl3"><span id="change" class="white-text">..or find a hangout!</span></div>
+                    <!--                    <div class="col offset-m5 offset-l8 offset-xl8"></div>-->
+                    <div class="col s10 m8 l10 xl10 offset-s1 offset-m2 offset-l1 offset-xl1 btn"><span id="change" class="white-text">... or find an existing hangout!</span></div>
+                    <!--                    <div class="col s1 offset-m5 offset-l8 offset-xl8"></div>-->
                 </div>
             </form>
         </div>
@@ -111,18 +124,10 @@
     <footer></footer>
 
 
-    <!--
-    <button id="btn-log-out" class="btn">log out</button>
-    <br>
-    <br>
-    <label for="date">Input Date</label>
-    <input type="date" id="date">
-    <label for="location">Input City or Zip</label>
-    <input type="text" id="location">
-    <button id="search">Search</button>
--->
-
-
+    <!-- Modals =================================    -->
+    
+    
+    
     <!-- JS Links ============================== -->
 
     <!-- Jquery   -->

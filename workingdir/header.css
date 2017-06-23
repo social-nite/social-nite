@@ -18,7 +18,7 @@ nav.header {
 
 .pin-target .main-nav-menu-icon {
     /* menu icon size in nav */
-    font-size: 36px;
+    font-size: 30px;
     height: inherit;
     line-height: inherit;
 }
@@ -27,30 +27,25 @@ nav.header {
     display: inline-block;
     margin-left: 0;
     border-radius: 4px;
-    /*background-color: #2196f3;*/
     background-color: transparent;
     background-color: rgba(0, 0, 0, 0.2);
     background-color: rgba(0, 0, 0, 0.5);
     color: #eee;
     box-shadow: none;
-    /*box-shadow: inset 0px 0px 0px 2px rgba(255,255,255,0.8);*/
     font-weight: 400;
     padding: 0 1rem;
 }
 
 .header-link.btn:hover {
-    /*color: #111;*/
-    /*background-color: rgba(255,255,255,0.9);*/
     background-color: rgba(0, 0, 0, 0.3);
     background-color: rgba(0, 0, 0, 0.6);
-    /*box-shadow: inset 0px 0px 5px 2px rgba(0,0,0,0.3);*/
 }
 
 
 /* Collapsed Mobile Side Nav ------------------------------*/
 
 #nav-mobile li {
-    text-align: center;
+    /*    text-align: center;*/
     margin-bottom: 15px;
 }
 
@@ -94,4 +89,67 @@ a.close-btn:hover {
     right: 0;
     /*margin-left: 32px;*/
     /*margin-right: 0px; */
+}
+
+nav {
+    height: 40px;
+    line-height: 40px;
+}
+
+nav i,
+nav [class^="mdi-"],
+nav [class*="mdi-"],
+nav i.material-icons {
+    height: 40px;
+    line-height: 40px;
+}
+
+nav .button-collapse i {
+    height: 35px;
+    line-height: 35px;
+}
+
+nav .brand-logo {
+    font-size: 1.6rem;
+}
+
+@media only screen and (min-width: 601px) {
+    nav,
+    nav .nav-wrapper i,
+    nav a.button-collapse,
+    nav a.button-collapse i {
+        height: 40px;
+        line-height: 40px;
+    }
+    nav a.button-collapse {
+        height: inherit;
+        display: inline-block;
+    }
+}
+
+nav a.button-collapse {
+    line-height: inherit;
+    height: inherit;
+    display: block;
+}
+
+.drophere {
+    padding-top: 40px;
+    z-index: -1000;
+}
+
+@media only screen and (max-width: 992px) {
+    header,
+    main,
+    footer {
+        padding-left: 0;
+    }
+}
+
+.navbar-fixed {
+    z-index: 1000;
+}
+
+.friendlist {
+    overflow-y: scroll;
 }

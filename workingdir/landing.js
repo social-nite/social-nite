@@ -13,14 +13,16 @@
 $(document).ready(function () {
     $("#change").click(function () {
         var f = !$(this).data("toggleFlag")
+        //        $("#change").text("... or create a new hangout!");
         if (f) {
+            console.log("entered here");
             $("#create-new").hide();
             $("#search-by-id").show();
-            $("#change").text("... or find a hangout!");
+            $("#change").text("... or create a new hangout!");
         } else {
             $("#create-new").show();
             $("#search-by-id").hide();
-            $("#change").text("... or create a new hangout!");
+            $("#change").text("... or find an existing hangout!");
         }
         $(this).data("toggleFlag", f);
     });
