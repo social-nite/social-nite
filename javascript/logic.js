@@ -682,8 +682,8 @@ function callRestaurantAjax() {
 
 // loads list on document ready so API is not called several times via onClick events
 $(document).ready(function (event) {
-    if (window.location.pathname === "/app.html") {
-        // if (window.location.pathname === "/social-nite/app.html") {
+    // if (window.location.pathname === "/app.html") {
+    if (window.location.pathname === "/social-nite/app.html") {
         intializeSocialNite(socialNiteId);
         console.log(socialNiteId);
         console.log("document loaded for events");
