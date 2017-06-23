@@ -13,7 +13,7 @@
 $(document).ready(function () {
     $("#change").click(function () {
         var f = !$(this).data("toggleFlag")
-<<<<<<< HEAD
+
         //        $("#change").text("... or create a new hangout!");
         if (f) {
             console.log("entered here");
@@ -24,16 +24,7 @@ $(document).ready(function () {
             $("#create-new").show();
             $("#search-by-id").hide();
             $("#change").text("... or find an existing hangout!");
-=======
-        if (f) {
-            $("#create-new").hide();
-            $("#search-by-id").show();
-            $("#change").text("... or find a hangout!");
-        } else {
-            $("#create-new").show();
-            $("#search-by-id").hide();
-            $("#change").text("... or create a new hangout!");
->>>>>>> 851ef484fbdcc3015517f29d30949026c13ff081
+
         }
         $(this).data("toggleFlag", f);
     });

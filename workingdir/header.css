@@ -18,11 +18,7 @@ nav.header {
 
 .pin-target .main-nav-menu-icon {
     /* menu icon size in nav */
-<<<<<<< HEAD
     font-size: 30px;
-=======
-    font-size: 36px;
->>>>>>> 851ef484fbdcc3015517f29d30949026c13ff081
     height: inherit;
     line-height: inherit;
 }
@@ -31,45 +27,25 @@ nav.header {
     display: inline-block;
     margin-left: 0;
     border-radius: 4px;
-<<<<<<< HEAD
-=======
-    /*background-color: #2196f3;*/
->>>>>>> 851ef484fbdcc3015517f29d30949026c13ff081
     background-color: transparent;
     background-color: rgba(0, 0, 0, 0.2);
     background-color: rgba(0, 0, 0, 0.5);
     color: #eee;
     box-shadow: none;
-<<<<<<< HEAD
-=======
-    /*box-shadow: inset 0px 0px 0px 2px rgba(255,255,255,0.8);*/
->>>>>>> 851ef484fbdcc3015517f29d30949026c13ff081
     font-weight: 400;
     padding: 0 1rem;
 }
 
 .header-link.btn:hover {
-<<<<<<< HEAD
     background-color: rgba(0, 0, 0, 0.3);
     background-color: rgba(0, 0, 0, 0.6);
-=======
-    /*color: #111;*/
-    /*background-color: rgba(255,255,255,0.9);*/
-    background-color: rgba(0, 0, 0, 0.3);
-    background-color: rgba(0, 0, 0, 0.6);
-    /*box-shadow: inset 0px 0px 5px 2px rgba(0,0,0,0.3);*/
->>>>>>> 851ef484fbdcc3015517f29d30949026c13ff081
 }
 
 
 /* Collapsed Mobile Side Nav ------------------------------*/
 
 #nav-mobile li {
-<<<<<<< HEAD
     /*    text-align: center;*/
-=======
-    text-align: center;
->>>>>>> 851ef484fbdcc3015517f29d30949026c13ff081
     margin-bottom: 15px;
 }
 
@@ -114,7 +90,6 @@ a.close-btn:hover {
     /*margin-left: 32px;*/
     /*margin-right: 0px; */
 }
-<<<<<<< HEAD
 
 nav {
     height: 40px;
@@ -172,11 +147,10 @@ nav a.button-collapse {
 }
 
 .navbar-fixed {
+    /*    height: 40px;*/
     z-index: 1000;
 }
 
 .friendlist {
     overflow-y: scroll;
 }
-=======
->>>>>>> 851ef484fbdcc3015517f29d30949026c13ff081

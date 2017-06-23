@@ -8,13 +8,8 @@
     position: relative;
     z-index: 900;
     background-color: transparent;
-<<<<<<< HEAD
     /*    background-color: #34495e;*/
     background-image: url(https://lh3.googleusercontent.com/-Z70RhagP5DI/VZ17vUOsTaI/AAAAAAAACTo/qe-8RrfrDPo/w1600-h900/rochesternight.png);
-=======
-    background-color: #34495e;
-    /*    background-image: url((https://lh3.googleusercontent.com/-Z70RhagP5DI/VZ17vUOsTaI/AAAAAAAACTo/qe-8RrfrDPo/w1600-h900/rochesternight.png);*/
->>>>>>> 851ef484fbdcc3015517f29d30949026c13ff081
     background-size: cover;
     background-position: 50% 50%;
 }
