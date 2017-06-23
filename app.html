@@ -31,6 +31,8 @@
                 <a class="modal-trigger shape" id="addFriends" href="#modalFriends"></a>
             </div>
             <div class="title">FRIENDS</div>
+            <ul id="member-container">
+            </ul>
         </div>
 
         <div class="box">
@@ -38,6 +40,19 @@
                 <a class="modal-trigger shape" id="addEvents" href="#modalEvents"></a>
             </div>
             <div class="title">EVENTS</div>
+            <table class="events table table-hover">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Name</th>
+                        <th>Date</th>
+                        <th>Votes</th>
+                    </tr>
+
+                </thead>
+                <tbody id="event-container">
+                </tbody>
+            </table>
         </div>
 
         <div class="box">
@@ -45,6 +60,18 @@
                 <a class="modal-trigger shape" id="addFood" href="#modalFood"></a>
             </div>
             <div class="title">FOOD</div>
+            <table class="food table table-hover">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Votes</th>
+                    </tr>
+                </thead>
+                <tbody id="food-container">
+                </tbody>
+            </table>
         </div>
 
     </div>
@@ -62,7 +89,6 @@
                             <th>Name</th>
                             <th>Price</th>
                         </tr>
-
                     </thead>
                     <tbody id="food-table">
                     </tbody>
@@ -107,8 +133,6 @@
     <script src="app.js"></script>
     <script src="javascript/auth.js"></script>
     <script src="javascript/logic.js"></script>
-    <script src="opentable.js"></script>
-    <script src="javascript/ebrite.js"></script>
- </body>
+</body>
 
 </html>
