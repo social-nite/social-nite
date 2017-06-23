@@ -35,16 +35,38 @@ function validateEmail(email) {
     return re.test(email);
 }
 
+//asserts that the socialniteid is the valid guid format
 function validateSocialNiteId(socialNite) {
     var re = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
     return re.test(socialNite);
 }
 
+function convertPriceToDollarSigns(restPrice) {
+    //convert from price number to $ symbol
+    var price;
+    if (restPrice === 1) {
+        price = "$";
+    }
+    else if (restPrice === 2) {
+        price = "$$";
+        //console.log("price$$: ",price);
+    }
+    else if (restPrice === 3) {
+        price = "$$$";
+    }
+    else if (restPrice === 4) {
+        price = "$$$$";
+    }
+    return price;
+}
+
 function getSocialNiteId() {
     var socialNite;
     if (localStorage.getItem("socialNiteId")) {
+        console.log("socialnite in local storage returned");
         socialNite = localStorage.getItem("socialNiteId");
     } else {
+        console.log("socialnite in firebase returned");
         var socailNiteIdQuery = firebase.database().ref().child("users/" + firebase.auth().currentUser.uid + "/socialNites");
         socailNiteIdQuery.once("value", function (snapshot) {
             var mostRecentSocialNiteTime = 0;
@@ -69,8 +91,9 @@ function getSocialNiteId() {
 }
 
 //gets the date, city, latitude, longitude info for a socialnite
-function getSocialNiteInfo() {
-    if(socialNiteId !== true){
+//also loads the events and restaurants associated with the socialnite
+function intializeSocialNite() {
+    if (socialNiteId !== true) {
         console.log("getting socialniteid");
         socialNiteId = getSocialNiteId();
         console.log("socialniteid: " + socialNiteId);
@@ -82,15 +105,17 @@ function getSocialNiteInfo() {
         city = snapshot.val().city;
         latitude = snapshot.val().latitude;
         longitude = snapshot.val().longitude;
+        console.log("date: " + date);
+        console.log("city: " + city);
+        console.log("latitude: " + latitude);
+        console.log("longitude: " + longitude);
         calleBriteAjax();
         callRestaurantAjax();
+        renderEvents(socialNiteId);
+        renderRestaurants(socialNiteId);
     }, function () {
         console.log("unable to get social nite info");
     });
-    console.log("date: " + date);
-    console.log("city: " + city);
-    console.log("latitude: " + latitude);
-    console.log("longitude: " + longitude);
 }
 
 // addes the user to the socialnite in firebase
@@ -98,10 +123,10 @@ function addUserToSocialNite(socialNiteId) {
     var userUid = firebase.auth().currentUser.uid;
     firebase.database().ref('members/' + socialNiteId).set({
         [userUid]: true
-    }, function (error) {
+    }).catch(function (error) {
         console.log("Unable to add socialNite to user record: " + error.message);
         addErrorModal(error.message);
-    })
+    });
 }
 
 //adds the socialnite to the user in firebase
@@ -110,72 +135,193 @@ function addSocialNiteToUser(socialNiteId) {
         active: true,
         votesRemaining: 5,
         dateAdded: firebase.database.ServerValue.TIMESTAMP
-    }, function (error) {
+    }).catch(function (error) {
         console.log("Unable to add socialNite to user record: " + error.message);
         addErrorModal(error.message);
-    })
+    });
     console.log("Adding socialNite succeeded.");
 }
 
 //gets the number of votes the current user has remaining for the socialnite
 function getVotesRemaining(socialNiteId) {
-    var votesRemaining = 0;
     var votesRemainingQuery = firebase.database().ref().child("users/" + firebase.auth().currentUser.uid + "/socialNites/" + socialNiteId + "/votesRemaining");
     votesRemainingQuery.once("value", function (snapshot) {
-        votesRemaining = snapshot.val();
+        var votesRemaining = snapshot.val();
+        console.log("votes remaining for user: " + votesRemaining);
+        return votesRemaining;
     }, function () {
         console.log("unable to query the number of remaining votes");
     });
-    console.log("votes remaining for user: " + votesRemaining);
-    return votesRemaining;
 }
 
-////decreases vote count
-// function removeVoteFromUser(socialNiteId) {
-//     console.log("removing vote from user for socialNiteId: " + socialNiteId);
-//     var votesRemainingRef = firebase.database().ref('users').child(firebase.auth().currentUser.uid).child('socialNites').child(socialNiteId).child('votesRemaining');
-//     votesRemainingRef.transaction(function (votes) {
-//         console.log("Votes remaining: " + (votes || 0) - 1);
-//         return (votes || 0) - 1;
-//     });
-// }
+//removes a vote from a user
+function removeVoteFromUser(socialNiteId) {
+    console.log("removing vote from user for socialNiteId: " + socialNiteId);
+    var votesRemainingRef = firebase.database().ref('users').child(firebase.auth().currentUser.uid).child('socialNites').child(socialNiteId).child('votesRemaining');
+    votesRemainingRef.transaction(function (votes) {
+        // console.log("Votes remaining: " + (votes || 0) - 1);
+        return (votes || 0) - 1;
+    });
+}
 
-//handles adding vote (upvote or downvote) to the event/restaurant 
+// handles adding vote (upvote or downvote) to the event/restaurant 
 // itemVotedOn should be 'restaurant' or 'event'
-//isUpvote should be true if it is upvote, false if downvote
-function addVote(socialNiteId, itemVotedOn, isUpvote) {
+// isUpvote should be true if it is upvote, false if downvote
+function addVote(socialNiteId, itemVotedOn, itemId, isUpvote) {
     var currentUserObj = firebase.auth().currentUser;
+
     //determine if restaurant or event was voted on
     if (itemVotedOn === 'restaurant') {
-        console.log("restaurant voted on: " + itemVotedOn);
-        var databaseRef = firebase.database().ref('restaurants').child(itemVotedOn).child('votes');
+        console.log("restaurant voted on: " + itemId);
+        var databaseRef = firebase.database().ref('restaurants').child(socialNiteId).child(itemId).child('voteCount');
     } else {
-        console.log("event voted on: " + itemVotedOn);
-        var databaseRef = firebase.database().ref('events').child(itemVotedOn).child('votes');
+        console.log("event voted on: " + itemId);
+        var databaseRef = firebase.database().ref('events').child(socialNiteId).child(itemId).child('voteCount');
     }
-    //if user has votes remaining, upvote or downvote the selection
-    if (getVotesRemaining(socialNiteId) > 0) {
-        if (isUpvote) {
-            databaseRef.transaction(function (votes) {
-                return (votes || 0) + 1;
-            });
+
+    //determine the number of remaining votes
+    var votesRemainingQuery = firebase.database().ref().child("users/" + firebase.auth().currentUser.uid + "/socialNites/" + socialNiteId + "/votesRemaining");
+    var votesRemaining = 0;
+    votesRemainingQuery.once("value", function (snapshot) {
+        votesRemaining = snapshot.val();
+        console.log("votes remaining for user: " + votesRemaining);
+        return votesRemaining;
+    }, function () {
+        console.log("unable to query the number of remaining votes");
+    }).then(function () {
+        //if user has votes remaining, upvote or downvote the selection
+        if (votesRemaining > 0) {
+            if (isUpvote) {
+                console.log("increasing vote count");
+                console.log(databaseRef.toString());
+                databaseRef.transaction(function (votes) {
+                    return (votes || 0) + 1;
+                });
+            } else {
+                console.log("decreasing vote count");
+                databaseRef.transaction(function (votes) {
+                    return (votes || 0) - 1;
+                });
+            }
+            removeVoteFromUser(socialNiteId)
         } else {
-            databaseRef.transaction(function (votes) {
-                return (votes || 0) - 1;
-            });
+            console.log("No votes remaining");
         }
-        removeVoteFromUser(socialNiteId)
-    } else {
-        console.log("No votes remaining");
-    }
+    });
+
+}
+
+function prependEventToList(data) {
+    var eventID = data.key;
+    var name = data.val().name;
+    var time = data.val().time;
+    var url = data.val().url;
+    var votes = data.val().voteCount;
+
+    var link = $("<a>");
+    link.attr("href", url);
+    link.attr("target", "_blank");
+    link.append(name);
+
+    var buttons = $("<div>");
+
+    var upvoteBtn = $("<button>");
+    upvoteBtn.addClass("upvoteEvent btn");
+
+    var upvoteBtnIcon = $("<i>");
+    upvoteBtnIcon.addClass("fa fa-arrow-circle-up fa-2");
+    upvoteBtn.append(upvoteBtnIcon);
+
+    var downvoteBtn = $("<button>");
+    downvoteBtn.addClass("downvoteEvent btn");
+
+    var downvoteBtnIcon = $("<i>");
+    downvoteBtnIcon.addClass("fa fa-arrow-circle-down fa-2");
+    downvoteBtn.append(downvoteBtnIcon);
+
+    buttons.append(upvoteBtn);
+    buttons.append(downvoteBtn);
+
+
+    var eventRow = $("<tr>");
+    var tdVoteButtons = $("<td>");
+    var tdEventName = $("<td>");
+    var tdEventTime = $("<td>");
+    var tdEventVotes = $("<td>");
+
+    // attribute creates ID for use later to map/load to Firebase user's event tracking.
+    eventRow.attr("data-id", eventID);
+
+    tdVoteButtons.append(buttons);
+    tdEventName.append(link);
+    tdEventTime.append(time);
+    tdEventVotes.append(votes);
+
+    eventRow.append(tdVoteButtons);
+    eventRow.append(tdEventName);
+    eventRow.append(tdEventTime);
+    eventRow.append(tdEventVotes);
+    $("#event-container").prepend(eventRow);
+}
+
+function prependFoodToList(data) {
+    var restaurantID = data.key;
+    var name = data.val().name;
+    var url = data.val().url;
+    var votes = data.val().voteCount;
+    var price = convertPriceToDollarSigns(data.val().price);
+
+    var link = $("<a>");
+    link.attr("href", url);
+    link.attr("target", "_blank");
+    link.append(name);
+
+    var buttons = $("<div>");
+    var upvoteBtn = $("<button>");
+    upvoteBtn.addClass("upvoteFood btn");
+
+    var upvoteBtnIcon = $("<i>");
+    upvoteBtnIcon.addClass("fa fa-arrow-circle-up fa-2");
+    upvoteBtn.append(upvoteBtnIcon);
+
+    var downvoteBtn = $("<button>");
+    downvoteBtn.addClass("downvoteFood btn");
+
+    var downvoteBtnIcon = $("<i>");
+    downvoteBtnIcon.addClass("fa fa-arrow-circle-down fa-2");
+    downvoteBtn.append(downvoteBtnIcon);
+
+    buttons.append(upvoteBtn);
+    buttons.append(downvoteBtn);
+
+    var restaurantRow = $("<tr>");
+    var tdVoteButtons = $("<td>");
+    var tdRestaurantName = $("<td>");
+    var tdRestaurantPrice = $("<td>");
+    var tdRestaurantVotes = $("<td>");
+
+    // attribute creates ID for use later to map/load to Firebase user's event tracking.
+    restaurantRow.attr("data-id", restaurantID);
+
+    tdVoteButtons.append(buttons);
+    tdRestaurantName.append(link);
+    tdRestaurantPrice.append(price);
+    tdRestaurantVotes.append(votes);
+
+    restaurantRow.append(tdVoteButtons);
+    restaurantRow.append(tdRestaurantName);
+    restaurantRow.append(tdRestaurantPrice);
+    restaurantRow.append(tdRestaurantVotes);
+    $("#food-container").prepend(restaurantRow);
 }
 
 //renders restaurants on app page according to their voteCount (highest at top)
 function renderRestaurants(socialNiteId) {
     var votesRef = firebase.database().ref("restaurants").child(socialNiteId);
     votesRef.orderByChild('voteCount').on("value", function (snapshot) {
+        $("#food-container").empty();
         snapshot.forEach(function (data) {
-            console.log("The " + data.key + " score is " + data.val().voteCount);
+            prependFoodToList(data);
         });
     });
 }
@@ -184,8 +330,9 @@ function renderRestaurants(socialNiteId) {
 function renderEvents(socialNiteId) {
     var votesRef = firebase.database().ref("events").child(socialNiteId);
     votesRef.orderByChild('voteCount').on("value", function (snapshot) {
+        $("#event-container").empty();
         snapshot.forEach(function (data) {
-            console.log("The " + data.key + " score is " + data.val().voteCount);
+            prependEventToList(data);
         });
     });
 }
@@ -202,11 +349,11 @@ $(document).on("click", ".event-local", function () {
         url: eventUrl,
         time: eventTime,
         voteCount: 0
-    }, function (error) {
+    }).catch(function (error) {
         console.log("Unable to add event: " + error.message);
         addErrorModal(error.message);
-    })
-})
+    });
+});
 
 //adds restaurant clicked on Food modal to firebase
 $(document).on("click", ".restaurant-local", function () {
@@ -220,11 +367,11 @@ $(document).on("click", ".restaurant-local", function () {
         url: restaurantUrl,
         price: restaurantPrice,
         voteCount: 0
-    }, function (error) {
+    }).catch(function (error) {
         console.log("Unable to add restaurant: " + error.message);
         addErrorModal(error.message);
-    })
-})
+    });
+});
 
 //handles when a user is adding a social nite they did not create
 //adds socialnite to the user, the socialnite
@@ -317,6 +464,26 @@ $("#send-email").on("click", function () {
     }
 });
 
+$(document).on("click", ".upvoteFood", function (event) {
+    var restaurantId = $(this).parent().parent().parent().data("id");
+    addVote(socialNiteId, "restaurant", restaurantId, true);
+});
+
+$(document).on("click", ".downvoteFood", function (event) {
+    var restaurantId = $(this).parent().parent().parent().data("id");
+    addVote(socialNiteId, "restaurant", restaurantId, false);
+});
+
+$(document).on("click", ".upvoteEvent", function (event) {
+    var eventId = $(this).parent().parent().parent().data("id");
+    addVote(socialNiteId, "event", eventId, true);
+});
+
+$(document).on("click", ".downvoteEvent", function (event) {
+    var eventId = $(this).parent().parent().parent().data("id");
+    addVote(socialNiteId, "event", eventId, false);
+});
+
 //opens the Food modal
 $(document).on("click", "#addFood", function (event) {
     console.log("opening modal");
@@ -382,8 +549,8 @@ function calleBriteAjax() {
 
         // Loop prepares the event-objects for display to HTML
         for (var i = 0; i < localEvents.length; i++) {
-
-            var time = localEvents[i].start.local
+            // console.log(localEvents[i].start.local);
+            var time = localEvents[i].start.local;
             var prettyTime = moment(time).format("lll");
             var eventID = localEvents[i].id;
             var ename = localEvents[i].name.text;
@@ -412,7 +579,7 @@ function calleBriteAjax() {
             eventRow.append(tdEventName);
             eventRow.append(tdEventTime);
             $("#events-table").append(eventRow);
-            console.log("Event rows for display: ", eventRow);
+            // console.log("Event rows for display: ", eventRow);
 
         };
         return (localEvents);
@@ -423,83 +590,66 @@ function calleBriteAjax() {
 // ------------------------------------------------------------------------------------------------------
 
 function callRestaurantAjax() {
-      //store the opentable URL
-      var restaurantQueryURL = "https://opentable.herokuapp.com/api/restaurants?city=" + city + "&page=1&per_page=15";
-      
-      var restName;
-      var restPrice;
-      var restReserve;
-      var restID;
+    //store the opentable URL
+    var restaurantQueryURL = "https://opentable.herokuapp.com/api/restaurants?city=" + city + "&page=1&per_page=15";
 
-        $.ajax({
-            url: restaurantQueryURL,
-            method: "GET"
-        }).done(function (response) {
-            //Store results from api call
-            var listRestaurants = response.restaurants;
-            var localRestaurants = [];
-            
-            // loop pushes the top 10 restaurants from opentable to a local Array as objects. 
-            for (var i = 0; i < 10; i++) {
-                localRestaurants.push(response.restaurants[i]);
-            }
-            //// Loop prepares the restaurant-objects for display to HTML
-            for (var i = 0; i < localRestaurants.length; i++) {
-                restName = response.restaurants[i].name;
-                restPrice = response.restaurants[i].price;
-                restReserve = response.restaurants[i].reserve_url;
-                restID = response.restaurants[i].id;
-                console.log(restName);
-                console.log(restPrice);
-                console.log(restReserve);
-                console.log(restID);
+    var restName;
+    var restPrice;
+    var restReserve;
+    var restID;
 
-                //convert from price number to $ symbol
-                if(restPrice === 1) {
-                  price = "$";
-                }
-                else if(restPrice === 2) {
-                price = "$$";
-                //console.log("price$$: ",price);
-                }
-                else if(restPrice === 3) {
-                price = "$$$";
-                }
-                else if(restPrice === 4) {
-                price = "$$$$";
-                }
-                // Change the HTML
-                var link = $("<a>");
-                link.attr("href", restReserve);
-                link.attr("target", "_blank");
-                link.append(restName);
+    $.ajax({
+        url: restaurantQueryURL,
+        method: "GET"
+    }).done(function (response) {
+        //Store results from api call
+        var listRestaurants = response.restaurants;
+        var localRestaurants = [];
 
-                var row = $("<tr>");
-                var td = $("<td>");
-                var td2 = $("<td>");
-                row.addClass("restaurant-local");
-                row.attr("data-Id", restID)
-                row.attr("data-name", restName)
-                row.attr("data-url", restReserve)
-                row.attr("data-price", restPrice)
-                td.append(link);
-                td2.append(price);
-                row.append(td);
-                row.append(td2);
-                $("#food-table").append(row);
-            }
-        });
-    };
+        // loop pushes the top 10 restaurants from opentable to a local Array as objects. 
+        for (var i = 0; i < 10; i++) {
+            localRestaurants.push(response.restaurants[i]);
+        }
+        //// Loop prepares the restaurant-objects for display to HTML
+        for (var i = 0; i < localRestaurants.length; i++) {
+            restName = response.restaurants[i].name;
+            restPrice = response.restaurants[i].price;
+            restReserve = response.restaurants[i].reserve_url;
+            restID = response.restaurants[i].id;
+
+            var price = convertPriceToDollarSigns(restPrice);
+
+            // Change the HTML
+            var link = $("<a>");
+            link.attr("href", restReserve);
+            link.attr("target", "_blank");
+            link.append(restName);
+
+            var row = $("<tr>");
+            var td = $("<td>");
+            var td2 = $("<td>");
+            row.addClass("restaurant-local");
+            row.attr("data-Id", restID)
+            row.attr("data-name", restName)
+            row.attr("data-url", restReserve)
+            row.attr("data-price", restPrice)
+            td.append(link);
+            td2.append(price);
+            row.append(td);
+            row.append(td2);
+            $("#food-table").append(row);
+        }
+    });
+};
 
 
 // loads list on document ready so API is not called several times via onClick events
 $(document).ready(function (event) {
+    // if (window.location.pathname === "/app.html") {
     if (window.location.pathname === "/social-nite/app.html") {
+        intializeSocialNite(socialNiteId);
         console.log(socialNiteId);
-        getSocialNiteInfo(socialNiteId);
         console.log("document loaded for events");
-        // calleBriteAjax();
-        // callRestaurantAjax();
     }
 });
 
