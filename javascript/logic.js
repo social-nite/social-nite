@@ -357,6 +357,7 @@ function addMemberToList(userId) {
         console.log(snapshot.val().name);
         var userLi = $("<li>");
         userLi.text(snapshot.val().name);
+        userLi.class("friend-list-item")
         $(".friendlist").append(userLi);
     });
 }
