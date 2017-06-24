@@ -62,10 +62,13 @@ main.wrap {
     overflow-x: auto;
 }
 
+
+/*
 body {
     overflow: hidden;
     overflow-x: auto;
 }
+*/
 
 header,
 main,
@@ -85,4 +88,6 @@ footer {
     padding: 10px;
 }
 
-#hangouts-list.
+.cont {
+    overflow-y: scroll;
+}
