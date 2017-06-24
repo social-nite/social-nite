@@ -633,8 +633,8 @@ $(document).on("click", "#addEvents", function (event) {
     $('#modalEvents').css('display', 'block');
 });
 
-//opens the friends modal
-$(document).on("click", "#addFriends", function (event) {
+//opens the friends modal to send email
+$(document).on("click", ".invite-link", function (event) {
     console.log("opening modal");
 
     $('#modalFriends').modal('open');
