@@ -58,6 +58,25 @@ function removeUserData(userId) {
         });
 }
 
+function renderSocialNitesToSideNav() {
+    var userRef = firebase.database().ref("users").child(firebase.auth().currentUser.uid).child("socialNites");
+    userRef.once("value", function (snapshot) {
+        snapshot.forEach(function (data) {
+            //get date of social nite
+            var socialNiteRef = firebase.database().ref("socialNites").child(data.key);
+            socialNiteRef.once("value", function (snap) {
+                var socialNiteLi = $("<li>");
+                var snlitem = $("<a>");
+                snlitem.attr("data-socialniteid", data.key);
+                snlitem.addClass("socialnite-list-item");
+                snlitem.text(snap.val().city + " on " + moment(snapshot.val().date).format('MMMM Do'));
+                socialNiteLi.html(snlitem);
+                $(".hangouts-list").append(socialNiteLi);
+            });
+        });
+    });
+}
+
 //logs user in with email and password if they created user via email 
 $(".submit-email-login").on("click", function () {
     event.preventDefault();
@@ -163,7 +182,8 @@ auth.onAuthStateChanged(function (currentUserObj) {
         console.log(auth.currentUser.displayName + " is logged in");
         $("#user-side-nav-link").show();
         $("#header-side-nav-link").hide();
-        $("#user-name").show()
+        $("#user-name").show();
+        renderSocialNitesToSideNav();
         Materialize.toast(auth.currentUser.displayName + " is logged in", 5000);
     } else {
         console.log("Not logged in");

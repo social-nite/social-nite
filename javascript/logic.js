@@ -142,7 +142,6 @@ function intializeSocialNite() {
         renderEvents(socialNiteId);
         renderRestaurants(socialNiteId);
         renderMembers(socialNiteId);
-        renderSocialNitesToSideNav();
     }, function () {
         console.log("unable to get social nite info");
     });
@@ -364,25 +363,6 @@ function addMemberToList(data) {
     uLitem.addClass("friend-list-item btn-flat");
     userLi.html(uLitem);
     $(".friendlist").append(userLi);
-}
-
-function renderSocialNitesToSideNav() {
-    var userRef = firebase.database().ref("users").child(firebase.auth().currentUser.uid).child("socialNites");
-    userRef.once("value", function (snapshot) {
-        snapshot.forEach(function (data) {
-            //get date of social nite
-            var socialNiteRef = firebase.database().ref("socialNites").child(data.key);
-            socialNiteRef.once("value", function (snap) {
-                var socialNiteLi = $("<li>");
-                var snlitem = $("<a>");
-                snlitem.attr("data-socialniteid", data.key);
-                snlitem.addClass("socialnite-list-item");
-                snlitem.text(snap.val().city + " on " + moment(snapshot.val().date).format('MMMM Do'));
-                socialNiteLi.html(snlitem);
-                $(".hangouts-list").append(socialNiteLi);
-            });
-        });
-    });
 }
 
 //adds name of social nite to the sidenav (in hangout section)
