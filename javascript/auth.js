@@ -24,9 +24,9 @@ function validateEmail(email) {
     return re.test(email);
 }
 
-// asserts that given name is only letters and no more than 20 characters in length
+// asserts that given name is only letters, numbers and a spaces and no more than 20 characters in length
 function validateName(name) {
-    var re = /^[a-zA-Z]{1,20}$/;
+    var re = /^[a-zA-Z0-9 ]{1,20}$/;
     return re.test(name);
 }
 
