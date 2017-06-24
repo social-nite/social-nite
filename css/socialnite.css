@@ -84,7 +84,7 @@ body {
         padding-top: 100px;
         position: relative;
         width: 100%;
-        backface-visibility: hidden;
+        /*        backface-visibility: hidden;*/
         will-change: overflow;
     }
     .section,

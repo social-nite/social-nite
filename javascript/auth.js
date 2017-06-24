@@ -104,7 +104,7 @@ $(document).on("click", ".overbox>.button>button.active", function (event) {
                     name: name
                 }).then(function () {
                     $('#modal1').modal('close');
-                 }, function (error) {
+                }, function (error) {
                     console.log("Unable to add user: " + error.message);
                     Materialize.toast("Unable to add user", 3000, 'error');
                 });
@@ -163,6 +163,7 @@ auth.onAuthStateChanged(function (currentUserObj) {
         console.log(auth.currentUser.displayName + " is logged in");
         $("#user-side-nav-link").show();
         $("#header-side-nav-link").hide();
+        $("#user-name").show()
         Materialize.toast(auth.currentUser.displayName + " is logged in", 5000);
     } else {
         console.log("Not logged in");
@@ -171,6 +172,7 @@ auth.onAuthStateChanged(function (currentUserObj) {
         }
         $("#user-side-nav-link").hide();
         $("#header-side-nav-link").show();
+        $("#user-name").hide()
 
     }
 });
