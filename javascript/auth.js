@@ -67,7 +67,7 @@ $(".submit-email-login").on("click", function () {
     if (validateEmail(email)) {
         var promise = auth.signInWithEmailAndPassword(email, password);
         promise.then(function () {
-
+            $('#modal1').modal('close');
         }, function (e) {
             console.log("Log in failed");
             Materialize.toast(e.message, 3000, 'error');
@@ -103,7 +103,9 @@ $(document).on("click", ".overbox>.button>button.active", function (event) {
                 console.log("uid: " + user.uid);
                 firebase.database().ref('users/' + user.uid).set({
                     name: fullName
-                }).then(function () {}, function (error) {
+                }).then(function () {
+                    $('#modal1').modal('close');
+                 }, function (error) {
                     console.log("Unable to add user: " + error.message);
                     Materialize.toast("Unable to add user", 3000, 'error');
                 });
@@ -135,7 +137,7 @@ $(".login-facebook").on("click", function () {
         firebase.database().ref('users/' + user.uid).set({
             name: user.displayName
         }).then(function () {
-            console.log("Adding user succeeded. Navigating to landing page");
+            console.log("Adding user succeeded.");
         }, function (error) {
             console.log("Unable to add user: " + error.message);
             Materialize.toast("Unable to add user: " + error.message, 3000, 'error');
@@ -160,7 +162,7 @@ auth.onAuthStateChanged(function (currentUserObj) {
         console.log(auth.currentUser.displayName + " is logged in");
         $("#user-side-nav-link").show();
         $("#header-side-nav-link").hide();
-        Materialize.toast(auth.currentUser.displayName + " is logged in", 3000);
+        Materialize.toast(auth.currentUser.displayName + " is logged in", 5000);
     } else {
         console.log("Not logged in");
         if (window.location.href.includes(mainPage)) {
