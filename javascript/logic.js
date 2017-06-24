@@ -114,6 +114,7 @@ function intializeSocialNite() {
         renderEvents(socialNiteId);
         renderRestaurants(socialNiteId);
         renderMembers(socialNiteId);
+        renderSocialNiteToSideNav();
     }, function () {
         console.log("unable to get social nite info");
     });
@@ -262,7 +263,7 @@ function prependEventToList(data) {
     eventRow.append(tdEventName);
     eventRow.append(tdEventTime);
     eventRow.append(tdEventVotes);
-    $("#event-container").prepend(eventRow);
+    $("#events-list").prepend(eventRow);
 }
 
 function prependFoodToList(data) {
@@ -323,6 +324,26 @@ function addMemberToList(userId) {
         var userLi = $("<li>");
         userLi.text(snapshot.val().name);
         $("#member-container").append(userLi);
+    });
+}
+
+function renderSocialNiteToSideNav() {
+    var userRef = firebase.database().ref("users").child(firebase.auth().currentUser.uid).child("socialNites");
+    userRef.once("value", function (snapshot) {
+        snapshot.forEach(function (data) {
+            console.log(data.key);
+            //get date of social nite
+            var socialNiteRef = firebase.database().ref("socialNites").child(data.key);
+            socialNiteRef.once("value", function (snap) {
+                console.log(snap.val().date);
+                var socialNiteLi = $("<li>");
+                socialNiteLi.attr("data-socialniteid", data.key);
+                socialNiteLi.addClass("socialnite-list-item");
+                socialNiteLi.text(snap.val().city + " on " + snap.val().date);
+                $("#hangouts-list").append(socialNiteLi);
+            });
+
+        });
     });
 }
 
@@ -550,6 +571,11 @@ $(document).on("click", ".modal-close", function () {
     console.log("closing modal");
     $(this).parent().parent().css("display", "none");
 });
+
+$(document).on("click", ".socialnite-list-item", function () {
+    console.log("loading new socialnite");
+    localStorage.setItem("socialNiteId", $(this).data("socialniteid"));
+})
 
 
 // EVENTBRITE LOGIC, API, AND CODE BELOW: 
