@@ -568,8 +568,7 @@ $("#submit").on("click", function () {
         } else {
             console.log("Invalid date provided");
             Materialize.toast("Invalid date provided", 3000, 'error');
-        } >>>
-        >>> > f03015aba74039eef00f80e2ea0814e81de24c56
+        }
     } else {
         Materialize.toast("Please log in", 3000, 'error');
         $('#modal1').modal('open');
