@@ -151,12 +151,14 @@ function intializeSocialNite() {
 // addes the user to the socialnite in firebase
 function addUserToSocialNite(socialNiteId) {
     var userUid = firebase.auth().currentUser.uid;
-    firebase.database().ref('members/' + socialNiteId).update({
-        [userUid]: true
+    firebase.database().ref('members/' + socialNiteId + '/' +userUid).set({
+        name: firebase.auth().currentUser.displayName
+        
     }).catch(function (error) {
         console.log("Unable to add socialNite to user record: " + error.message);
         Materialize.toast(error.message, 3000, 'error');
     });
+    console.log(firebase.auth().currentUser.displayName);
 }
 
 //adds the socialnite to the user in firebase
@@ -354,17 +356,14 @@ function prependFoodToList(data) {
     $("#food-list").prepend(restaurantRow);
 }
 
-function addMemberToList(userId) {
-    var userRef = firebase.database().ref("users").child(userId);
-    userRef.once("value", function (snapshot) {
-        console.log(snapshot.val().name);
+function addMemberToList(data) {
+        console.log(data.val());
         var userLi = $("<li>");
         var uLitem = $("<a>");
-        uLitem.text(snapshot.val().name);
+        uLitem.text(data.val().name);
         uLitem.addClass("friend-list-item btn-flat");
         userLi.html(uLitem);
         $(".friendlist").append(userLi);
-    });
 }
 
 function renderSocialNitesToSideNav() {
@@ -401,10 +400,11 @@ function renderSocialNiteNameToSideNav(socialNiteId) {
 function renderMembers(socialNiteId) {
     var membersRef = firebase.database().ref("members").child(socialNiteId);
     membersRef.on("value", function (snapshot) {
+        console.log(snapshot.val());
         $("#member-container").empty();
         snapshot.forEach(function (data) {
             console.log(data.key);
-            addMemberToList(data.key);
+            addMemberToList(data);
         });
     });
 }
@@ -589,7 +589,7 @@ $("#send-email").on("click", function () {
 
     if (validateEmail(email)) {
         var subject = "You've been invited to join SocialNite";
-        var emailBody = "Hello, " + firebase.auth().currentUser.displayName + " has invited you to join Social Nite! Click here: https://social-nite.github.io/social-nite/login.html Enter this id on the page after you login: " + socialNiteId;
+        var emailBody = "Hello, " + firebase.auth().currentUser.displayName + " has invited you to join Social Nite! Click here: https://social-nite.github.io/social-nite Enter this id on the page after you login: " + socialNiteId;
         document.location = "mailto:" + email + "?subject=" + subject + "&body=" + emailBody;
     } else {
         console.log("Please provide a valid email");

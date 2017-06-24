@@ -24,9 +24,9 @@ function validateEmail(email) {
     return re.test(email);
 }
 
-// asserts that given name is only letters and no more than 20 characters in length
+// asserts that given name is only letters, numbers and a spaces and no more than 20 characters in length
 function validateName(name) {
-    var re = /^[a-zA-Z]{1,20}$/;
+    var re = /^[a-zA-Z0-9 ]{1,20}$/;
     return re.test(name);
 }
 
@@ -101,7 +101,7 @@ $(document).on("click", ".overbox>.button>button.active", function (event) {
                 var user = auth.currentUser;
                 console.log("uid: " + user.uid);
                 firebase.database().ref('users/' + user.uid).set({
-                    name: fullName
+                    name: name
                 }).then(function () {
                     $('#modal1').modal('close');
                  }, function (error) {
@@ -116,6 +116,8 @@ $(document).on("click", ".overbox>.button>button.active", function (event) {
             console.log("Sign up failed");
             Materialize.toast("Sign up failed", 3000, 'error');
         })
+    } else {
+        Materialize.toast("Invalid data provided in form", 3000, 'error');
     }
 });
 
