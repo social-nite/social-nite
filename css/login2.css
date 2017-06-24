@@ -1,20 +1,16 @@
 .box {
     position: relative;
-    /*    top: 0;*/
+    top: 0;
     opacity: 1;
-    /*    float: left;*/
+    float: left;
     padding: 60px 50px 40px 50px;
     width: 100%;
-    height: 100%;
     background: #fff;
     border-radius: 10px;
     transform: scale(1);
     -webkit-transform: scale(1);
     -ms-transform: scale(1);
     z-index: 5;
-    margin: 30px;
-    flex-flow: column;
-    overflow: visible;
 }
 
 .box.back {
@@ -51,14 +47,13 @@
 
 .title {
     width: 100%;
-    /*    float: left;*/
-    top: 20px;
+    float: left;
     line-height: 46px;
     font-size: 34px;
     font-weight: 700;
     letter-spacing: 2px;
     /*    color: #ED2553;*/
-    color: #311b92;
+    color: #673ab7;
     position: relative;
 }
 
@@ -68,8 +63,8 @@
     height: 100%;
     position: absolute;
     top: 0;
-    left: -11px;
-    background: #311b92;
+    left: -50px;
+    background: #673ab7;
 }
 
 .input,
@@ -151,7 +146,7 @@
 }
 
 .input .spin {
-    background: #311b92;
+    background: #673ab7;
     z-index: 4;
     width: 0;
 }
@@ -200,7 +195,7 @@
 
 .button button {
     background-color: #fff;
-    color: #311b92;
+    color: #673ab7;
     border: none;
 }
 
@@ -236,8 +231,8 @@
 }
 
 .button.login button:hover {
-    color: #311b92;
-    border-color: #311b92;
+    color: #673ab7;
+    border-color: #673ab7;
 }
 
 .button {
@@ -252,9 +247,10 @@
     z-index: 2;
 }
 
+#fb-log,
 .pass-forgot {
     width: 100%;
-    /*    float: left;*/
+    float: left;
     text-align: center;
     color: rgba(0, 0, 0, 0.4);
     font-size: 18px;
@@ -264,13 +260,13 @@
     position: absolute;
     top: 0;
     left: 0;
-    background: #311b92;
+    background: #673ab7;
     border-radius: 50%;
 }
 
 .overbox {
-    /*    width: 100%;*/
-    /*    height: 100%;*/
+    width: 100%;
+    height: 100%;
     position: absolute;
     top: 0;
     left: 0;
@@ -313,10 +309,10 @@
     width: 70px;
     height: 70px;
     border-radius: 50%;
-    background: #311b92;
+    background: #673ab7;
     position: absolute;
     top: 40px;
-    right: -30px;
+    right: 20px;
     cursor: pointer;
     z-index: 100;
     transform: translate(0%, 0%);
@@ -368,31 +364,35 @@
     -ms-transform: translate(50%, -50%) rotate(0deg);
 }
 
+
+/*
 body {
     background-image: url(https://lh3.googleusercontent.com/-Z70RhagP5DI/VZ17vUOsTaI/AAAAAAAACTo/qe-8RrfrDPo/w1600-h900/rochesternight.png);
-    /*    background-color: mediumpurple;*/
-    background-attachment: fixed;
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
     min-height: 100vh;
     font-family: 'Roboto', sans-serif;
 }
+*/
 
+
+/*
 body,
 html {
-    overflow: auto;
+    overflow: hidden;
 }
+*/
 
 .materialContainer {
-    /*    width: 100%;*/
-    /*    max-width: 2000px;*/
-    /*    position: absolute;*/
-    /*    top: 50%;*/
-    /*    left: 20%;*/
-    /*    transform: translate(-50%, -50%);*/
-    /*    -webkit-transform: translate(-50%, -50%);*/
-    /*    -ms-transform: translate(-50%, -50%);*/
+    width: 100%;
+    max-width: 460px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
 }
 
 *,
@@ -453,23 +453,32 @@ html {
 
 /* Facebook */
 
+
+/*
 .loginBtn--facebook {
     background-color: #4C69BA;
     background-image: linear-gradient(#4C69BA, #3B55A0);
-    /*font-family: "Helvetica neue", Helvetica Neue, Helvetica, Arial, sans-serif;*/
+    font-family: "Helvetica neue", Helvetica Neue, Helvetica, Arial, sans-serif;
     text-shadow: 0 -1px 0 #354C8C;
 }
+*/
 
+
+/*
 .loginBtn--facebook:before {
     border-right: #364e92 1px solid;
     background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/14082/icon_facebook.png') 6px 6px no-repeat;
 }
+*/
 
+
+/*
 .loginBtn--facebook:hover,
 .loginBtn--facebook:focus {
     background-color: #5B7BD5;
     background-image: linear-gradient(#5B7BD5, #4864B1);
 }
+*/
 
 
 /* Google */
@@ -491,16 +500,4 @@ html {
 
 .center {
     text-align: center;
-}
-
-
-/* Additional CSS Elements*/
-
-.center-cols>.col {
-    float: none;
-    /* disable the float */
-    display: inline-block;
-    /* make blocks inline-block */
-    text-align: initial;
-    /* restore text-align to default */
 }
