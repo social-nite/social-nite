@@ -262,7 +262,7 @@ function prependEventToList(data) {
     eventRow.append(tdEventName);
     eventRow.append(tdEventTime);
     eventRow.append(tdEventVotes);
-    $("#event-container").prepend(eventRow);
+    $("#events-list").prepend(eventRow);
 }
 
 function prependFoodToList(data) {
