@@ -157,13 +157,10 @@ $(document).on("click", ".sign-out", function () {
 
 auth.onAuthStateChanged(function (currentUserObj) {
     if (currentUserObj) {
-<<<<<<< HEAD
         console.log(auth.currentUser.displayName + " is logged in");
         $("#user-side-nav-link").show();
         $("#header-side-nav-link").hide();
-=======
         Materialize.toast(auth.currentUser.displayName + " is logged in", 3000);
->>>>>>> 800115127fb3318bccf8d81fffc95cc3e0201b1e
     } else {
         console.log("Not logged in");
         if (window.location.href.includes(mainPage)) {
