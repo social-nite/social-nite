@@ -633,8 +633,8 @@ $(document).on("click", ".socialnite-list-item", function () {
     if (window.location.href.includes("/socialnite.html")) {
         window.location.reload(false);
     } else {
-        window.location.replace("localhost:8080/socialnite.html");
-        // window.location.replace("https://social-nite.github.io/social-nite/socialnite.html");
+        // window.location.replace("localhost:8080/socialnite.html");
+        window.location.replace("https://social-nite.github.io/social-nite/socialnite.html");
     }
 })
 
