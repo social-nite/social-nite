@@ -38,11 +38,12 @@ function validatePassword(password, passwordConfirm) {
         if (password === passwordConfirm) {
             return true;
         } else {
-            addErrorModal("passwords do ot match");
+            addErrorModal("Passwords do not match");
+            Materialize.toast("Passwords do not match", 3000, 'error');
             return false;
         }
     } else {
-        addErrorModal("passwords mus be between 6 and 20 characters in length");
+        Materialize.toast("Passwords must be between 6 and 20 characters in length", 3000, 'error');
         return false;
     }
 }
@@ -54,7 +55,7 @@ function removeUserData(userId) {
             console.log("Removing user succeeded");
         }, function (error) {
             console.log("Unable to remove user: " + error.message);
-            addErrorModal(error.message)
+            Materialize.toast("Unable to remove user: " + error.message, 3000, 'error');
         });
 }
 
@@ -69,11 +70,12 @@ $(".submit-email-login").on("click", function () {
 
         }, function (e) {
             console.log("Log in failed");
-            console.log(e.message);
+            Materialize.toast(e.message, 3000, 'error');
         });
         console.log(auth.currentUser);
     } else {
         console.log("Invalid email");
+        Materialize.toast("Invalid email", 3000, 'error');
     }
 });
 
@@ -103,12 +105,15 @@ $(document).on("click", ".overbox>.button>button.active", function (event) {
                     name: fullName
                 }).then(function () {}, function (error) {
                     console.log("Unable to add user: " + error.message);
+                    Materialize.toast("Unable to add user", 3000, 'error');
                 });
             }, function (error) {
                 console.log("Unable to update users display name: " + error.message);
+                Materialize.toast("Unable to update users' display name", 3000, 'error');
             });
         }, function (error) {
             console.log("Sign up failed");
+            Materialize.toast("Sign up failed", 3000, 'error');
         })
     }
 });
@@ -133,10 +138,12 @@ $(".login-facebook").on("click", function () {
             console.log("Adding user succeeded. Navigating to landing page");
         }, function (error) {
             console.log("Unable to add user: " + error.message);
+            Materialize.toast("Unable to add user: " + error.message, 3000, 'error');
         });
         // Redirect to landing page. Will update url when actual url is available
     }, function (error) {
         console.log("facebook login failed: " + error.message);
+        Materialize.toast("facebook login failed: " + error.message, 3000, 'error');
     });
 });
 
@@ -150,9 +157,13 @@ $(document).on("click", ".sign-out", function () {
 
 auth.onAuthStateChanged(function (currentUserObj) {
     if (currentUserObj) {
+<<<<<<< HEAD
         console.log(auth.currentUser.displayName + " is logged in");
         $("#user-side-nav-link").show();
         $("#header-side-nav-link").hide();
+=======
+        Materialize.toast(auth.currentUser.displayName + " is logged in", 3000);
+>>>>>>> 800115127fb3318bccf8d81fffc95cc3e0201b1e
     } else {
         console.log("Not logged in");
         if (window.location.href.includes(mainPage)) {

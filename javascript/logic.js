@@ -29,6 +29,36 @@ function getCity(locationData) {
     return city;
 }
 
+// Validates that the input string is a valid date formatted as "yyy/mm/dd"
+function isValidDate(dateString) {
+    // First check for the pattern
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(dateString))
+        return false;
+
+    // Parse the date parts to integers
+    var parts = dateString.split("-");
+    var day = parseInt(parts[2], 10);
+    var month = parseInt(parts[1], 10);
+    var year = parseInt(parts[0], 10);
+    console.log("Day: " + day);
+    console.log("Month: " + month);
+    console.log("Year: " + year);
+
+    // Check the ranges of month and year
+    if (year < 1000 || year > 3000 || month == 0 || month > 12)
+        return false;
+
+    var monthLength = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+    // Adjust for leap years
+    if (year % 400 == 0 || (year % 100 != 0 && year % 4 == 0))
+        monthLength[1] = 29;
+
+    // Check the range of the day
+    console.log(day > 0 && day <= monthLength[month - 1]);
+    return day > 0 && day <= monthLength[month - 1];
+};
+
 // asserts that given email matches the standard email format
 function validateEmail(email) {
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -37,7 +67,7 @@ function validateEmail(email) {
 
 //asserts that the socialniteid is the valid guid format
 function validateSocialNiteId(socialNite) {
-    var re = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+    var re = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
     return re.test(socialNite);
 }
 
@@ -111,9 +141,11 @@ function intializeSocialNite() {
         console.log("longitude: " + longitude);
         calleBriteAjax();
         callRestaurantAjax();
+        renderSocialNiteNameToSideNav(socialNiteId);
         renderEvents(socialNiteId);
         renderRestaurants(socialNiteId);
         renderMembers(socialNiteId);
+        renderSocialNitesToSideNav();
     }, function () {
         console.log("unable to get social nite info");
     });
@@ -122,11 +154,11 @@ function intializeSocialNite() {
 // addes the user to the socialnite in firebase
 function addUserToSocialNite(socialNiteId) {
     var userUid = firebase.auth().currentUser.uid;
-    firebase.database().ref('members/' + socialNiteId).set({
+    firebase.database().ref('members/' + socialNiteId).update({
         [userUid]: true
     }).catch(function (error) {
         console.log("Unable to add socialNite to user record: " + error.message);
-        addErrorModal(error.message);
+        Materialize.toast(error.message, 3000, 'error');
     });
 }
 
@@ -138,7 +170,7 @@ function addSocialNiteToUser(socialNiteId) {
         dateAdded: firebase.database.ServerValue.TIMESTAMP
     }).catch(function (error) {
         console.log("Unable to add socialNite to user record: " + error.message);
-        addErrorModal(error.message);
+        Materialize.toast(error.message, 3000, 'error');
     });
     console.log("Adding socialNite succeeded.");
 }
@@ -151,7 +183,8 @@ function getVotesRemaining(socialNiteId) {
         console.log("votes remaining for user: " + votesRemaining);
         return votesRemaining;
     }, function () {
-        console.log("unable to query the number of remaining votes");
+        console.log("Unable to query the number of remaining votes");
+        Materialize.toast("Unable to query the number of remaining votes", 3000, 'error');
     });
 }
 
@@ -162,6 +195,8 @@ function removeVoteFromUser(socialNiteId) {
     votesRemainingRef.transaction(function (votes) {
         // console.log("Votes remaining: " + (votes || 0) - 1);
         return (votes || 0) - 1;
+    }).catch(function (error) {
+        Materialize.toast(error.message, 3000, 'error');
     });
 }
 
@@ -188,7 +223,8 @@ function addVote(socialNiteId, itemVotedOn, itemId, isUpvote) {
         console.log("votes remaining for user: " + votesRemaining);
         return votesRemaining;
     }, function () {
-        console.log("unable to query the number of remaining votes");
+        console.log("Unable to query the number of remaining votes");
+        Materialize.toast("Unable to query the number of remaining votes", 3000, 'error');
     }).then(function () {
         //if user has votes remaining, upvote or downvote the selection
         if (votesRemaining > 0) {
@@ -207,6 +243,7 @@ function addVote(socialNiteId, itemVotedOn, itemId, isUpvote) {
             removeVoteFromUser(socialNiteId)
         } else {
             console.log("No votes remaining");
+            Materialize.toast("No votes remaining", 3000, 'error');
         }
     });
 
@@ -215,7 +252,7 @@ function addVote(socialNiteId, itemVotedOn, itemId, isUpvote) {
 function prependEventToList(data) {
     var eventID = data.key;
     var name = data.val().name;
-    var time = data.val().time;
+    var time = moment(data.val().time).format("h:mm a");
     var url = data.val().url;
     var votes = data.val().voteCount;
 
@@ -230,14 +267,16 @@ function prependEventToList(data) {
     upvoteBtn.addClass("upvoteEvent");
 
     var upvoteBtnIcon = $("<i>");
-    upvoteBtnIcon.addClass("fa fa-arrow-circle-up fa-2");
+    upvoteBtnIcon.addClass("tiny material-icons");
+    upvoteBtnIcon.text("thumb_up");
     upvoteBtn.append(upvoteBtnIcon);
 
     var downvoteBtn = $("<button>");
     downvoteBtn.addClass("downvoteEvent");
 
     var downvoteBtnIcon = $("<i>");
-    downvoteBtnIcon.addClass("fa fa-arrow-circle-down fa-2");
+    downvoteBtnIcon.addClass("tiny material-icons");
+    downvoteBtnIcon.text("thumb_down");
     downvoteBtn.append(downvoteBtnIcon);
 
     buttons.append(upvoteBtn);
@@ -262,7 +301,7 @@ function prependEventToList(data) {
     eventRow.append(tdEventName);
     eventRow.append(tdEventTime);
     eventRow.append(tdEventVotes);
-    $("#event-container").prepend(eventRow);
+    $("#events-list").prepend(eventRow);
 }
 
 function prependFoodToList(data) {
@@ -282,14 +321,16 @@ function prependFoodToList(data) {
     upvoteBtn.addClass("upvoteFood");
 
     var upvoteBtnIcon = $("<i>");
-    upvoteBtnIcon.addClass("fa fa-arrow-circle-up fa-2");
+    upvoteBtnIcon.addClass("tiny material-icons");
+    upvoteBtnIcon.text("thumb_up");
     upvoteBtn.append(upvoteBtnIcon);
 
     var downvoteBtn = $("<button>");
     downvoteBtn.addClass("downvoteFood");
 
     var downvoteBtnIcon = $("<i>");
-    downvoteBtnIcon.addClass("fa fa-arrow-circle-down fa-2");
+    downvoteBtnIcon.addClass("tiny material-icons");
+    downvoteBtnIcon.text("thumb_down");
     downvoteBtn.append(downvoteBtnIcon);
 
     buttons.append(upvoteBtn);
@@ -313,7 +354,7 @@ function prependFoodToList(data) {
     restaurantRow.append(tdRestaurantName);
     restaurantRow.append(tdRestaurantPrice);
     restaurantRow.append(tdRestaurantVotes);
-    $("#food-container").prepend(restaurantRow);
+    $("#food-list").prepend(restaurantRow);
 }
 
 function addMemberToList(userId) {
@@ -322,7 +363,35 @@ function addMemberToList(userId) {
         console.log(snapshot.val().name);
         var userLi = $("<li>");
         userLi.text(snapshot.val().name);
-        $("#member-container").append(userLi);
+        userLi.addClass("friend-list-item");
+        $(".friendlist").append(userLi);
+    });
+}
+
+function renderSocialNitesToSideNav() {
+    var userRef = firebase.database().ref("users").child(firebase.auth().currentUser.uid).child("socialNites");
+    userRef.once("value", function (snapshot) {
+        snapshot.forEach(function (data) {
+            //get date of social nite
+            var socialNiteRef = firebase.database().ref("socialNites").child(data.key);
+            socialNiteRef.once("value", function (snap) {
+                var socialNiteLi = $("<li>");
+                socialNiteLi.attr("data-socialniteid", data.key);
+                socialNiteLi.addClass("socialnite-list-item");
+                socialNiteLi.text(snap.val().city + " on " + moment(snapshot.val().date).format('MMMM Do'));
+                $("#hangouts-list").append(socialNiteLi);
+            });
+        });
+    });
+}
+
+//adds name of social nite to the sidenav (in hangout section)
+function renderSocialNiteNameToSideNav(socialNiteId) {
+    var socialNiteRef = firebase.database().ref("socialNites").child(socialNiteId);
+    socialNiteRef.once("value", function (snapshot) {
+        var socialNiteDiv = $("<div>");
+        socialNiteDiv.text(snapshot.val().city + " on " + moment(snapshot.val().date).format('MMMM Do'));
+        $(".hangout-name").append(socialNiteDiv);
     });
 }
 
@@ -342,7 +411,7 @@ function renderMembers(socialNiteId) {
 function renderRestaurants(socialNiteId) {
     var votesRef = firebase.database().ref("restaurants").child(socialNiteId);
     votesRef.orderByChild('voteCount').on("value", function (snapshot) {
-        $("#food-container").empty();
+        $("#food-list").empty();
         snapshot.forEach(function (data) {
             prependFoodToList(data);
         });
@@ -353,7 +422,7 @@ function renderRestaurants(socialNiteId) {
 function renderEvents(socialNiteId) {
     var votesRef = firebase.database().ref("events").child(socialNiteId);
     votesRef.orderByChild('voteCount').on("value", function (snapshot) {
-        $("#event-container").empty();
+        $("#events-list").empty();
         snapshot.forEach(function (data) {
             prependEventToList(data);
         });
@@ -379,7 +448,7 @@ $(document).on("click", ".event-local", function () {
                 voteCount: 0
             }).catch(function (error) {
                 console.log("Unable to add event: " + error.message);
-                addErrorModal(error.message);
+                Materialize.toast(error.message, 3000, 'error');
             });
         }
     });
@@ -396,6 +465,7 @@ $(document).on("click", ".restaurant-local", function () {
     restaurantRef.once("value").then(function (snapshot) {
         if (snapshot.exists()) {
             console.log("restaurant already added");
+            Materialize.toast("Restaurant already added", 3000, 'error');
         } else {
             restaurantRef.set({
                 name: restaurantName,
@@ -404,7 +474,7 @@ $(document).on("click", ".restaurant-local", function () {
                 voteCount: 0
             }).catch(function (error) {
                 console.log("Unable to add restaurant: " + error.message);
-                addErrorModal(error.message);
+                Materialize.toast(error.message, 3000, 'error');
             });
         }
     });
@@ -428,12 +498,13 @@ $(document).on("click", "#search-id", function () {
             addUserToSocialNite(socialNite);
 
             console.log("Adding socialNite succeeded. Navigating to socialNite page");
-            window.location.replace("https://social-nite.github.io/social-nite/app.html");
+            window.location.replace("https://social-nite.github.io/social-nite/socialnite.html");
         } else {
             console.log("Invalid socialnite id");
+            Materialize.toast("Invalid socialnite id", 3000, 'error');
         }
     } else {
-        console.log("Please log in. pop up login modal");
+        Materialize.toast("Please log in", 3000, 'error');
     }
 });
 
@@ -441,49 +512,63 @@ $(document).on("click", "#search-id", function () {
 //handles when user clicks the submit button on landing page
 //creates new socialnite in firebase and addes it to the current user
 //uses googlemaps api to get the city, lat, and long values
+// validates that a valid date is provided
 $("#submit").on("click", function () {
     event.preventDefault();
-    date = $("#datePicker").val().trim();
+    var newDate = $("#datePicker").val().trim();
+    console.log(newDate);
+    date = newDate;
     var location = $("#location").val().trim();
-    var socialNiteId = guid();
-    console.log(socialNiteId);
-    var settings = {
-        "async": true,
-        "crossDomain": true,
-        "url": "https://maps.googleapis.com/maps/api/geocode/json?address=" + location + "&key=AIzaSyBxgMHK10T-YS90r9OQhsSJm_aeEFAGcZ8",
-        "method": "GET"
-    }
+    // validates that a valid date is provided
+    if (isValidDate(newDate)) {
 
-    $.ajax(settings).done(function (response) {
-        var results = response.results[0];
-        city = getCity(results);
-        latitude = response.results[0].geometry.location.lat;
-        longitude = response.results[0].geometry.location.lng;
+        //generates a socialNiteId
+        var socialNiteId = guid();
+        console.log(socialNiteId);
 
-        console.log("attempting to add socialNite record to db");
-        localStorage.setItem('socialNiteId', socialNiteId);
-        firebase.database().ref('socialNites/' + socialNiteId).set({
-            date: date,
-            city: city,
-            latitude: latitude,
-            longitude: longitude,
-            timeCreated: firebase.database.ServerValue.TIMESTAMP
-        }).then(function () {
-            //adding social nite to user
-            addSocialNiteToUser(socialNiteId);
-
-            //adding user to social nite
-            addUserToSocialNite(socialNiteId);
-            console.log("Adding user to socialNite succeeded.");
-
-            window.location.replace("https://social-nite.github.io/social-nite/socialnite.html");
-        }, function (error) {
-            console.log("Unable to add socialNite: " + error.message);
-            addErrorModal(error.message);
+        //gets the city, latitude, and longitude from googlemaps api
+        var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "https://maps.googleapis.com/maps/api/geocode/json?address=" + location + "&key=AIzaSyBxgMHK10T-YS90r9OQhsSJm_aeEFAGcZ8",
+            "method": "GET"
         }
 
-            );
-    });
+        $.ajax(settings).done(function (response) {
+            var results = response.results[0];
+            city = getCity(results);
+            latitude = response.results[0].geometry.location.lat;
+            longitude = response.results[0].geometry.location.lng;
+
+            console.log("attempting to add socialNite record to db");
+            localStorage.setItem('socialNiteId', socialNiteId);
+            firebase.database().ref('socialNites/' + socialNiteId).set({
+                date: date,
+                city: city,
+                latitude: latitude,
+                longitude: longitude,
+                timeCreated: firebase.database.ServerValue.TIMESTAMP
+            }).then(function () {
+                //adding social nite to user
+                addSocialNiteToUser(socialNiteId);
+
+                //adding user to social nite
+                addUserToSocialNite(socialNiteId);
+                console.log("Adding user to socialNite succeeded.");
+
+                //naviting user to socialnite page
+                window.location.replace("https://social-nite.github.io/social-nite/socialnite.html");
+            }, function (error) {
+                console.log("Unable to add socialNite: " + error.message);
+                Materialize.toast(error.message, 3000, 'error');
+            }
+
+                );
+        });
+    } else {
+        console.log("Invalid date provided");
+        Materialize.toast("Invalid date provided", 3000, 'error');
+    }
 });
 
 //when in the 'Friends' modal a user clicks 'send' email this opens their email client
@@ -491,13 +576,14 @@ $("#submit").on("click", function () {
 $("#send-email").on("click", function () {
     event.preventDefault();
     var email = $("#emailInput").val().trim();
-    //will need to add social nite id to the email as well. 
+
     if (validateEmail(email)) {
         var subject = "You've been invited to join SocialNite";
         var emailBody = "Hello, " + firebase.auth().currentUser.displayName + " has invited you to join Social Nite! Click here: https://social-nite.github.io/social-nite/login.html Enter this id on the page after you login: " + socialNiteId;
         document.location = "mailto:" + email + "?subject=" + subject + "&body=" + emailBody;
     } else {
         console.log("Please provide a valid email");
+        Materialize.toast("Please provide a valid email", 3000, 'error');
     }
 });
 
@@ -551,6 +637,12 @@ $(document).on("click", ".modal-close", function () {
     $(this).parent().parent().css("display", "none");
 });
 
+$(document).on("click", ".socialnite-list-item", function () {
+    console.log("loading new socialnite");
+    localStorage.setItem("socialNiteId", $(this).data("socialniteid"));
+    window.location.reload(false);
+})
+
 
 // EVENTBRITE LOGIC, API, AND CODE BELOW: 
 // ------------------------------------------------------------------------------------------------------
@@ -588,7 +680,7 @@ function calleBriteAjax() {
         for (var i = 0; i < localEvents.length; i++) {
             console.log(localEvents[i]);
             var time = localEvents[i].start.local;
-            var prettyTime = moment(time).format("lll");
+            var prettyTime = moment(time).format("h:mm:ss a");
             var eventID = localEvents[i].id;
             var ename = localEvents[i].name.text;
             var elink = localEvents[i].url;
@@ -685,7 +777,6 @@ $(document).ready(function (event) {
     if (window.location.pathname.includes("/socialnite.html")) {
         intializeSocialNite(socialNiteId);
         console.log(socialNiteId);
-        console.log("document loaded for events");
     }
 });
 
