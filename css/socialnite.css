@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 #hangouts-nav-link,
 #friends-nav-link,
 #settings-nav-link {
@@ -51,16 +55,75 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
+
+/* Remove this later for infinite activity cards */
+
+body {
+    overflow-x: hidden;
+}
+
+html,
+body {
+    padding: 0;
+    margin: 0;
+    color: #ebebeb;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    position: relative;
+    z-index: 10;
+    height: 40px;
+}
+
+main {
+    display: flex;
+    overflow: hidden;
+    height: 100vh;
+    margin-top: -100px;
+    padding-top: 100px;
+    position: relative;
+    width: 100%;
+    backface-visibility: hidden;
+    will-change: overflow;
+}
+
+.section,
+.friendlist,
+.hangouts-list {
+    overflow: auto;
+    height: auto;
+    padding: .5rem;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: none;
+}
+
+.section::-webkit-scrollbar {
+    display: none;
+}
+
+
+/*=============================*/
+
+
+/*
 body,
 html {
     height: 100%;
 }
+*/
 
+
+/*
 main.wrap {
     height: 100%;
     overflow: hidden;
     overflow-x: auto;
 }
+*/
 
 
 /*
@@ -84,10 +147,17 @@ footer {
     }
 }
 
+
+/*
 .section {
     padding: 10px;
 }
+*/
 
+
+/*
 .cont {
+    max-height: 100vh;
     overflow-y: scroll;
 }
+*/
