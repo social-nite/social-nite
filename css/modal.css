@@ -4,7 +4,7 @@
     height: 100%;
     background-color: transparent;
     box-shadow: none;
-    overflow-y: scroll;
+    /*    overflow-y: scroll;*/
     height: 100%;
     padding: .5rem;
     -webkit-overflow-scrolling: touch;
@@ -13,7 +13,7 @@
 
 .box,
 .overbox {
-    overflow-y: scroll;
+    /*    overflow-y: scroll;*/
     height: 100%;
     padding: .5rem;
     -webkit-overflow-scrolling: touch;
