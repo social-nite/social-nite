@@ -476,7 +476,7 @@ $("#submit").on("click", function () {
             addUserToSocialNite(socialNiteId);
             console.log("Adding user to socialNite succeeded.");
 
-            // window.location.replace("https://social-nite.github.io/social-nite/socialnite.html");
+            window.location.replace("https://social-nite.github.io/social-nite/socialnite.html");
         }, function (error) {
             console.log("Unable to add socialNite: " + error.message);
             addErrorModal(error.message);
