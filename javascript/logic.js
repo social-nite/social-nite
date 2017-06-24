@@ -535,21 +535,21 @@ $("#submit").on("click", function () {
                     longitude: longitude,
                     timeCreated: firebase.database.ServerValue.TIMESTAMP
                 }).then(function () {
-                        //adding social nite to user
-                        addSocialNiteToUser(socialNiteId);
+                    //adding social nite to user
+                    addSocialNiteToUser(socialNiteId);
 
-                        //adding user to social nite
-                        addUserToSocialNite(socialNiteId);
-                        console.log("Adding user to socialNite succeeded.");
+                    //adding user to social nite
+                    addUserToSocialNite(socialNiteId);
+                    console.log("Adding user to socialNite succeeded.");
 
-                        //naviting user to socialnite page
-                        window.location.replace("https://social-nite.github.io/social-nite/socialnite.html");
-                    }, function (error) {
-                        console.log("Unable to add socialNite: " + error.message);
-                        Materialize.toast(error.message, 3000, 'error');
-                    }
+                    //naviting user to socialnite page
+                    window.location.replace("https://social-nite.github.io/social-nite/socialnite.html");
+                }, function (error) {
+                    console.log("Unable to add socialNite: " + error.message);
+                    Materialize.toast(error.message, 3000, 'error');
+                }
 
-                );
+                    );
             });
         } else {
             console.log("Invalid date provided");
@@ -630,7 +630,12 @@ $(document).on("click", ".modal-close", function () {
 $(document).on("click", ".socialnite-list-item", function () {
     console.log("loading new socialnite");
     localStorage.setItem("socialNiteId", $(this).data("socialniteid"));
-    window.location.reload(false);
+    if (window.location.href.includes("/socialnite.html")) {
+        window.location.reload(false);
+    } else {
+        window.location.replace("localhost:8080/socialnite.html");
+        // window.location.replace("https://social-nite.github.io/social-nite/socialnite.html");
+    }
 })
 
 

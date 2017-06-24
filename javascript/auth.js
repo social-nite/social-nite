@@ -69,7 +69,7 @@ function renderSocialNitesToSideNav() {
                 var snlitem = $("<a>");
                 snlitem.attr("data-socialniteid", data.key);
                 snlitem.addClass("socialnite-list-item");
-                snlitem.text(snap.val().city + " on " + moment(snapshot.val().date).format('MMMM Do'));
+                snlitem.text(snap.val().city + " on " + moment(snap.val().date).format('MMMM Do'));
                 socialNiteLi.html(snlitem);
                 $(".hangouts-list").append(socialNiteLi);
             });
