@@ -373,9 +373,11 @@ function renderSocialNitesToSideNav() {
             var socialNiteRef = firebase.database().ref("socialNites").child(data.key);
             socialNiteRef.once("value", function (snap) {
                 var socialNiteLi = $("<li>");
-                socialNiteLi.attr("data-socialniteid", data.key);
-                socialNiteLi.addClass("socialnite-list-item btn-flat");
-                socialNiteLi.text(snap.val().city + " on " + moment(snapshot.val().date).format('MMMM Do'));
+                var snlitem = $("<a>");
+                snlitem.attr("data-socialniteid", data.key);
+                snlitem.addClass("socialnite-list-item");
+                snlitem.text(snap.val().city + " on " + moment(snapshot.val().date).format('MMMM Do'));
+                socialNiteLi.html(snlitem);
                 $("#hangouts-list").append(socialNiteLi);
             });
         });
