@@ -262,7 +262,7 @@ function prependEventToList(data) {
 
     var buttons = $("<div>");
 
-    var upvoteBtn = $("<button>");
+    var upvoteBtn = $("<div>");
     upvoteBtn.addClass("upvoteEvent");
 
     var upvoteBtnIcon = $("<i>");
@@ -270,7 +270,7 @@ function prependEventToList(data) {
     upvoteBtnIcon.text("thumb_up");
     upvoteBtn.append(upvoteBtnIcon);
 
-    var downvoteBtn = $("<button>");
+    var downvoteBtn = $("<div>");
     downvoteBtn.addClass("downvoteEvent");
 
     var downvoteBtnIcon = $("<i>");
@@ -316,7 +316,7 @@ function prependFoodToList(data) {
     link.append(name);
 
     var buttons = $("<div>");
-    var upvoteBtn = $("<button>");
+    var upvoteBtn = $("<div>");
     upvoteBtn.addClass("upvoteFood");
 
     var upvoteBtnIcon = $("<i>");
@@ -324,7 +324,7 @@ function prependFoodToList(data) {
     upvoteBtnIcon.text("thumb_up");
     upvoteBtn.append(upvoteBtnIcon);
 
-    var downvoteBtn = $("<button>");
+    var downvoteBtn = $("<div>");
     downvoteBtn.addClass("downvoteFood");
 
     var downvoteBtnIcon = $("<i>");
