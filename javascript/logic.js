@@ -157,7 +157,7 @@ function addUserToSocialNite(socialNiteId) {
         [userUid]: true
     }).catch(function (error) {
         console.log("Unable to add socialNite to user record: " + error.message);
-        addErrorModal(error.message);
+        Materialize.toast(error.message, 3000, 'error');
     });
 }
 
@@ -169,7 +169,7 @@ function addSocialNiteToUser(socialNiteId) {
         dateAdded: firebase.database.ServerValue.TIMESTAMP
     }).catch(function (error) {
         console.log("Unable to add socialNite to user record: " + error.message);
-        addErrorModal(error.message);
+        Materialize.toast(error.message, 3000, 'error');
     });
     console.log("Adding socialNite succeeded.");
 }
@@ -182,7 +182,8 @@ function getVotesRemaining(socialNiteId) {
         console.log("votes remaining for user: " + votesRemaining);
         return votesRemaining;
     }, function () {
-        console.log("unable to query the number of remaining votes");
+        console.log("Unable to query the number of remaining votes");
+        Materialize.toast("Unable to query the number of remaining votes", 3000, 'error');
     });
 }
 
@@ -193,6 +194,8 @@ function removeVoteFromUser(socialNiteId) {
     votesRemainingRef.transaction(function (votes) {
         // console.log("Votes remaining: " + (votes || 0) - 1);
         return (votes || 0) - 1;
+    }).catch(function (error) {
+        Materialize.toast(error.message, 3000, 'error');
     });
 }
 
@@ -219,7 +222,8 @@ function addVote(socialNiteId, itemVotedOn, itemId, isUpvote) {
         console.log("votes remaining for user: " + votesRemaining);
         return votesRemaining;
     }, function () {
-        console.log("unable to query the number of remaining votes");
+        console.log("Unable to query the number of remaining votes");
+        Materialize.toast("Unable to query the number of remaining votes", 3000, 'error');
     }).then(function () {
         //if user has votes remaining, upvote or downvote the selection
         if (votesRemaining > 0) {
@@ -238,6 +242,7 @@ function addVote(socialNiteId, itemVotedOn, itemId, isUpvote) {
             removeVoteFromUser(socialNiteId)
         } else {
             console.log("No votes remaining");
+            Materialize.toast("No votes remaining", 3000, 'error');
         }
     });
 
@@ -433,7 +438,7 @@ $(document).on("click", ".event-local", function () {
                 voteCount: 0
             }).catch(function (error) {
                 console.log("Unable to add event: " + error.message);
-                addErrorModal(error.message);
+                Materialize.toast(error.message, 3000, 'error');
             });
         }
     });
@@ -450,6 +455,7 @@ $(document).on("click", ".restaurant-local", function () {
     restaurantRef.once("value").then(function (snapshot) {
         if (snapshot.exists()) {
             console.log("restaurant already added");
+            Materialize.toast("Restaurant already added", 3000, 'error');
         } else {
             restaurantRef.set({
                 name: restaurantName,
@@ -458,7 +464,7 @@ $(document).on("click", ".restaurant-local", function () {
                 voteCount: 0
             }).catch(function (error) {
                 console.log("Unable to add restaurant: " + error.message);
-                addErrorModal(error.message);
+                Materialize.toast(error.message, 3000, 'error');
             });
         }
     });
@@ -485,9 +491,10 @@ $(document).on("click", "#search-id", function () {
             window.location.replace("https://social-nite.github.io/social-nite/socialnite.html");
         } else {
             console.log("Invalid socialnite id");
+            Materialize.toast("Invalid socialnite id", 3000, 'error');
         }
     } else {
-        console.log("Please log in. pop up login modal");
+        Materialize.toast("Please log in", 3000, 'error');
     }
 });
 
@@ -543,13 +550,14 @@ $("#submit").on("click", function () {
                 window.location.replace("https://social-nite.github.io/social-nite/socialnite.html");
             }, function (error) {
                 console.log("Unable to add socialNite: " + error.message);
-                addErrorModal(error.message);
+                Materialize.toast(error.message, 3000, 'error');
             }
 
                 );
         });
     } else {
         console.log("Invalid date provided");
+        Materialize.toast("Invalid date provided", 3000, 'error');
     }
 });
 
@@ -565,6 +573,7 @@ $("#send-email").on("click", function () {
         document.location = "mailto:" + email + "?subject=" + subject + "&body=" + emailBody;
     } else {
         console.log("Please provide a valid email");
+        Materialize.toast("Please provide a valid email", 3000, 'error');
     }
 });
 
@@ -758,7 +767,6 @@ $(document).ready(function (event) {
     if (window.location.pathname.includes("/socialnite.html")) {
         intializeSocialNite(socialNiteId);
         console.log(socialNiteId);
-        console.log("document loaded for events");
     }
 });
 
