@@ -116,6 +116,8 @@ $(document).on("click", ".overbox>.button>button.active", function (event) {
             console.log("Sign up failed");
             Materialize.toast("Sign up failed", 3000, 'error');
         })
+    } else {
+        Materialize.toast("Invalid data provided in form", 3000, 'error');
     }
 });
 
