@@ -108,7 +108,7 @@ $(document).on("click", ".overbox>.button>button.active", function (event) {
     var name = $("#regname").val().trim();
     var password = $("#regpass").val().trim();
     var passwordConfirm = $("#reregpass").val().trim();
-    if (validateEmail(email) && validatePassword(password, passwordConfirm) && validateName(name)) {
+    if (validateEmail(email) && validateName(name)) {
         console.log("email and password valid");
         var promise = auth.createUserWithEmailAndPassword(email, password);
         promise.then(function () {
