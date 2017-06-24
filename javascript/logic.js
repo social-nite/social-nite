@@ -261,14 +261,16 @@ function prependEventToList(data) {
     upvoteBtn.addClass("upvoteEvent");
 
     var upvoteBtnIcon = $("<i>");
-    upvoteBtnIcon.addClass("fa fa-arrow-circle-up fa-2");
+    upvoteBtnIcon.addClass("tiny material-icons");
+    upvoteBtnIcon.text("thumb_up");
     upvoteBtn.append(upvoteBtnIcon);
 
     var downvoteBtn = $("<button>");
     downvoteBtn.addClass("downvoteEvent");
 
     var downvoteBtnIcon = $("<i>");
-    downvoteBtnIcon.addClass("fa fa-arrow-circle-down fa-2");
+    downvoteBtnIcon.addClass("tiny material-icons");
+    downvoteBtnIcon.text("thumb_down");
     downvoteBtn.append(downvoteBtnIcon);
 
     buttons.append(upvoteBtn);
@@ -313,14 +315,16 @@ function prependFoodToList(data) {
     upvoteBtn.addClass("upvoteFood");
 
     var upvoteBtnIcon = $("<i>");
-    upvoteBtnIcon.addClass("fa fa-arrow-circle-up fa-2");
+    upvoteBtnIcon.addClass("tiny material-icons");
+    upvoteBtnIcon.text("thumb_up");
     upvoteBtn.append(upvoteBtnIcon);
 
     var downvoteBtn = $("<button>");
     downvoteBtn.addClass("downvoteFood");
 
     var downvoteBtnIcon = $("<i>");
-    downvoteBtnIcon.addClass("fa fa-arrow-circle-down fa-2");
+    downvoteBtnIcon.addClass("tiny material-icons");
+    downvoteBtnIcon.text("thumb_down");
     downvoteBtn.append(downvoteBtnIcon);
 
     buttons.append(upvoteBtn);
@@ -344,7 +348,7 @@ function prependFoodToList(data) {
     restaurantRow.append(tdRestaurantName);
     restaurantRow.append(tdRestaurantPrice);
     restaurantRow.append(tdRestaurantVotes);
-    $("#food-container").prepend(restaurantRow);
+    $("#food-list").prepend(restaurantRow);
 }
 
 function addMemberToList(userId) {
@@ -353,7 +357,7 @@ function addMemberToList(userId) {
         console.log(snapshot.val().name);
         var userLi = $("<li>");
         userLi.text(snapshot.val().name);
-        $("#member-container").append(userLi);
+        $(".friendlist").append(userLi);
     });
 }
 
@@ -393,7 +397,7 @@ function renderMembers(socialNiteId) {
 function renderRestaurants(socialNiteId) {
     var votesRef = firebase.database().ref("restaurants").child(socialNiteId);
     votesRef.orderByChild('voteCount').on("value", function (snapshot) {
-        $("#food-container").empty();
+        $("#food-list").empty();
         snapshot.forEach(function (data) {
             prependFoodToList(data);
         });
@@ -404,7 +408,7 @@ function renderRestaurants(socialNiteId) {
 function renderEvents(socialNiteId) {
     var votesRef = firebase.database().ref("events").child(socialNiteId);
     votesRef.orderByChild('voteCount').on("value", function (snapshot) {
-        $("#event-container").empty();
+        $("#events-list").empty();
         snapshot.forEach(function (data) {
             prependEventToList(data);
         });
@@ -555,7 +559,7 @@ $("#submit").on("click", function () {
 $("#send-email").on("click", function () {
     event.preventDefault();
     var email = $("#emailInput").val().trim();
- 
+
     if (validateEmail(email)) {
         var subject = "You've been invited to join SocialNite";
         var emailBody = "Hello, " + firebase.auth().currentUser.displayName + " has invited you to join Social Nite! Click here: https://social-nite.github.io/social-nite/login.html Enter this id on the page after you login: " + socialNiteId;
