@@ -151,9 +151,9 @@ function intializeSocialNite() {
 // addes the user to the socialnite in firebase
 function addUserToSocialNite(socialNiteId) {
     var userUid = firebase.auth().currentUser.uid;
-    firebase.database().ref('members/' + socialNiteId + '/' +userUid).set({
+    firebase.database().ref('members/' + socialNiteId + '/' + userUid).set({
         name: firebase.auth().currentUser.displayName
-        
+
     }).catch(function (error) {
         console.log("Unable to add socialNite to user record: " + error.message);
         Materialize.toast(error.message, 3000, 'error');
@@ -357,13 +357,13 @@ function prependFoodToList(data) {
 }
 
 function addMemberToList(data) {
-        console.log(data.val());
-        var userLi = $("<li>");
-        var uLitem = $("<a>");
-        uLitem.text(data.val().name);
-        uLitem.addClass("friend-list-item btn-flat");
-        userLi.html(uLitem);
-        $(".friendlist").append(userLi);
+    console.log(data.val());
+    var userLi = $("<li>");
+    var uLitem = $("<a>");
+    uLitem.text(data.val().name);
+    uLitem.addClass("friend-list-item btn-flat");
+    userLi.html(uLitem);
+    $(".friendlist").append(userLi);
 }
 
 function renderSocialNitesToSideNav() {
@@ -379,7 +379,7 @@ function renderSocialNitesToSideNav() {
                 snlitem.addClass("socialnite-list-item");
                 snlitem.text(snap.val().city + " on " + moment(snapshot.val().date).format('MMMM Do'));
                 socialNiteLi.html(snlitem);
-                $("#hangouts-list").append(socialNiteLi);
+                $(".hangouts-list").append(socialNiteLi);
             });
         });
     });
