@@ -378,7 +378,7 @@ function renderSocialNitesToSideNav() {
                 var socialNiteLi = $("<li>");
                 socialNiteLi.attr("data-socialniteid", data.key);
                 socialNiteLi.addClass("socialnite-list-item");
-                socialNiteLi.text(snap.val().city + " on " + snap.val().date);
+                socialNiteLi.text(snap.val().city + " on " + moment(snapshot.val().date).format('MMMM Do'));
                 $("#hangouts-list").append(socialNiteLi);
             });
         });
@@ -389,9 +389,9 @@ function renderSocialNitesToSideNav() {
 function renderSocialNiteNameToSideNav(socialNiteId) {
     var socialNiteRef = firebase.database().ref("socialNites").child(socialNiteId);
     socialNiteRef.once("value", function (snapshot) {
-        var socialNiteSpan = $("<span>");
-        socialNiteSpan.text(snapshot.val().city + " on " + snapshot.val().date);
-        $(".hangout-name").append(socialNiteSpan);
+        var socialNiteDiv = $("<div>");
+        socialNiteDiv.text(snapshot.val().city + " on " + moment(snapshot.val().date).format('MMMM Do'));
+        $(".hangout-name").append(socialNiteDiv);
     });
 }
 
