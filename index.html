@@ -39,39 +39,37 @@
         <nav id="main-nav" class="transparent header row" role="navigation">
             <div class="nav-wrapper">
 
-                <!--
-
-                <ul id="main-nav-body" class="left hide-on-med-and-down">
-                    <li><a href="#!" class="header-link login sign-in btn" id="facebook" title="Sign in with Facebook">Facebook Login</a></li>
-                    <li><a href="#!" class="header-link login sign-in btn" id="email" title="Sign in with Email"> Email Login</a></li>
-                    <li><a href="#!" class="header-link login sign-out btn" id="signOut" title="Sign Out"> Sign Out</a></li>
-                </ul>
--->
 
                 <!-- Collapsed Navbar for unlogged in -->
 
                 <ul id="nav-mobile" class="side-nav">
                     <li><a href="#!" class="header-link login login-facebook sign-in btn-flat" id="facebookSide" title="Sign in with Facebook">Facebook Login</a></li>
                     <li><a href="#modal1" class="header-link login login-email sign-in btn-flat" id="emailSide" title="Sign in with Email"> Email Login</a></li>
-                    <li><a href="#!" class="header-link login sign-out btn-flat" id="signOutSide" title="Sign Out"> Sign Out</a></li>
-                    <!--<li>
-                        <a class="waves-effect waves-light btn" href="#modal1">Modal</a>
-                    </li>-->
-
                 </ul>
 
                 <!-- Collapsed Navbar for Already Logged In                -->
+                <div id="hangouts-nav" class="side-nav">
+                    <ul>
+                        <li><a id="hangoout-name" class="subheader">Hangouts</a></li>
+                        <div id="hangouts-list">
 
+                        </div>
+                        <li><a href="#!" class="header-link login sign-out btn-flat" id="signOutSide" title="Sign Out"> Sign Out</a></li>
+                    </ul>
+
+                </div>
 
                 <!-- Hide This button when Logged In -->
                 <a id="header-side-nav-link" href="#!" data-activates="nav-mobile" class="pin-target button-collapse"> <i class="main-nav-menu-icon material-icons">menu</i> </a>
 
                 <!-- Show this button when logged in  -->
-                <!--                <a id="user-side-nav-link" href="#!" data-activates="nav-mobile" class="pin-target button-collapse"> <i class="main-nav-menu-icon material-icons">menu</i> </a>-->
+                <a id="user-side-nav-link" href="#!" data-activates="hangouts-nav" class="pin-target button-collapse"> <i class="main-nav-menu-icon material-icons">menu</i> </a>
 
+                <!--
                 <a id="user-name" href="#!" data-activates="user-dropdown" class="white-text btn-flat right"></a>
 
                 <a id="login-link" href="#modal1" class="white-text btn-flat right">Login Now</a>
+-->
 
             </div>
         </nav>
@@ -102,7 +100,7 @@
                         <div class="bar input-field input-text-wrap col s10 offset-s1 m6 offset-m2 l4 xl4">
 
                             <i id="location-icon" class="material-icons bar tooltipped" data-position="right" data-delay="50" data-tooltip="Use Current Location">my_location</i>
-                            <input id="location" placeholder="Location" type="text" class="bar validate">
+                            <input id="location" placeholder="Location" type="text" class="bar validate loc-city">
 
                         </div>
                         <!-- Search Button              -->
@@ -128,7 +126,7 @@
                 <div class="row">
 
                     <!--                    <div class="col offset-m5 offset-l8 offset-xl8"></div>-->
-                    <div class="col s10 m8 l10 xl10 offset-s1 offset-m2 offset-l1 offset-xl1 btn"><span id="change" class="white-text">... or find an existing hangout!</span></div>
+                    <div id="change" class="col s10 m8 l10 xl10 offset-s1 offset-m2 offset-l1 offset-xl1 btn transparent"><span class="white-text">... or find an existing hangout!</span></div>
                     <!--                    <div class="col s1 offset-m5 offset-l8 offset-xl8"></div>-->
 
                 </div>
@@ -187,16 +185,18 @@
                     <div class="title">REGISTER</div>
 
                     <div class="input">
-                        <label for="regfirstname">First Name</label>
-                        <input type="text" name="regfirstname" id="regfirstname">
+                        <label for="regname">Name</label>
+                        <input type="text" name="regname" id="regname">
                         <span class="spin"></span>
                     </div>
 
+                    <!--
                     <div class="input">
                         <label for="reglastname">Last Name</label>
                         <input type="text" name="reglastname" id="reglastname">
                         <span class="spin"></span>
                     </div>
+-->
 
                     <div class="input">
                         <label for="regemail">Email</label>
@@ -241,7 +241,12 @@
     <script src="https://cdn.firebase.com/libs/firebaseui/2.0.0/firebaseui.js"></script>
 
     <!-- Google Maps -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4nu_5UhddgajGv7lS96ri7lsyyZ3vbjQ&libraries=places&language=en"></script>
+    <!--    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>-->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA7_0ELpb6j0h6zGit4vgPRbp9snLmbaBc&libraries=places&language=en"></script>
+    <!--
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
+    </script>
+-->
     <!--<script src="assets/libs/nouislider.js"></script>-->
     <!--<script src="assets/libs/wNumb.js"></script>-->
 
@@ -253,6 +258,8 @@
     <script src="javascript/logic.js"></script>
     <script src="javascript/landing.js"></script>
     <script src="javascript/login2.js"></script>
+    <!--    <script src="javascript/location.js"></script>-->
+
 
 
 

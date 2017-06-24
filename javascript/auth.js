@@ -101,8 +101,7 @@ $(document).on("click", ".overbox>.button>button.active", function (event) {
                 console.log("uid: " + user.uid);
                 firebase.database().ref('users/' + user.uid).set({
                     name: fullName
-                }).then(function () {
-                }, function (error) {
+                }).then(function () {}, function (error) {
                     console.log("Unable to add user: " + error.message);
                 });
             }, function (error) {
@@ -152,11 +151,15 @@ $(document).on("click", ".sign-out", function () {
 auth.onAuthStateChanged(function (currentUserObj) {
     if (currentUserObj) {
         console.log(auth.currentUser.displayName + " is logged in");
+        $("#user-side-nav-link").show();
+        $("#header-side-nav-link").hide();
     } else {
         console.log("Not logged in");
         if (window.location.href.includes(mainPage)) {
             window.location.replace(indexPage);
         }
+        $("#user-side-nav-link").hide();
+        $("#header-side-nav-link").show();
+
     }
 });
-

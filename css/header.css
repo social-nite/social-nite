@@ -70,26 +70,33 @@ nav.header {
 
 /* Close buttons ------------------------------*/
 
+
+/*
 a.close-btn:hover {
     color: initial;
     text-decoration: none;
 }
+*/
 
 
 /* Close icon on left aligned side-nav */
 
+
+/*
 #nav-mobile.side-nav a.close-btn {
     text-align: center;
 }
+*/
 
+
+/*
 #nav-mobile.side-nav i.material-icons {
     float: right;
     position: absolute;
     top: 0;
     right: 0;
-    /*margin-left: 32px;*/
-    /*margin-right: 0px; */
 }
+*/
 
 nav {
     height: 40px;
@@ -147,10 +154,12 @@ nav a.button-collapse {
 }
 
 .navbar-fixed {
-    /*    height: 40px;*/
+    height: 40px;
     z-index: 1000;
 }
 
 .friendlist {
     overflow-y: scroll;
 }
+
+
