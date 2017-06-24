@@ -575,6 +575,7 @@ $(document).on("click", ".modal-close", function () {
 $(document).on("click", ".socialnite-list-item", function () {
     console.log("loading new socialnite");
     localStorage.setItem("socialNiteId", $(this).data("socialniteid"));
+    window.location.reload(false); 
 })
 
 
