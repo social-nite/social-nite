@@ -68,7 +68,6 @@ function validateEmail(email) {
 //asserts that the socialniteid is the valid guid format
 function validateSocialNiteId(socialNite) {
     var re = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-    //44d57020-1280-8523-63d5-2c80c5e5e891
     return re.test(socialNite);
 }
 
