@@ -8,14 +8,6 @@
 
 //-----------------------------------------
 
-
-
-//=======================================
-//BUD HERE IDEALLY WE CAN SOMEHOW IMPORT WHETHER OR NOT WE'RE LOGGED IN
-
-
-var loggedIn = true;
-
 // =======================================
 
 $(document).ready(function () {

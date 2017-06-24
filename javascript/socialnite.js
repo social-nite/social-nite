@@ -1,10 +1,26 @@
-//$(document).ready(function () {
-//
-//    
-//
-//
-//
-//});
+$(document).ready(function () {
+
+    $('.modal').modal();
+
+    $('.modal').modal({
+        dismissible: true, // Modal can be dismissed by clicking outside of the modal
+        opacity: .5, // Opacity of modal background
+        inDuration: 300, // Transition in duration
+        outDuration: 200, // Transition out duration
+        startingTop: '2%', // Starting top style attribute
+        endingTop: '5%', // Ending top style attribute
+        ready: function () {
+            // Callback for Modal open. Modal and trigger parameters available.
+            // console.log('modal open');
+        },
+        complete: function () {
+            // Callback for Modal close
+        }
+    });
+
+    //    $("#addEvents").modal();
+
+});
 
 $('#friends-nav-link').sideNav({
     menuWidth: 300, // Default is 300
