@@ -359,8 +359,10 @@ function addMemberToList(userId) {
     userRef.once("value", function (snapshot) {
         console.log(snapshot.val().name);
         var userLi = $("<li>");
-        userLi.text(snapshot.val().name);
-        userLi.addClass("friend-list-item btn-flat");
+        var uLitem = $("<a>")
+        uLitem.text(snapshot.val().name);
+        uLitem.addClass("friend-list-item btn-flat");
+        userLi.htm(uLitem);
         $(".friendlist").append(userLi);
     });
 }
@@ -512,7 +514,6 @@ $(document).on("click", "#search-id", function () {
     }
 });
 
-
 //handles when user clicks the submit button on landing page
 //creates new socialnite in firebase and addes it to the current user
 //uses googlemaps api to get the city, lat, and long values
@@ -537,7 +538,7 @@ $("#submit").on("click", function () {
                 "crossDomain": true,
                 "url": "https://maps.googleapis.com/maps/api/geocode/json?address=" + location + "&key=AIzaSyBxgMHK10T-YS90r9OQhsSJm_aeEFAGcZ8",
                 "method": "GET"
-            }
+            };
 
             $.ajax(settings).done(function (response) {
                 var results = response.results[0];
