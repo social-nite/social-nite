@@ -38,7 +38,6 @@ function validatePassword(password, passwordConfirm) {
         if (password === passwordConfirm) {
             return true;
         } else {
-            addErrorModal("Passwords do not match");
             Materialize.toast("Passwords do not match", 3000, 'error');
             return false;
         }
