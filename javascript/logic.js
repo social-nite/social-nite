@@ -484,7 +484,7 @@ $(document).on("click", "#search-id", function () {
             addUserToSocialNite(socialNite);
 
             console.log("Adding socialNite succeeded. Navigating to socialNite page");
-            window.location.replace("https://social-nite.github.io/social-nite/app.html");
+            window.location.replace("https://social-nite.github.io/social-nite/socialnite.html");
         } else {
             console.log("Invalid socialnite id");
         }
