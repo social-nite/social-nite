@@ -91,7 +91,7 @@ body {
     .friendlist,
     .hangouts-list {
         overflow-y: scroll;
-        height: auto;
+        height: 100%;
         padding: .5rem;
         -webkit-overflow-scrolling: touch;
         -ms-overflow-style: none;
