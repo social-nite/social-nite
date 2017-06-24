@@ -443,7 +443,7 @@ $(document).on("click", "#search-id", function () {
 //uses googlemaps api to get the city, lat, and long values
 $("#submit").on("click", function () {
     event.preventDefault();
-    date = $("#date").val().trim();
+    date = $("#datePicker").val().trim();
     var location = $("#location").val().trim();
     var socialNiteId = guid();
     console.log(socialNiteId);
@@ -476,7 +476,7 @@ $("#submit").on("click", function () {
             addUserToSocialNite(socialNiteId);
             console.log("Adding user to socialNite succeeded.");
 
-            window.location.replace("https://social-nite.github.io/social-nite/app.html");
+            // window.location.replace("https://social-nite.github.io/social-nite/socialnite.html");
         }, function (error) {
             console.log("Unable to add socialNite: " + error.message);
             addErrorModal(error.message);
@@ -682,7 +682,7 @@ function callRestaurantAjax() {
 
 // loads list on document ready so API is not called several times via onClick events
 $(document).ready(function (event) {
-    if (window.location.pathname.includes("/app.html")) {
+    if (window.location.pathname.includes("/socialnite.html")) {
         intializeSocialNite(socialNiteId);
         console.log(socialNiteId);
         console.log("document loaded for events");
