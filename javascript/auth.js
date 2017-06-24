@@ -12,10 +12,10 @@ var config = {
 firebase.initializeApp(config);
 const auth = firebase.auth();
 
-// const mainPage = "https://social-nite.github.io/social-nite/socialnite.html";
-// const indexPage = "https://social-nite.github.io/social-nite/index.html";
-const mainPage = "localhost:8080/socialnite.html";
-const indexPage = "localhost:8080/index.html";
+const mainPage = "https://social-nite.github.io/social-nite/socialnite.html";
+const indexPage = "https://social-nite.github.io/social-nite/index.html";
+// const mainPage = "localhost:8080/socialnite.html";
+// const indexPage = "localhost:8080/index.html";
 
 
 // asserts that given email matches the standard email format
@@ -151,14 +151,14 @@ $(document).on("click", ".sign-out", function () {
     window.location.replace(indexPage);
 });
 
-// auth.onAuthStateChanged(function (currentUserObj) {
-//     if (currentUserObj) {
-//         console.log(auth.currentUser.displayName + " is logged in");
-//     } else {
-//         console.log("Not logged in");
-//         if (window.location.href.includes(mainPage)) {
-//             window.location.replace(indexPage);
-//         }
-//     }
-// });
+auth.onAuthStateChanged(function (currentUserObj) {
+    if (currentUserObj) {
+        console.log(auth.currentUser.displayName + " is logged in");
+    } else {
+        console.log("Not logged in");
+        if (window.location.href.includes(mainPage)) {
+            window.location.replace(indexPage);
+        }
+    }
+});
 
