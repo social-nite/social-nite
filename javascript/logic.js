@@ -142,7 +142,6 @@ function intializeSocialNite() {
         renderEvents(socialNiteId);
         renderRestaurants(socialNiteId);
         renderMembers(socialNiteId);
-        renderSocialNitesToSideNav();
     }, function () {
         console.log("unable to get social nite info");
     });
@@ -366,25 +365,6 @@ function addMemberToList(data) {
     $(".friendlist").append(userLi);
 }
 
-function renderSocialNitesToSideNav() {
-    var userRef = firebase.database().ref("users").child(firebase.auth().currentUser.uid).child("socialNites");
-    userRef.once("value", function (snapshot) {
-        snapshot.forEach(function (data) {
-            //get date of social nite
-            var socialNiteRef = firebase.database().ref("socialNites").child(data.key);
-            socialNiteRef.once("value", function (snap) {
-                var socialNiteLi = $("<li>");
-                var snlitem = $("<a>");
-                snlitem.attr("data-socialniteid", data.key);
-                snlitem.addClass("socialnite-list-item");
-                snlitem.text(snap.val().city + " on " + moment(snapshot.val().date).format('MMMM Do'));
-                socialNiteLi.html(snlitem);
-                $(".hangouts-list").append(socialNiteLi);
-            });
-        });
-    });
-}
-
 //adds name of social nite to the sidenav (in hangout section)
 function renderSocialNiteNameToSideNav(socialNiteId) {
     var socialNiteRef = firebase.database().ref("socialNites").child(socialNiteId);
@@ -555,21 +535,21 @@ $("#submit").on("click", function () {
                     longitude: longitude,
                     timeCreated: firebase.database.ServerValue.TIMESTAMP
                 }).then(function () {
-                        //adding social nite to user
-                        addSocialNiteToUser(socialNiteId);
+                    //adding social nite to user
+                    addSocialNiteToUser(socialNiteId);
 
-                        //adding user to social nite
-                        addUserToSocialNite(socialNiteId);
-                        console.log("Adding user to socialNite succeeded.");
+                    //adding user to social nite
+                    addUserToSocialNite(socialNiteId);
+                    console.log("Adding user to socialNite succeeded.");
 
-                        //naviting user to socialnite page
-                        window.location.replace("https://social-nite.github.io/social-nite/socialnite.html");
-                    }, function (error) {
-                        console.log("Unable to add socialNite: " + error.message);
-                        Materialize.toast(error.message, 3000, 'error');
-                    }
+                    //naviting user to socialnite page
+                    window.location.replace("https://social-nite.github.io/social-nite/socialnite.html");
+                }, function (error) {
+                    console.log("Unable to add socialNite: " + error.message);
+                    Materialize.toast(error.message, 3000, 'error');
+                }
 
-                );
+                    );
             });
         } else {
             console.log("Invalid date provided");
@@ -650,7 +630,12 @@ $(document).on("click", ".modal-close", function () {
 $(document).on("click", ".socialnite-list-item", function () {
     console.log("loading new socialnite");
     localStorage.setItem("socialNiteId", $(this).data("socialniteid"));
-    window.location.reload(false);
+    if (window.location.href.includes("/socialnite.html")) {
+        window.location.reload(false);
+    } else {
+        // window.location.replace("localhost:8080/socialnite.html");
+        window.location.replace("https://social-nite.github.io/social-nite/socialnite.html");
+    }
 })
 
 
