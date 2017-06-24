@@ -141,10 +141,11 @@ function intializeSocialNite() {
         console.log("longitude: " + longitude);
         calleBriteAjax();
         callRestaurantAjax();
+        renderSocialNiteNameToSideNav(socialNiteId);
         renderEvents(socialNiteId);
         renderRestaurants(socialNiteId);
         renderMembers(socialNiteId);
-        renderSocialNiteToSideNav();
+        renderSocialNitesToSideNav();
     }, function () {
         console.log("unable to get social nite info");
     });
@@ -251,7 +252,7 @@ function addVote(socialNiteId, itemVotedOn, itemId, isUpvote) {
 function prependEventToList(data) {
     var eventID = data.key;
     var name = data.val().name;
-    var time = data.val().time;
+    var time = moment(data.val().time).format("h:mm a");
     var url = data.val().url;
     var votes = data.val().voteCount;
 
@@ -367,7 +368,7 @@ function addMemberToList(userId) {
     });
 }
 
-function renderSocialNiteToSideNav() {
+function renderSocialNitesToSideNav() {
     var userRef = firebase.database().ref("users").child(firebase.auth().currentUser.uid).child("socialNites");
     userRef.once("value", function (snapshot) {
         snapshot.forEach(function (data) {
@@ -377,11 +378,20 @@ function renderSocialNiteToSideNav() {
                 var socialNiteLi = $("<li>");
                 socialNiteLi.attr("data-socialniteid", data.key);
                 socialNiteLi.addClass("socialnite-list-item");
-                socialNiteLi.text(snap.val().city + " on " + snap.val().date);
+                socialNiteLi.text(snap.val().city + " on " + moment(snapshot.val().date).format('MMMM Do'));
                 $("#hangouts-list").append(socialNiteLi);
             });
-
         });
+    });
+}
+
+//adds name of social nite to the sidenav (in hangout section)
+function renderSocialNiteNameToSideNav(socialNiteId) {
+    var socialNiteRef = firebase.database().ref("socialNites").child(socialNiteId);
+    socialNiteRef.once("value", function (snapshot) {
+        var socialNiteDiv = $("<div>");
+        socialNiteDiv.text(snapshot.val().city + " on " + moment(snapshot.val().date).format('MMMM Do'));
+        $(".hangout-name").append(socialNiteDiv);
     });
 }
 
@@ -670,7 +680,7 @@ function calleBriteAjax() {
         for (var i = 0; i < localEvents.length; i++) {
             console.log(localEvents[i]);
             var time = localEvents[i].start.local;
-            var prettyTime = moment(time).format("lll");
+            var prettyTime = moment(time).format("h:mm:ss a");
             var eventID = localEvents[i].id;
             var ename = localEvents[i].name.text;
             var elink = localEvents[i].url;
