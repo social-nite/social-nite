@@ -359,10 +359,10 @@ function addMemberToList(userId) {
     userRef.once("value", function (snapshot) {
         console.log(snapshot.val().name);
         var userLi = $("<li>");
-        var uLitem = $("<a>")
+        var uLitem = $("<a>");
         uLitem.text(snapshot.val().name);
         uLitem.addClass("friend-list-item btn-flat");
-        userLi.htm(uLitem);
+        userLi.html(uLitem);
         $(".friendlist").append(userLi);
     });
 }
