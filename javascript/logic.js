@@ -441,6 +441,7 @@ $(document).on("click", ".event-local", function () {
     eventRef.once("value").then(function (snapshot) {
         if (snapshot.exists()) {
             console.log("event already added");
+            Materialize.toast("Event already added", 3000);
         } else {
             eventRef.set({
                 name: eventName,
@@ -451,6 +452,7 @@ $(document).on("click", ".event-local", function () {
                 console.log("Unable to add event: " + error.message);
                 Materialize.toast(error.message, 3000, 'error');
             });
+            Materialize.toast(eventName + " added", 3000);
         }
     });
 });
@@ -466,7 +468,7 @@ $(document).on("click", ".restaurant-local", function () {
     restaurantRef.once("value").then(function (snapshot) {
         if (snapshot.exists()) {
             console.log("restaurant already added");
-            Materialize.toast("Restaurant already added", 3000, 'error');
+            Materialize.toast("Restaurant already added", 3000);
         } else {
             restaurantRef.set({
                 name: restaurantName,
@@ -477,6 +479,7 @@ $(document).on("click", ".restaurant-local", function () {
                 console.log("Unable to add restaurant: " + error.message);
                 Materialize.toast(error.message, 3000, 'error');
             });
+            Materialize.toast(restaurantName + " added", 3000);
         }
     });
 });
