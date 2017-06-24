@@ -682,7 +682,7 @@ function calleBriteAjax() {
         var eventNames = data.events;
 
         // loop pushes the top 10 events from eBrite to a local Array as objects. 
-        for (var i = 0; i < 10; i++) {
+        for (var i = 0; i < data.events.length; i++) {
             localEvents.push(data.events[i]);
         }
 
@@ -730,7 +730,7 @@ function calleBriteAjax() {
 
 function callRestaurantAjax() {
     //store the opentable URL
-    var restaurantQueryURL = "https://opentable.herokuapp.com/api/restaurants?city=" + city + "&page=1&per_page=15";
+    var restaurantQueryURL = "https://opentable.herokuapp.com/api/restaurants?city=" + city + "&page=1&per_page=50";
 
     var restName;
     var restPrice;
@@ -746,7 +746,7 @@ function callRestaurantAjax() {
         var localRestaurants = [];
 
         // loop pushes the top 10 restaurants from opentable to a local Array as objects. 
-        for (var i = 0; i < 10; i++) {
+        for (var i = 0; i < response.restaurants.length; i++) {
             localRestaurants.push(response.restaurants[i]);
         }
         //// Loop prepares the restaurant-objects for display to HTML
