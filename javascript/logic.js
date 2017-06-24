@@ -687,7 +687,7 @@ function calleBriteAjax() {
         for (var i = 0; i < localEvents.length; i++) {
             console.log(localEvents[i]);
             var time = localEvents[i].start.local;
-            var prettyTime = moment(time).format("h:mm:ss a");
+            var prettyTime = moment(time).format("lll");
             var eventID = localEvents[i].id;
             var ename = localEvents[i].name.text;
             var elink = localEvents[i].url;
