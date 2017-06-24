@@ -390,6 +390,7 @@ function renderSocialNiteNameToSideNav(socialNiteId) {
     var socialNiteRef = firebase.database().ref("socialNites").child(socialNiteId);
     socialNiteRef.once("value", function (snapshot) {
         var socialNiteDiv = $("<div>");
+        socialNiteDiv.addClass("socialnite-name");
         socialNiteDiv.text(snapshot.val().city + " on " + moment(snapshot.val().date).format('MMMM Do'));
         $(".hangout-name").append(socialNiteDiv);
     });
@@ -505,6 +506,7 @@ $(document).on("click", "#search-id", function () {
         }
     } else {
         Materialize.toast("Please log in", 3000, 'error');
+        $('#modal1').modal('open');
     }
 });
 
@@ -515,59 +517,64 @@ $(document).on("click", "#search-id", function () {
 // validates that a valid date is provided
 $("#submit").on("click", function () {
     event.preventDefault();
-    var newDate = $("#datePicker").val().trim();
-    console.log(newDate);
-    date = newDate;
-    var location = $("#location").val().trim();
-    // validates that a valid date is provided
-    if (isValidDate(newDate)) {
+    if (firebase.auth().currentUser) {
+        var newDate = $("#datePicker").val().trim();
+        console.log(newDate);
+        date = newDate;
+        var location = $("#location").val().trim();
+        // validates that a valid date is provided
+        if (isValidDate(newDate) && location) {
 
-        //generates a socialNiteId
-        var socialNiteId = guid();
-        console.log(socialNiteId);
+            //generates a socialNiteId
+            var socialNiteId = guid();
+            console.log(socialNiteId);
 
-        //gets the city, latitude, and longitude from googlemaps api
-        var settings = {
-            "async": true,
-            "crossDomain": true,
-            "url": "https://maps.googleapis.com/maps/api/geocode/json?address=" + location + "&key=AIzaSyBxgMHK10T-YS90r9OQhsSJm_aeEFAGcZ8",
-            "method": "GET"
-        }
-
-        $.ajax(settings).done(function (response) {
-            var results = response.results[0];
-            city = getCity(results);
-            latitude = response.results[0].geometry.location.lat;
-            longitude = response.results[0].geometry.location.lng;
-
-            console.log("attempting to add socialNite record to db");
-            localStorage.setItem('socialNiteId', socialNiteId);
-            firebase.database().ref('socialNites/' + socialNiteId).set({
-                date: date,
-                city: city,
-                latitude: latitude,
-                longitude: longitude,
-                timeCreated: firebase.database.ServerValue.TIMESTAMP
-            }).then(function () {
-                //adding social nite to user
-                addSocialNiteToUser(socialNiteId);
-
-                //adding user to social nite
-                addUserToSocialNite(socialNiteId);
-                console.log("Adding user to socialNite succeeded.");
-
-                //naviting user to socialnite page
-                window.location.replace("https://social-nite.github.io/social-nite/socialnite.html");
-            }, function (error) {
-                console.log("Unable to add socialNite: " + error.message);
-                Materialize.toast(error.message, 3000, 'error');
+            //gets the city, latitude, and longitude from googlemaps api
+            var settings = {
+                "async": true,
+                "crossDomain": true,
+                "url": "https://maps.googleapis.com/maps/api/geocode/json?address=" + location + "&key=AIzaSyBxgMHK10T-YS90r9OQhsSJm_aeEFAGcZ8",
+                "method": "GET"
             }
 
-                );
-        });
+            $.ajax(settings).done(function (response) {
+                var results = response.results[0];
+                city = getCity(results);
+                latitude = response.results[0].geometry.location.lat;
+                longitude = response.results[0].geometry.location.lng;
+
+                console.log("attempting to add socialNite record to db");
+                localStorage.setItem('socialNiteId', socialNiteId);
+                firebase.database().ref('socialNites/' + socialNiteId).set({
+                    date: date,
+                    city: city,
+                    latitude: latitude,
+                    longitude: longitude,
+                    timeCreated: firebase.database.ServerValue.TIMESTAMP
+                }).then(function () {
+                    //adding social nite to user
+                    addSocialNiteToUser(socialNiteId);
+
+                    //adding user to social nite
+                    addUserToSocialNite(socialNiteId);
+                    console.log("Adding user to socialNite succeeded.");
+
+                    //naviting user to socialnite page
+                    window.location.replace("https://social-nite.github.io/social-nite/socialnite.html");
+                }, function (error) {
+                    console.log("Unable to add socialNite: " + error.message);
+                    Materialize.toast(error.message, 3000, 'error');
+                }
+
+                    );
+            });
+        } else {
+            console.log("Invalid date provided");
+            Materialize.toast("Invalid date provided", 3000, 'error');
+        }
     } else {
-        console.log("Invalid date provided");
-        Materialize.toast("Invalid date provided", 3000, 'error');
+        Materialize.toast("Please log in", 3000, 'error');
+        $('#modal1').modal('open');
     }
 });
 
