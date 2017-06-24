@@ -85,18 +85,16 @@ $(document).on("click", ".overbox>.button>button.active", function (event) {
     console.log("sign up button pressed");
     event.preventDefault();
     var email = $("#regemail").val().trim();
-    var firstName = $("#regfirstname").val().trim();
-    var lastName = $("#reglastname").val().trim();
+    var name = $("#regname").val().trim();
     var password = $("#regpass").val().trim();
     var passwordConfirm = $("#reregpass").val().trim();
-    if (validateEmail(email) && validatePassword(password, passwordConfirm) && validateName(firstName) && validateName(lastName)) {
-        var fullName = firstName + " " + lastName;
+    if (validateEmail(email) && validatePassword(password, passwordConfirm) && validateName(name)) {
         console.log("email and password valid");
         var promise = auth.createUserWithEmailAndPassword(email, password);
         promise.then(function () {
             var user = auth.currentUser;
             user.updateProfile({
-                displayName: fullName
+                displayName: name
             }).then(function () {
                 console.log("write user data");
                 var user = auth.currentUser;
