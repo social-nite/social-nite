@@ -153,7 +153,7 @@ function intializeSocialNite() {
 // addes the user to the socialnite in firebase
 function addUserToSocialNite(socialNiteId) {
     var userUid = firebase.auth().currentUser.uid;
-    firebase.database().ref('members/' + socialNiteId).set({
+    firebase.database().ref('members/' + socialNiteId).update({
         [userUid]: true
     }).catch(function (error) {
         console.log("Unable to add socialNite to user record: " + error.message);
@@ -366,11 +366,9 @@ function renderSocialNiteToSideNav() {
     var userRef = firebase.database().ref("users").child(firebase.auth().currentUser.uid).child("socialNites");
     userRef.once("value", function (snapshot) {
         snapshot.forEach(function (data) {
-            console.log(data.key);
             //get date of social nite
             var socialNiteRef = firebase.database().ref("socialNites").child(data.key);
             socialNiteRef.once("value", function (snap) {
-                console.log(snap.val().date);
                 var socialNiteLi = $("<li>");
                 socialNiteLi.attr("data-socialniteid", data.key);
                 socialNiteLi.addClass("socialnite-list-item");
