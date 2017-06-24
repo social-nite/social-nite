@@ -58,50 +58,47 @@ body {
 
 /* Remove this later for infinite activity cards */
 
-body {
-    overflow-x: hidden;
-}
-
-html,
-body {
-    padding: 0;
-    margin: 0;
-}
-
-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 3rem;
-    position: relative;
-    z-index: 10;
-    height: 40px;
-}
-
-main {
-    display: flex;
-    overflow: hidden;
-    height: 100vh;
-    margin-top: -100px;
-    padding-top: 100px;
-    position: relative;
-    width: 100%;
-    backface-visibility: hidden;
-    will-change: overflow;
-}
-
-.section,
-.friendlist,
-.hangouts-list {
-    overflow: auto;
-    height: auto;
-    padding: .5rem;
-    -webkit-overflow-scrolling: touch;
-    -ms-overflow-style: none;
-}
-
-.section::-webkit-scrollbar {
-    display: none;
+@media only screen and (min-width: 992px) {
+    body {
+        overflow-x: hidden;
+    }
+    html,
+    body {
+        padding: 0;
+        margin: 0;
+    }
+    header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        position: relative;
+        z-index: 10;
+        height: 40px;
+    }
+    main {
+        display: flex;
+        overflow: hidden;
+        height: 100vh;
+        margin-top: -100px;
+        padding-top: 100px;
+        position: relative;
+        width: 100%;
+        backface-visibility: hidden;
+        will-change: overflow;
+    }
+    .section,
+    .friendlist,
+    .hangouts-list {
+        overflow: auto;
+        height: auto;
+        padding: .5rem;
+        -webkit-overflow-scrolling: touch;
+        -ms-overflow-style: none;
+    }
+    .section::-webkit-scrollbar {
+        display: none;
+    }
 }
 
 
