@@ -1,3 +1,5 @@
+console.log("auth.js loaded");
+
 // Initialize Firebase
 var config = {
     apiKey: "AIzaSyD-poHRyLKHSLW8kxGOz83yIR51npZy9L4",
@@ -10,8 +12,11 @@ var config = {
 firebase.initializeApp(config);
 const auth = firebase.auth();
 
-const landingPage = "https://social-nite.github.io/social-nite/landing.html";
-const loginPage = "https://social-nite.github.io/social-nite/index.html"
+// const mainPage = "https://social-nite.github.io/social-nite/socialnite.html";
+// const indexPage = "https://social-nite.github.io/social-nite/index.html";
+const mainPage = "localhost:8080/socialnite.html";
+const indexPage = "localhost:8080/index.html";
+
 
 // asserts that given email matches the standard email format
 function validateEmail(email) {
@@ -54,14 +59,14 @@ function removeUserData(userId) {
 }
 
 //logs user in with email and password if they created user via email 
-$(".login").on("click", function () {
+$(".submit-email-login").on("click", function () {
     event.preventDefault();
     var email = $("#email").val().trim();
     var password = $("#pass").val().trim();
     if (validateEmail(email)) {
         var promise = auth.signInWithEmailAndPassword(email, password);
         promise.then(function () {
-            window.location.replace(landingPage);
+
         }, function (e) {
             console.log("Log in failed");
             console.log(e.message);
@@ -99,8 +104,6 @@ $(document).on("click", ".overbox>.button>button.active", function (event) {
                 firebase.database().ref('users/' + user.uid).set({
                     name: fullName
                 }).then(function () {
-                    console.log("Adding user succeeded. Navigating to landing page");
-                    window.location.replace(landingPage);
                 }, function (error) {
                     console.log("Unable to add user: " + error.message);
                 });
@@ -116,7 +119,7 @@ $(document).on("click", ".overbox>.button>button.active", function (event) {
 // Called upon clicking the facebook log-in button 
 // creates new user record in firebase db if it doesn't exist
 // redirects to landing page
-$(".loginBtn--facebook").on("click", function () {
+$(".login-facebook").on("click", function () {
     console.log("facebook login clicked");
     event.preventDefault();
     var provider = new firebase.auth.FacebookAuthProvider();
@@ -131,7 +134,6 @@ $(".loginBtn--facebook").on("click", function () {
             name: user.displayName
         }).then(function () {
             console.log("Adding user succeeded. Navigating to landing page");
-            window.location.replace(landingPage);
         }, function (error) {
             console.log("Unable to add user: " + error.message);
         });
@@ -142,20 +144,21 @@ $(".loginBtn--facebook").on("click", function () {
 });
 
 //logs user out and redirects to login page
-$("#btn-log-out").on("click", function () {
+$(document).on("click", ".sign-out", function () {
+    event.preventDefault();
     console.log("logging user out");
     auth.signOut();
-    window.location.replace(loginPage);
+    window.location.replace(indexPage);
 });
 
-auth.onAuthStateChanged(function (currentUserObj) {
-    if (currentUserObj) {
-        console.log(auth.currentUser.displayName + " is logged in");
-    } else {
-        console.log("Not logged in");
-        if (window.location.href !== loginPage) {
-            window.location.replace(loginPage);
-        }
-    }
-});
+// auth.onAuthStateChanged(function (currentUserObj) {
+//     if (currentUserObj) {
+//         console.log(auth.currentUser.displayName + " is logged in");
+//     } else {
+//         console.log("Not logged in");
+//         if (window.location.href.includes(mainPage)) {
+//             window.location.replace(indexPage);
+//         }
+//     }
+// });
 

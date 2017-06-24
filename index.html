@@ -7,27 +7,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Reset CSS -->
-    <link rel="stylesheet" type="text/css" href="../css/reset.css">
+    <link rel="stylesheet" type="text/css" href="css/reset.css">
 
     <!-- Google Font Links -->
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,100,300,500,700,900&subset=latin,latin-ext">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <!-- Materialize CSS -->
-    <link rel="stylesheet" href="../css/materialize.min.css">
+    <!--<link rel="stylesheet" href="css/materialize.min.css">-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
 
     <!-- Firebase UI CDN CSS  -->
     <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.0.0/firebaseui.css" />
 
     <!-- Page Styling   -->
-    <link rel="stylesheet" type="text/css" href="login2.css">
-    <link rel="stylesheet" type="text/css" href="input-override.css">
-    <link rel="stylesheet" type="text/css" href="../dist/css/datepicker.css">
-    <link rel="stylesheet" type="text/css" href="main.css">
-    <link rel="stylesheet" type="text/css" href="header.css">
-    <link rel="stylesheet" type="text/css" href="bar.css">
-    <link rel="stylesheet" type="text/css" href="modal.css">
+    <link rel="stylesheet" type="text/css" href="css/login2.css">
+    <link rel="stylesheet" type="text/css" href="css/input-override.css">
+    <!--<link rel="stylesheet" type="text/css" href="../dist/css/datepicker.css">-->
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/header.css">
+    <link rel="stylesheet" type="text/css" href="css/bar.css">
+    <link rel="stylesheet" type="text/css" href="css/modal.css">
 </head>
 
 <body>
@@ -50,12 +50,12 @@
                 <!-- Collapsed Navbar for unlogged in -->
 
                 <ul id="nav-mobile" class="side-nav">
-                    <li><a href="#!" class="header-link login sign-in btn-flat" id="facebookSide" title="Sign in with Facebook">Facebook Login</a></li>
-                    <li><a href="#!" class="header-link login sign-in btn-flat" id="emailSide" title="Sign in with Email"> Email Login</a></li>
+                    <li><a href="#!" class="header-link login login-facebook sign-in btn-flat" id="facebookSide" title="Sign in with Facebook">Facebook Login</a></li>
+                    <li><a href="#modal1" class="header-link login login-email sign-in btn-flat" id="emailSide" title="Sign in with Email"> Email Login</a></li>
                     <li><a href="#!" class="header-link login sign-out btn-flat" id="signOutSide" title="Sign Out"> Sign Out</a></li>
-                    <li>
+                    <!--<li>
                         <a class="waves-effect waves-light btn" href="#modal1">Modal</a>
-                    </li>
+                    </li>-->
 
                 </ul>
 
@@ -170,7 +170,7 @@
                         <span class="spin"></span>
                     </div>
 
-                    <div class="button login">
+                    <div class="button login submit-email-login">
                         <button><span>GO</span> <i class="fa fa-check"></i></button>
                     </div>
                     <!--                    <button class="loginBtn loginBtn--facebook center"> Login with Facebook </button>-->
@@ -229,7 +229,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Materialize-->
     <script src="javascript/materialize.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>-->
     <!-- Ajax -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.10.1/jquery.mark.es6.min.js"></script>
 
@@ -239,22 +239,18 @@
 
     <!-- Google Maps -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4nu_5UhddgajGv7lS96ri7lsyyZ3vbjQ&libraries=places&language=en"></script>
-    <script src="assets/libs/nouislider.js"></script>
-    <script src="assets/libs/wNumb.js"></script>
+    <!--<script src="assets/libs/nouislider.js"></script>-->
+    <!--<script src="assets/libs/wNumb.js"></script>-->
 
     <!-- Moment    -->
     <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
 
     <!-- Scripts ===================================   -->
-    <script src="landing.js"></script>
-    <script src="login2.js"></script>
-    <script src="../dist/js/datepicker.standalone.js"></script>
-
-
-    <!--    <script src="../javascript/auth.js"></script>-->
-    <script src="../javascript/logic.js"></script>
-
-
+    <script src="javascript/auth.js"></script>
+    <script src="javascript/logic.js"></script>
+    <script src="javascript/landing.js"></script>
+    <script src="javascript/login2.js"></script>
+    <!--<script src="../dist/js/datepicker.standalone.js"></script>-->
 
 
 
