@@ -101,7 +101,7 @@ $(document).on("click", ".overbox>.button>button.active", function (event) {
                 var user = auth.currentUser;
                 console.log("uid: " + user.uid);
                 firebase.database().ref('users/' + user.uid).set({
-                    name: fullName
+                    name: name
                 }).then(function () {
                     $('#modal1').modal('close');
                  }, function (error) {
