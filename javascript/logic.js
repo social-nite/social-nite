@@ -690,7 +690,7 @@ function calleBriteAjax() {
             var tdEventName = $("<td>");
             var tdEventTime = $("<td>");
 
-            eventRow.addClass("event-local");
+            eventRow.addClass("event-local waves-purple");
             // attribute creates ID for use later to map/load to Firebase user's event tracking.
             eventRow.attr("data-Id", eventID);
             eventRow.attr("data-name", ename);
